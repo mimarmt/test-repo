@@ -102,11 +102,21 @@ antre yok. Düzeltilince — **tekrar çözümsüz.**
 Kapı eşiği 0.20 m ızgarada 1.00 m'ye yuvarlanıyor; 8 oda × 1.00 m = 8 m
 temas, üstelik koridor girişe de değecek ve en/boy ≤ 6.0 kalacak.
 
-> **"Bir oda = bir dikdörtgen" varsayımı sirkülasyon için geçersiz.**
-> Motorun 1. omurga fikri (dikdörtgen varsayımı bağlantılılığı bedavaya
-> getirir) tam da sirkülasyonda kırılıyor. Gerçek holler L veya T
-> şeklindedir. Bu artık 7. sırada bir iş değil, **net/brüt ile birlikte
-> ilk sırada.**
+> ~~"Bir oda = bir dikdörtgen" varsayımı sirkülasyon için geçersiz.~~
+>
+> **DÜZELTME — Murat Turna, 31.07.2026.** Bu hüküm fazla genişti.
+> Kendi referans motorumda ölçtüm ama genel bir kural gibi yazdım.
+> Mimarın kendi motorunda **3+1, tek dikdörtgen sirkülasyonla 10 odayı
+> ve ebeveyn WC'yi çözdü.** Yani varsayım geçersiz değil.
+>
+> Muhtemel karıştırıcı: ben 84–100 m² konturlarda denedim, mimar
+> 121 m²'de çözdü. Fark topoloji değil **alan** olabilir — ve bu
+> ayrım ölçülmedi. Doğru ifade şudur: *benim kısıt kümemle, 84–100 m²
+> konturda, tek dikdörtgen sirkülasyon çözülmüyor.* Bu bir motor
+> hükmü değil, bir yapılandırma gözlemi.
+>
+> Sirkülasyonu L/T'ye çevirmek motor.py'nin temel varsayımını söker;
+> ölçüm bunu gerektirmiyor. **O yola girilmemeli.**
 
 ---
 
