@@ -1,0 +1,100 @@
+{
+  "ad": "Ornek 3+1 — 12.00 x 10.00 m, dort cephe serbest",
+  "kontur": {
+    "en": 12.0,
+    "boy": 10.0
+  },
+  "cepheler": [
+    "sol",
+    "sag",
+    "alt",
+    "ust"
+  ],
+  "bosluklar": [],
+  "giris": {
+    "oda": "Antre",
+    "kenar": "alt",
+    "konum": 5.0,
+    "genislik": 1.1
+  },
+  "odalar": [
+    {
+      "ad": "Salon",
+      "tip": "salon"
+    },
+    {
+      "ad": "Ebeveyn",
+      "tip": "ebeveyn"
+    },
+    {
+      "ad": "Yatak 1",
+      "tip": "yatak"
+    },
+    {
+      "ad": "Yatak 2",
+      "tip": "yatak"
+    },
+    {
+      "ad": "Mutfak",
+      "tip": "mutfak"
+    },
+    {
+      "ad": "Banyo",
+      "tip": "banyo"
+    },
+    {
+      "ad": "WC",
+      "tip": "wc"
+    },
+    {
+      "ad": "Antre",
+      "tip": "antre"
+    },
+    {
+      "ad": "Koridor",
+      "tip": "koridor"
+    },
+    {
+      "ad": "Balkon",
+      "tip": "balkon"
+    }
+  ],
+  "komsuluklar": [
+    [
+      "Antre",
+      "Salon"
+    ],
+    [
+      "Antre",
+      "Koridor"
+    ],
+    [
+      "Antre",
+      "WC"
+    ],
+    [
+      "Koridor",
+      "Ebeveyn"
+    ],
+    [
+      "Koridor",
+      "Yatak 1"
+    ],
+    [
+      "Koridor",
+      "Yatak 2"
+    ],
+    [
+      "Koridor",
+      "Banyo"
+    ],
+    [
+      "Salon",
+      "Mutfak"
+    ],
+    [
+      "Salon",
+      "Balkon"
+    ]
+  ]
+}

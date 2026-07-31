@@ -1,0 +1,32 @@
+{
+  "surum": "1.0",
+  "aciklama": "Olcu esikleri ve agirliklar. Koda gomulmez, buradan okunur.",
+
+  "esikler": {
+    "_izgara_notu": "COZUM izgarasi — veri izgarasi degil. 0.10 m'de 10 odali model 30 sn'de kanitlanamiyor (olcum: referans/OLCUM.md). 0.20 m hem 10 cm'in tam kati hem de 14 sn'de OPTIMAL.",
+    "izgara": 0.20,
+    "kapi_genisligi": 0.90,
+    "min_cephe": 1.20,
+    "sirkulasyon_max_oran": 0.08,
+    "cozum_suresi_sn": 30.0
+  },
+
+  "agirliklar": {
+    "_birim": "hucre^2 (1 hucre^2 = 0.01 m^2)",
+    "komsuluk_ihlali": 500,
+    "alan_sapmasi": 1,
+    "islak_dagilmasi": 250
+  },
+
+  "tipler": {
+    "salon":        { "alan_min": 22.0, "alan_hedef": 30.0, "alan_max": 38.0, "min_kenar": 3.20, "max_oran": 2.2, "gun_isigi": true,  "islak": false, "sirkulasyon": false },
+    "ebeveyn":      { "alan_min": 13.0, "alan_hedef": 16.0, "alan_max": 20.0, "min_kenar": 3.00, "max_oran": 2.0, "gun_isigi": true,  "islak": false, "sirkulasyon": false },
+    "yatak":        { "alan_min":  9.0, "alan_hedef": 12.0, "alan_max": 15.0, "min_kenar": 2.70, "max_oran": 2.0, "gun_isigi": true,  "islak": false, "sirkulasyon": false },
+    "mutfak":       { "alan_min":  8.0, "alan_hedef": 11.0, "alan_max": 15.0, "min_kenar": 2.40, "max_oran": 2.2, "gun_isigi": true,  "islak": true,  "sirkulasyon": false },
+    "banyo":        { "alan_min":  4.0, "alan_hedef":  5.0, "alan_max":  7.0, "min_kenar": 1.60, "max_oran": 2.2, "gun_isigi": false, "islak": true,  "sirkulasyon": false },
+    "wc":           { "alan_min":  2.4, "alan_hedef":  3.0, "alan_max":  4.2, "min_kenar": 1.20, "max_oran": 2.2, "gun_isigi": false, "islak": true,  "sirkulasyon": false },
+    "antre":        { "alan_min":  3.0, "alan_hedef":  4.5, "alan_max":  7.0, "min_kenar": 1.40, "max_oran": 3.0, "gun_isigi": false, "islak": false, "sirkulasyon": true  },
+    "koridor":      { "alan_min":  2.0, "alan_hedef":  3.5, "alan_max":  6.0, "min_kenar": 1.20, "max_oran": 6.0, "gun_isigi": false, "islak": false, "sirkulasyon": true  },
+    "balkon":       { "alan_min":  3.0, "alan_hedef":  4.5, "alan_max":  8.0, "min_kenar": 1.20, "max_oran": 4.0, "gun_isigi": true,  "islak": false, "sirkulasyon": false }
+  }
+}
