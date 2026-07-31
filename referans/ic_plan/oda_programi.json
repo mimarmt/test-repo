@@ -1,51 +1,180 @@
 {
   "surum": "1.0",
   "aciklama": "Olcu esikleri ve agirliklar. Koda gomulmez, buradan okunur.",
-
   "esikler": {
     "_izgara_notu": "COZUM izgarasi — veri izgarasi degil. 0.10 m'de 10 odali model 30 sn'de kanitlanamiyor (olcum: referans/OLCUM.md). 0.20 m hem 10 cm'in tam kati hem de 14 sn'de OPTIMAL.",
-    "izgara": 0.20,
-    "kapi_genisligi": 0.90,
-    "min_cephe": 1.20,
+    "izgara": 0.2,
+    "kapi_genisligi": 0.9,
+    "min_cephe": 1.2,
     "sirkulasyon_max_oran": 0.08,
     "cozum_suresi_sn": 30.0
   },
-
   "agirliklar": {
     "_birim": "hucre^2 (1 hucre^2 = 0.01 m^2)",
     "komsuluk_ihlali": 500,
     "alan_sapmasi": 1,
     "islak_dagilmasi": 250
   },
-
   "_erisim_notu": "ERISIM TABLOSU — KAPININ nereye acilabilecegi. Duvar komsulugu DEGILDIR: iki oda duvar paylasabilir ama aralarinda kapi olmayabilir (mutfak-salon boyledir). 'sirkulasyon' = sirkulasyon:true olan her mekan (antre, koridor, hol). Digerleri tip adidir. Mimarin alanidir, kodda degil burada durur.",
-
   "_erisim_kararlari": [
     "Murat Turna, 31.07.2026 — banyo ve wc KORIDORA acilir.",
     "Murat Turna, 31.07.2026 — yatak odasindan yalnizca ebeveyn banyosuna girilir.",
     "Murat Turna, 31.07.2026 — SALONDAN MUTFAGA GECILMEZ; mutfak kapisi sirkulasyondan. Salon-mutfak duvar komsulugu serbest, istenir bile.",
     "Murat Turna, 31.07.2026 — DUSLU WC ailenin ortak kullanimidir, MAHREMIYET ALANI icinde koridor hattinda olur. (Misafir wc ayri bir tiptir, antreden acilir.)",
     "Murat Turna, 31.07.2026 — BALKON hicbir zaman odalarin icinde olmaz, DIS CEPHEDE olur: uzun kenari cephede, derinligi sinirli.",
-    "CIKARIM (onaylanmadi) — yatak odalari ve banyo da mahrem bolgede sayildi, erisimleri koridora baglandi. Mimarin onayi bekleniyor.",
-    "CIKARIM (onaylanmadi) — balkona salon/ebeveyn/yatak/mutfaktan cikilabilir kabul edildi. Mutfaktan balkon dogru mu?"
+    "Murat Turna, 31.07.2026 — 3+1'de BIR TANE duslu wc olur; kalan alan diger odalara dagilir, cunku alan anca yeter. Ayri 'banyo' odasi programdan cikarildi.",
+    "Murat Turna, 31.07.2026 — Alan daha buyukse EBEVEYN WC ticari satista avantaj. Esik m2 OLCULMEDI; program_semasi.json'da null.",
+    "CIKARIM (onaylanmadi) — yatak odalari ve islak hacimler mahrem bolgede sayildi, erisimleri koridora baglandi.",
+    "CIKARIM (onaylanmadi) — balkona salon/ebeveyn/yatak/mutfaktan cikilabilir kabul edildi."
   ],
-
   "_bolge_notu": "MAHREMIYET BOLGESI. 'giris' = antre cevresi, misafirin gordugu alan. 'mahrem' = koridor cevresi, ailenin alani. Erisim tablosunda 'sirkulasyon' antre VE koridoru kapsar; yalnizca mahrem bolge kastediliyorsa 'koridor' yazilir.",
-
   "tipler": {
-    "salon":         { "bolge": "giris",  "alan_min": 22.0, "alan_hedef": 30.0, "alan_max": 38.0, "min_kenar": 3.20, "max_oran": 2.2, "gun_isigi": true,  "islak": false, "sirkulasyon": false, "erisim": ["sirkulasyon"] },
-    "mutfak":        { "bolge": "giris",  "alan_min":  8.0, "alan_hedef": 11.0, "alan_max": 15.0, "min_kenar": 2.40, "max_oran": 2.2, "gun_isigi": true,  "islak": true,  "sirkulasyon": false, "erisim": ["sirkulasyon"] },
-    "misafir_wc":    { "bolge": "giris",  "alan_min":  1.8, "alan_hedef":  2.4, "alan_max":  3.2, "min_kenar": 1.20, "max_oran": 2.2, "gun_isigi": false, "islak": true,  "sirkulasyon": false, "erisim": ["antre"] },
-    "antre":         { "bolge": "giris",  "alan_min":  3.0, "alan_hedef":  4.5, "alan_max":  7.0, "min_kenar": 1.40, "max_oran": 3.0, "gun_isigi": false, "islak": false, "sirkulasyon": true,  "erisim": ["sirkulasyon"] },
-
-    "koridor":       { "bolge": "mahrem", "alan_min":  2.0, "alan_hedef":  4.0, "alan_max":  8.0, "min_kenar": 1.20, "max_oran": 6.0, "gun_isigi": false, "islak": false, "sirkulasyon": true,  "erisim": ["sirkulasyon"] },
-    "ebeveyn":       { "bolge": "mahrem", "alan_min": 13.0, "alan_hedef": 16.0, "alan_max": 20.0, "min_kenar": 3.00, "max_oran": 2.0, "gun_isigi": true,  "islak": false, "sirkulasyon": false, "erisim": ["koridor"] },
-    "yatak":         { "bolge": "mahrem", "alan_min":  9.0, "alan_hedef": 12.0, "alan_max": 15.0, "min_kenar": 2.70, "max_oran": 2.0, "gun_isigi": true,  "islak": false, "sirkulasyon": false, "erisim": ["koridor"] },
-    "banyo":         { "bolge": "mahrem", "alan_min":  4.0, "alan_hedef":  5.0, "alan_max":  7.0, "min_kenar": 1.60, "max_oran": 2.2, "gun_isigi": false, "islak": true,  "sirkulasyon": false, "erisim": ["koridor"] },
-    "duslu_wc":      { "bolge": "mahrem", "alan_min":  2.4, "alan_hedef":  3.2, "alan_max":  4.5, "min_kenar": 1.20, "max_oran": 2.2, "gun_isigi": false, "islak": true,  "sirkulasyon": false, "erisim": ["koridor"] },
-    "ebeveyn_banyo": { "bolge": "mahrem", "alan_min":  3.0, "alan_hedef":  4.0, "alan_max":  5.5, "min_kenar": 1.40, "max_oran": 2.2, "gun_isigi": false, "islak": true,  "sirkulasyon": false, "erisim": ["ebeveyn"] },
-
-    "balkon":        { "bolge": "giris",  "alan_min":  3.0, "alan_hedef":  5.0, "alan_max":  8.0, "min_kenar": 1.20, "max_oran": 4.0, "gun_isigi": true,  "islak": false, "sirkulasyon": false, "erisim": ["salon", "ebeveyn", "yatak", "mutfak"],
-                       "cephe_kurali": { "uzun_kenar_cephede": true, "derinlik_max": 2.00 } }
+    "salon": {
+      "bolge": "giris",
+      "alan_min": 22.0,
+      "alan_hedef": 30.0,
+      "alan_max": 38.0,
+      "min_kenar": 3.2,
+      "max_oran": 2.2,
+      "gun_isigi": true,
+      "islak": false,
+      "sirkulasyon": false,
+      "erisim": [
+        "sirkulasyon"
+      ]
+    },
+    "mutfak": {
+      "bolge": "giris",
+      "alan_min": 8.0,
+      "alan_hedef": 11.0,
+      "alan_max": 15.0,
+      "min_kenar": 2.4,
+      "max_oran": 2.2,
+      "gun_isigi": true,
+      "islak": true,
+      "sirkulasyon": false,
+      "erisim": [
+        "sirkulasyon"
+      ]
+    },
+    "misafir_wc": {
+      "bolge": "giris",
+      "alan_min": 1.8,
+      "alan_hedef": 2.4,
+      "alan_max": 3.2,
+      "min_kenar": 1.2,
+      "max_oran": 2.2,
+      "gun_isigi": false,
+      "islak": true,
+      "sirkulasyon": false,
+      "erisim": [
+        "antre"
+      ]
+    },
+    "antre": {
+      "bolge": "giris",
+      "alan_min": 3.0,
+      "alan_hedef": 4.5,
+      "alan_max": 7.0,
+      "min_kenar": 1.4,
+      "max_oran": 3.0,
+      "gun_isigi": false,
+      "islak": false,
+      "sirkulasyon": true,
+      "erisim": [
+        "sirkulasyon"
+      ]
+    },
+    "koridor": {
+      "bolge": "mahrem",
+      "alan_min": 2.0,
+      "alan_hedef": 4.0,
+      "alan_max": 8.0,
+      "min_kenar": 1.2,
+      "max_oran": 6.0,
+      "gun_isigi": false,
+      "islak": false,
+      "sirkulasyon": true,
+      "erisim": [
+        "sirkulasyon"
+      ]
+    },
+    "ebeveyn": {
+      "bolge": "mahrem",
+      "alan_min": 13.0,
+      "alan_hedef": 16.0,
+      "alan_max": 20.0,
+      "min_kenar": 3.0,
+      "max_oran": 2.0,
+      "gun_isigi": true,
+      "islak": false,
+      "sirkulasyon": false,
+      "erisim": [
+        "koridor"
+      ]
+    },
+    "yatak": {
+      "bolge": "mahrem",
+      "alan_min": 9.0,
+      "alan_hedef": 12.0,
+      "alan_max": 15.0,
+      "min_kenar": 2.7,
+      "max_oran": 2.0,
+      "gun_isigi": true,
+      "islak": false,
+      "sirkulasyon": false,
+      "erisim": [
+        "koridor"
+      ]
+    },
+    "duslu_wc": {
+      "bolge": "mahrem",
+      "alan_min": 2.4,
+      "alan_hedef": 3.2,
+      "alan_max": 4.5,
+      "min_kenar": 1.2,
+      "max_oran": 2.2,
+      "gun_isigi": false,
+      "islak": true,
+      "sirkulasyon": false,
+      "erisim": [
+        "koridor"
+      ]
+    },
+    "ebeveyn_banyo": {
+      "bolge": "mahrem",
+      "alan_min": 3.0,
+      "alan_hedef": 4.0,
+      "alan_max": 5.5,
+      "min_kenar": 1.4,
+      "max_oran": 2.2,
+      "gun_isigi": false,
+      "islak": true,
+      "sirkulasyon": false,
+      "erisim": [
+        "ebeveyn"
+      ]
+    },
+    "balkon": {
+      "bolge": "giris",
+      "alan_min": 3.0,
+      "alan_hedef": 5.0,
+      "alan_max": 8.0,
+      "min_kenar": 1.2,
+      "max_oran": 4.0,
+      "gun_isigi": true,
+      "islak": false,
+      "sirkulasyon": false,
+      "erisim": [
+        "salon",
+        "ebeveyn",
+        "yatak",
+        "mutfak"
+      ],
+      "cephe_kurali": {
+        "uzun_kenar_cephede": true,
+        "derinlik_max": 2.0
+      }
+    }
   }
 }

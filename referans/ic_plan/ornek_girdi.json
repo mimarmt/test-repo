@@ -1,5 +1,5 @@
 {
-  "ad": "Ornek 3+1 — 12.00 x 10.00 m, ebeveyn banyolu, duslu wc",
+  "ad": "Ornek 3+1 — 12.00 x 10.00 m brut, tek duslu wc + ebeveyn banyosu",
   "kontur": {
     "en": 12.0,
     "boy": 10.0
@@ -39,10 +39,6 @@
       "tip": "mutfak"
     },
     {
-      "ad": "Banyo",
-      "tip": "banyo"
-    },
-    {
       "ad": "Ebeveyn Banyo",
       "tip": "ebeveyn_banyo"
     },
@@ -73,6 +69,10 @@
       "Koridor"
     ],
     [
+      "Antre",
+      "Mutfak"
+    ],
+    [
       "Koridor",
       "Duslu WC"
     ],
@@ -87,10 +87,6 @@
     [
       "Koridor",
       "Yatak 2"
-    ],
-    [
-      "Koridor",
-      "Banyo"
     ],
     [
       "Salon",

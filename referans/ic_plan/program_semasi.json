@@ -1,0 +1,48 @@
+{
+  "surum": "0.1 — TASLAK",
+  "_durum": "ESIKLER OLCULMEDI. Murat Turna'nin farkli m2'lerdeki 3+1 cozumlerini iceren Excel'i bekleniyor. Buradaki null'lar UYDURULMAZ; veri gelene kadar null kalir ve program_uretici acik hata verir.",
+
+  "_neden": [
+    "Oda programi SABIT BIR LISTE DEGIL, daire m2'sinin fonksiyonudur.",
+    "Murat Turna, 31.07.2026 — '3+1'de bir tane duslu wc olur, geri kalan odalara dagilir, cunku alan anca yeter.'",
+    "Murat Turna, 31.07.2026 — 'Alan biraz daha buyukse ebeveyn wc koymak ticari satista avantaj oluyor.'",
+    "Yani hem ODA LISTESI hem ALAN BANTLARI m2'ye baglidir. Mevcut oda_programi.json'daki sabit bantlar bu yuzden eksik."
+  ],
+
+  "tipolojiler": {
+    "3+1": {
+      "cekirdek_odalar": [
+        "salon", "ebeveyn", "yatak", "yatak", "mutfak",
+        "duslu_wc", "antre", "koridor", "balkon"
+      ],
+      "kosullu_odalar": [
+        {
+          "tip": "ebeveyn_banyo",
+          "kosul": { "brut_m2_min": null },
+          "gerekce": "Ticari satista avantaj. Alan yeterse konur.",
+          "esik_kaynagi": "OLCULMEDI — Excel bekleniyor"
+        },
+        {
+          "tip": "misafir_wc",
+          "kosul": { "brut_m2_min": null },
+          "gerekce": "Giris bolgesinde misafir wc'si. Buyuk dairelerde ayrilir.",
+          "esik_kaynagi": "OLCULMEDI — Excel bekleniyor"
+        }
+      ]
+    }
+  },
+
+  "alan_dagilimi": {
+    "_yontem": "Her oda tipi icin alan = f(daire brut m2). Excel'deki cozumlerden dogrusal regresyonla cikarilacak; bant genisligi (min/max) veri sacilimindan alinacak, elle secilmeyecek.",
+    "_bicim": "tip -> { 'egim': a, 'sabit': b, 'bant': s }  ==>  hedef = a*brut + b, min = hedef - s, max = hedef + s",
+    "tipler": {}
+  },
+
+  "_esik_bulma_yontemi": [
+    "Olculen ipucu (31.07.2026, 12.00 x 10.00 m = 120 m2 brut):",
+    "  A senaryosu — tek duslu wc: odalarin cogu alan bandinin UST sinirina yapisti (Ebeveyn 20.0/max 20.0, Yatak 15.0/max 15.0). Farkli topoloji: 4.",
+    "  B senaryosu — + ebeveyn banyosu: alanlar bandin ortasina dondu. Farkli topoloji: 7.",
+    "Buradan cikan olcut: bir oda listesi, odalarin cogunu UST sinira dayiyorsa o daire icin FAZLA KUCUK bir programdir; kosullu oda eklenmelidir.",
+    "Esik, bu doyma noktasinin m2 karsiligidir. Excel geldiginde bu olcut gercek verilerle kalibre edilecek."
+  ]
+}
