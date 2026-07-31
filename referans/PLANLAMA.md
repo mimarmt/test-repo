@@ -72,10 +72,18 @@ KATMAN 2 · SIRALAMA (öğrenilmiş ağırlık)
 
 Kod: `referans/ic_plan/puanlama.py` — `ele()` ve `puanla()`.
 
-Erişilebilirlik kontrolü şöyle: antreden başla, **yalnızca geçiş
-mekanlarından geçerek** (hol, koridor, salon) grafı gez. Yatak odası
-ziyaret edilir ama **üzerinden geçilmez**. Ulaşılamayan oda varsa plan ölüdür.
-Bu tek kontrol, 8 varyantın 6'sını yakaladı.
+Erişilebilirlik kontrolü özyinelemeli: *R odasına varılır ⇔ R'nin, `erisim`
+tablosunun izin verdiği bir komşusu vardır ve o komşuya da varılır.*
+Girişten başlar. Ulaşılamayan oda varsa plan ölüdür. Bu tek kontrol,
+ilk turda 8 varyantın 6'sını yakaladı.
+
+Tablo `oda_programi.json`'da durur, kodda değil — mimari kuralı mimar yazar:
+
+```json
+"banyo":         { ..., "erisim": ["sirkulasyon"] },   // koridora açılır
+"ebeveyn_banyo": { ..., "erisim": ["ebeveyn"] },       // en-suite istisnası
+"balkon":        { ..., "erisim": ["salon", "ebeveyn", "yatak", "mutfak"] }
+```
 
 ### Adım 2 · Kuralı eleyiciden modele **terfi ettir** ← döngünün motoru
 
