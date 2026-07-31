@@ -151,3 +151,60 @@ Veri ajanının bilgi/hücre hesabıyla:
 - **Ebeveyn banyosu eşiği ticari olarak ~90–95 m² net** (3+1). Altında zarar: kazanılan 4–5 m² doğrudan ikincil yatak odalarından çıkar ve onları 9 m²'nin altına iter.
 
 > Bu kalemlerin fiyat/kredi hesapları **net/brüt = 0.80 varsayımına** dayanıyor — kaynaksız. Sıra #2 çözülmeden kesinleşmez.
+
+
+---
+
+## 6. Kapanış durumu — 31.07.2026 sonu
+
+Mimarın üç cevabı alındı ve uygulandı:
+
+1. **3+1 / 100'deki 12 m² tek ıslak hacim** → ebeveyn banyosu eşiği hipotezi çürüdü, 3+1 çekirdek programı 8 oda
+2. **Tablodaki değerler asgari, üst sınır da var** → iki satır bir *bant* okunuyor
+3. **Hol L veya T şeklinde, tek mekân** → sirkülasyon tek dikdörtgen değil
+
+### Elde edilen: 3+1'in geçerli net aralığı
+
+Tablonun uç değerlerinden okunan bantlar:
+
+| oda | bant (m²) |
+|---|---|
+| salon | 20 – 30 |
+| koridor | 6.6 – 9.0 |
+| mutfak | 9 – 12 |
+| yatak 1 | 11 – 12 |
+| yatak 2 | 9 – 12 |
+| yatak 3 | 9 – 10 |
+| küçük wc | 4 – 4 |
+| wc+duş | 6 – 12 |
+| **TOPLAM** | **74.6 – 101.0** |
+
+Bu tek başına kullanılabilir bir çıktı: **bir 3+1 net 74.6 m²'nin altına inemez, 101 m²'yi geçmez.**
+
+### Çözülemeyen: sirkülasyon geometrisi
+
+| Kurgu | Sonuç |
+|---|---|
+| Hol 1 dikdörtgen, 0.20 ızgara | ÇÖZÜM YOK |
+| Hol 2 dikdörtgen, 0.20 ızgara | ÇÖZÜM YOK |
+| Hol 2 dikdörtgen, **0.10 ızgara**, 150 sn | **ÇÖZÜM YOK** (kesin) |
+| Hol 3 dikdörtgen, 0.20 ızgara, 120 sn | karar verilemedi |
+| Hol 3 dikdörtgen, 0.10 ızgara, 150 sn | karar verilemedi |
+
+Ablasyon iki ayrı bant kurgusunda da aynı suçluyu gösterdi: **erişim kısıtı**.
+Kapatınca çözüm geliyor, açıkken gelmiyor.
+
+**Durum dürüstçe:** 2 parçaya kadar kesin çözümsüz. 3 parça *kanıtlanmadı* —
+CP-SAT bütçe içinde karar veremiyor. Yani "3 parça hol işe yaramaz" demek
+için elimde kanıt yok; "işe yarar" demek için de yok.
+
+### Sıradaki tek şey: gerçek bir plan geometrisi
+
+Daha fazla m² sayısı bu tıkanmayı açmıyor. Gereken **bir tane gerçek 3+1
+çizimi** — hangi oda nerede, hol hangi biçimde, hangi kapı nereye açılıyor.
+
+Onunla iki şey birden yapılır:
+1. **Yanlış-pozitif testi:** kural kümem mimarın gerçek planını eliyor mu?
+   (AJAN_MIMARISI §5'in ölçütü — eliyorsa kural yanlış, plan değil)
+2. **Hol biçiminin gerçek karşılığı:** kaç dikdörtgene bölünüyor, kaç oda
+   hangi parçaya açılıyor. Modelin doğru formülasyonu buradan çıkar.
