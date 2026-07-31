@@ -185,30 +185,38 @@ def uret(girdi: dict, program: dict) -> dict:
     # (c) alanlar konturu tam doldurur -> bosluk kalmasi imkansiz
     model.Add(sum(alan_v) == net_alan)
 
-    # ── Gun isigi: dis cepheye en az min_cephe kadar deyecek ──
+    # ── Cephe iliskisi ──
+    # Gun isigi isteyen her oda dis cepheye deger. Balkon icin bu yetmez:
+    # "balkon hicbir zaman odalarin icinde olmaz, dis cephede olur"
+    # (Murat Turna, 31.07.2026). Cepheye 1.20 m degmek, balkonun plana
+    # icerlek bir yarik gibi sokulmasini engellemiyordu — 1.4 x 3.6'lik
+    # balkon kisa kenariyla cepheye degip uzun kenariyla ice giriyordu.
+    # Kural: UZUN kenar cephede, derinlik sinirli.
     for i, tip in enumerate(tipler):
         if not tip.get("gun_isigi"):
             continue
+        kural = tip.get("cephe_kurali") or {}
+        uzun_kenar = bool(kural.get("uzun_kenar_cephede"))
+        d_max = _taban(kural["derinlik_max"], izgara) if kural.get("derinlik_max") else None
+
+        # kenar -> (degisken, olmasi gereken deger, cephe boyu, derinlik)
+        kenarlar = {
+            "sol": (x1[i], 0,   boy_v[i], en_v[i]),
+            "sag": (x2[i], EN,  boy_v[i], en_v[i]),
+            "alt": (y1[i], 0,   en_v[i],  boy_v[i]),
+            "ust": (y2[i], BOY, en_v[i],  boy_v[i]),
+        }
         secenek = []
-        if "sol" in cepheler:
-            lit = model.NewBoolVar(f"cephe_sol_{i}")
-            model.Add(x1[i] == 0).OnlyEnforceIf(lit)
-            model.Add(boy_v[i] >= min_cephe).OnlyEnforceIf(lit)
-            secenek.append(lit)
-        if "sag" in cepheler:
-            lit = model.NewBoolVar(f"cephe_sag_{i}")
-            model.Add(x2[i] == EN).OnlyEnforceIf(lit)
-            model.Add(boy_v[i] >= min_cephe).OnlyEnforceIf(lit)
-            secenek.append(lit)
-        if "alt" in cepheler:
-            lit = model.NewBoolVar(f"cephe_alt_{i}")
-            model.Add(y1[i] == 0).OnlyEnforceIf(lit)
-            model.Add(en_v[i] >= min_cephe).OnlyEnforceIf(lit)
-            secenek.append(lit)
-        if "ust" in cepheler:
-            lit = model.NewBoolVar(f"cephe_ust_{i}")
-            model.Add(y2[i] == BOY).OnlyEnforceIf(lit)
-            model.Add(en_v[i] >= min_cephe).OnlyEnforceIf(lit)
+        for kenar, (degisken, deger, cephe_boyu, derinlik) in kenarlar.items():
+            if kenar not in cepheler:
+                continue
+            lit = model.NewBoolVar(f"cephe_{kenar}_{i}")
+            model.Add(degisken == deger).OnlyEnforceIf(lit)
+            model.Add(cephe_boyu >= min_cephe).OnlyEnforceIf(lit)
+            if uzun_kenar:
+                model.Add(cephe_boyu >= derinlik).OnlyEnforceIf(lit)
+            if d_max is not None:
+                model.Add(derinlik <= d_max).OnlyEnforceIf(lit)
             secenek.append(lit)
         model.AddBoolOr(secenek)
 

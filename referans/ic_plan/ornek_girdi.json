@@ -1,5 +1,5 @@
 {
-  "ad": "Ornek 3+1 — 12.00 x 10.00 m, ebeveyn banyolu",
+  "ad": "Ornek 3+1 — 12.00 x 10.00 m, ebeveyn banyolu, duslu wc",
   "kontur": {
     "en": 12.0,
     "boy": 10.0
@@ -47,8 +47,8 @@
       "tip": "ebeveyn_banyo"
     },
     {
-      "ad": "WC",
-      "tip": "wc"
+      "ad": "Duslu WC",
+      "tip": "duslu_wc"
     },
     {
       "ad": "Antre",
@@ -73,8 +73,8 @@
       "Koridor"
     ],
     [
-      "Antre",
-      "WC"
+      "Koridor",
+      "Duslu WC"
     ],
     [
       "Koridor",

@@ -94,12 +94,15 @@ odasından yalnızca ebeveyn banyosu için girilir."*
 | Erişim sert kısıt, salon da geçerli sayılıyor | **2 / 8 (%25)** | banyo yalnızca salona açılıyor |
 | `erisim` tablosu + `ebeveyn_banyo` tipi | **0 / 7 (%0)** | — |
 | + "salondan mutfağa geçilmez" | **0 / 3 (%0)** | — |
+| + balkon dış cephede · duşlu wc mahrem bölgede | **0 / 4 (%0)** | — |
 
 ### Kuralın bedeli: çeşitlilik
 
 Eleme oranı %0'da kaldı ama **farklı topoloji sayısı 7'den 3'e düştü**
 (aynı 14 çözüm denemesi). Mutfak kapısının sirkülasyondan olması zorunluluğu
-arama uzayını daralttı.
+arama uzayını daralttı. Sonraki turda balkon ve mahremiyet kuralları eklenince
+4'e çıktı — daralma tek yönlü değil; kural bazen bir topolojiyi keserken
+başkasını mümkün kılıyor.
 
 Bu bir hata değil, ödünleşim — ve ölçülmesi gereken bir şey:
 
@@ -110,6 +113,26 @@ Bu bir hata değil, ödünleşim — ve ölçülmesi gereken bir şey:
 İzlenecek iki sayı birlikte anlamlı: `eleme oranı` **ve** `farklı topoloji
 sayısı`. İkincisi 5'in altına inerse deneme sayısını/süreyi artırın; yine
 çıkmıyorsa kontur veya oda programı bu daireye fazla gelmiş olabilir.
+
+### Kural 4–5: balkon cephede, duşlu wc mahrem bölgede
+
+**Balkon.** `gun_isigi` kuralı "cepheye ≥1.20 m değsin" diyordu; bu yetmedi.
+1.4 × 3.6'lık balkon **kısa kenarıyla** cepheye değip uzun kenarıyla plana
+içerlek bir yarık gibi giriyordu. Mimarın kuralı: *balkon hiçbir zaman
+odaların içinde olmaz, dış cephede olur.* Modele karşılığı:
+
+```json
+"cephe_kurali": { "uzun_kenar_cephede": true, "derinlik_max": 2.00 }
+```
+
+Sonuç: balkon 5.6 × 1.4, uzun kenarı cephede.
+
+**Mahremiyet bölgesi.** "Banyo koridora açılır" kuralını ilk turda
+`["sirkulasyon"]` diye kodlamıştım — ama sirkülasyon hem antreyi hem koridoru
+kapsıyor. Antre giriş bölgesi, koridor mahrem bölge; ikisi aynı şey değil.
+**Benim fazla genellemem**di. Tiplere `bolge` alanı (`giris` / `mahrem`)
+eklendi, mahrem hacimlerin erişimi doğrudan `["koridor"]`e bağlandı.
+Ayrıca `misafir_wc` (antreden) ile `duslu_wc` (koridordan) ayrı tipler oldu.
 
 ### Modelleme dersi: komşuluk ≠ kapı
 
@@ -125,7 +148,7 @@ Aşama A2'de (DXF) şart olacak.
 
 ---
 
-Üç kural yazarak eleme oranı %75'ten %0'a indi. **Kod değişmedi** —
+Beş kural yazarak eleme oranı %75'ten %0'a indi. **Kod değişmedi** —
 kural `oda_programi.json`'daki `erisim` alanında duruyor:
 
 ```json

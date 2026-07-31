@@ -19,6 +19,7 @@ ve mimari olarak eledim:
 | Erişim **sert** kısıt (salon da geçerli) | **2 / 8 (%25)** | banyo yalnızca salona açılıyor |
 | `erisim` tablosu + `ebeveyn_banyo` tipi | **0 / 7 (%0)** | — |
 | + "salondan mutfağa geçilmez" | **0 / 3 (%0)** | — |
+| + balkon dış cephede · duşlu wc mahrem bölgede | **0 / 4 (%0)** | — |
 
 Elenen 6 planın hepsi CP-SAT'a göre **OPTIMAL**'di. Bütün ölçü kurallarınızı
 sağlıyorlardı. Puanlama onları doğru sıralayamıyordu çünkü **o planların
@@ -97,8 +98,8 @@ Erişimi modele taşıdım — her oda en az bir geçiş mekanına kapı genişl
 açılmak zorunda:
 
 ```
-eleme oranı      %75  →  %25  →  %0   →  %0
-farklı topoloji    8       8       7       3   ← kuralların bedeli
+eleme oranı      %75  →  %25  →  %0   →  %0   →  %0
+farklı topoloji    8       8       7       3       4   ← kuralların bedeli
 ```
 
 Sağdaki satır önemli: her sert kural ölü planları keserken **canlı
@@ -179,8 +180,8 @@ Tanımlı bitiş ölçütü olmadan bu proje bitmez. Dört sayı öneriyorum:
 
 | Ölçüt | Hedef | Şu an (bu depo, 12×10 m, 10 oda) |
 |---|---|---|
-| Eleme oranı | < %10 | **%0** (3 varyant, tek girdi) |
-| Farklı topoloji sayısı | ≥ 5 | **3** — daralıyor, izlenmeli |
+| Eleme oranı | < %10 | **%0** (4 varyant, tek girdi) |
+| Farklı topoloji sayısı | ≥ 5 | **4** — sınırda, izlenmeli |
 | Referans planın yüzdelik sırası | ilk %5 | **ölçülmedi** — referans kümesi yok |
 | Kabul oranı (ilk 5'ten en az biri "üzerinde çalışırım") | ≥ %70 | ölçülmedi |
 | Süre / daire | < 60 sn | 10–30 sn |
@@ -266,6 +267,7 @@ O sayı varsa proje yönetilebilir; yoksa yönetilemez.
 - Alan bantları **net mi brüt mü**? (Ö8 ile bağlantılı)
 - Balkon alanı oda programına dahil mi, ayrı mı sayılıyor?
 - Balkona nereden çıkılır? Tabloda şu an `["salon","ebeveyn","yatak","mutfak"]` yazıyor — mutfaktan balkon doğru mu?
-- Yatak odaları koridora mı açılır, salondan da girilebilir mi? Şu an yalnızca sirkülasyon.
+- Yatak odaları ve banyo için `["koridor"]` yazdım — bu benim **çıkarımım**, sizin kuralınız değil. Onaylıyor musunuz?
+- Programda hem `Banyo` hem `Duşlu WC` hem `Ebeveyn Banyo` var: 120 m²'lik 3+1'de üç ıslak hacim. "Ailenin ortak duşlu wc'si" dediğiniz şey `Banyo`nun yerine mi geçiyor, yanına mı?
 - Çekirdek ve daire giriş kapısı Aşama A'da girdi mi, Aşama B'de mi belirlenir? Şu an elle veriliyor (`girdi.giris`).
 - ParselPro Studio ile bu proje ayrı köke alınacak mı?
