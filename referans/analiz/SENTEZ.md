@@ -85,7 +85,28 @@ PAİY: banyo/tuvalet havalandırma bacası **veya** mekanik havalandırma **zoru
 ### Y7 · Sistem mimarın kendi 3+1'ini hâlâ üretemiyor
 Alan bantları artık tablodan geliyor (uydurma değil). Yine de 3+1 / 75 ve 100 için hiçbir toleransta çözüm çıkmadı. Ablasyon suçluyu buldu: **erişim kısıtı** — kapatınca OPTIMAL.
 Sebep: bu tipolojide antre yok, tek koridor var ve model *yedi odanın da o tek dikdörtgene* açılmasını istiyor. Gerçek holler L şeklindedir. Holu 2–3 dikdörtgene bölmeyi denedim, o da çözmedi.
-**Açık kalan soru.** Ya "bir oda = bir dikdörtgen" varsayımı sirkülasyon için gevşetilecek, ya kontur net değil brüt alınacak (D1/Y0), ya ikisi birden.
+### Y7b · Tıkanma kesin olarak yerinden edildi (31.07.2026, iki cevaptan sonra)
+
+Mimar iki soruyu cevapladı ve model buna göre yeniden kuruldu:
+- Tablodaki değerler **asgari** (hedef değil) → bant tek yönlü: `alan_min = tablo`, üst uç serbest
+- 3+1'de ebeveyn banyosu **yok** → çekirdek program 8 oda
+
+Bu, ilk tıkanmanın bir parçasını açıkladı: satır toplamı net m²'yi tam
+tuttuğu için, o m²'de **hiç serbestlik yok** — her oda tam asgarisinde
+olmak zorunda. Kontur asgariler toplamının %135'ine çıkarılınca
+**OPTIMAL** geldi (134.3 m², 8 oda). İki kusur kaldı, ikisi de aynı
+kökten: `kucuk_wc`'nin erişimi `["antre"]` yazıyordu ama bu tipolojide
+antre yok. Düzeltilince — **tekrar çözümsüz.**
+
+**Kesin teşhis:** tek dikdörtgen koridor 8 odaya birden hizmet edemiyor.
+Kapı eşiği 0.20 m ızgarada 1.00 m'ye yuvarlanıyor; 8 oda × 1.00 m = 8 m
+temas, üstelik koridor girişe de değecek ve en/boy ≤ 6.0 kalacak.
+
+> **"Bir oda = bir dikdörtgen" varsayımı sirkülasyon için geçersiz.**
+> Motorun 1. omurga fikri (dikdörtgen varsayımı bağlantılılığı bedavaya
+> getirir) tam da sirkülasyonda kırılıyor. Gerçek holler L veya T
+> şeklindedir. Bu artık 7. sırada bir iş değil, **net/brüt ile birlikte
+> ilk sırada.**
 
 ---
 
