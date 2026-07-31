@@ -93,8 +93,39 @@ odasından yalnızca ebeveyn banyosu için girilir."*
 | Erişim hiç yazılı değil | **6 / 8 (%75)** | banyoya yatak odasından giriliyor |
 | Erişim sert kısıt, salon da geçerli sayılıyor | **2 / 8 (%25)** | banyo yalnızca salona açılıyor |
 | `erisim` tablosu + `ebeveyn_banyo` tipi | **0 / 7 (%0)** | — |
+| + "salondan mutfağa geçilmez" | **0 / 3 (%0)** | — |
 
-İki kural yazarak eleme oranı %75'ten %0'a indi. **Kod değişmedi** —
+### Kuralın bedeli: çeşitlilik
+
+Eleme oranı %0'da kaldı ama **farklı topoloji sayısı 7'den 3'e düştü**
+(aynı 14 çözüm denemesi). Mutfak kapısının sirkülasyondan olması zorunluluğu
+arama uzayını daralttı.
+
+Bu bir hata değil, ödünleşim — ve ölçülmesi gereken bir şey:
+
+> Her sert kural, ölü planları keserken **canlı seçenekleri de** keser.
+> Eleme oranı düşerken varyant sayısı da düşüyorsa, mimar daha temiz ama
+> daha dar bir liste görüyor demektir.
+
+İzlenecek iki sayı birlikte anlamlı: `eleme oranı` **ve** `farklı topoloji
+sayısı`. İkincisi 5'in altına inerse deneme sayısını/süreyi artırın; yine
+çıkmıyorsa kontur veya oda programı bu daireye fazla gelmiş olabilir.
+
+### Modelleme dersi: komşuluk ≠ kapı
+
+Bu kural, sistemdeki bir kavram eksiğini açığa çıkardı. Model yalnızca
+"iki oda kapı genişliğinde duvar paylaşıyor mu" biliyordu; "aralarında
+kapı var mı" bilmiyordu. Salon ile mutfak **duvar komşusu olmalı**
+(istenen bir şey) ama **kapı olmamalı**.
+
+Şimdilik ayrım şöyle yürüyor: `komsuluklar` girdisi duvar komşuluğunu
+(yumuşak, ödüllendirilir), `erisim` tablosu kapıyı (sert, kısıt) ifade
+eder. Kapıların gerçekten yerleştirilmesi ayrı bir aşama ve henüz yok —
+Aşama A2'de (DXF) şart olacak.
+
+---
+
+Üç kural yazarak eleme oranı %75'ten %0'a indi. **Kod değişmedi** —
 kural `oda_programi.json`'daki `erisim` alanında duruyor:
 
 ```json
