@@ -152,8 +152,11 @@ Beş kural yazarak eleme oranı %75'ten %0'a indi. **Kod değişmedi** —
 kural `oda_programi.json`'daki `erisim` alanında duruyor:
 
 ```json
-"banyo":         { ..., "erisim": ["sirkulasyon"] },
-"ebeveyn_banyo": { ..., "erisim": ["ebeveyn"] }
+"banyo":         { "bolge": "mahrem", ..., "erisim": ["koridor"] },
+"duslu_wc":      { "bolge": "mahrem", ..., "erisim": ["koridor"] },
+"ebeveyn_banyo": { "bolge": "mahrem", ..., "erisim": ["ebeveyn"] },
+"mutfak":        { "bolge": "giris",  ..., "erisim": ["sirkulasyon"] },
+"balkon":        { ..., "cephe_kurali": { "uzun_kenar_cephede": true, "derinlik_max": 2.00 } }
 ```
 
 Model ve eleyici artık aynı tabloyu okuyor; aralarındaki felsefe farkı
