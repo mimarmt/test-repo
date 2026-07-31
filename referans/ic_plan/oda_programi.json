@@ -7,7 +7,9 @@
     "kapi_genisligi": 0.9,
     "min_cephe": 1.2,
     "sirkulasyon_max_oran": 0.08,
-    "cozum_suresi_sn": 30.0
+    "cozum_suresi_sn": 30.0,
+    "kapi_genisligi_ic": 0.9,
+    "kapi_genisligi_giris": 1.0
   },
   "agirliklar": {
     "_birim": "hucre^2 (1 hucre^2 = 0.01 m^2)",
@@ -129,10 +131,10 @@
     },
     "duslu_wc": {
       "bolge": "mahrem",
-      "alan_min": 2.4,
+      "alan_min": 4.2,
       "alan_hedef": 3.2,
       "alan_max": 4.5,
-      "min_kenar": 1.2,
+      "min_kenar": 1.5,
       "max_oran": 2.2,
       "gun_isigi": false,
       "islak": true,
@@ -146,7 +148,7 @@
       "alan_min": 3.0,
       "alan_hedef": 4.0,
       "alan_max": 5.5,
-      "min_kenar": 1.4,
+      "min_kenar": 1.5,
       "max_oran": 2.2,
       "gun_isigi": false,
       "islak": true,
@@ -176,5 +178,6 @@
         "derinlik_max": 2.0
       }
     }
-  }
+  },
+  "_mevzuat_notu": "PAIY m.29 (R.G. 03.07.2017/30113, son degisiklik 14.01.2026). duslu_wc 2.4->4.20 m2 ve 1.20->1.50 m; ebeveyn_banyo kisa kenar 1.40->1.50 m. Daire giris kapisi >=1.00 m, ic kapilar >=0.90 m. UYARI: birincil metne (mevzuat.gov.tr) dogrudan erisilemedi, WebSearch ile capraz dogrulandi."
 }
