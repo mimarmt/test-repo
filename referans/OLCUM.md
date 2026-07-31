@@ -83,7 +83,32 @@ Bu ikisi aynı dersi veriyor ve bu depodaki en önemli çıktı bu:
 > Çözücü yazmadığın kısıtı bilmez. Plan kalitesizse önce üreticiyi değil,
 > **kısıt envanterini** sorgula.
 
-## 5. Son durum
+## 5. Erişim kuralı — eleme oranının seyri
+
+Kural kaynağı: Murat Turna, 31.07.2026 — *"banyo koridora açılır; yatak
+odasından yalnızca ebeveyn banyosu için girilir."*
+
+| Aşama | Eleme oranı | Kalan kusur |
+|---|---|---|
+| Erişim hiç yazılı değil | **6 / 8 (%75)** | banyoya yatak odasından giriliyor |
+| Erişim sert kısıt, salon da geçerli sayılıyor | **2 / 8 (%25)** | banyo yalnızca salona açılıyor |
+| `erisim` tablosu + `ebeveyn_banyo` tipi | **0 / 7 (%0)** | — |
+
+İki kural yazarak eleme oranı %75'ten %0'a indi. **Kod değişmedi** —
+kural `oda_programi.json`'daki `erisim` alanında duruyor:
+
+```json
+"banyo":         { ..., "erisim": ["sirkulasyon"] },
+"ebeveyn_banyo": { ..., "erisim": ["ebeveyn"] }
+```
+
+Model ve eleyici artık aynı tabloyu okuyor; aralarındaki felsefe farkı
+kapandı. Erişilebilirlik tanımı da özyinelemeli hâle geldi: *R odasına
+varılır ⇔ R'nin, erişim tablosunun izin verdiği bir komşusu vardır ve
+o komşuya da varılır.* Ayrıca "hangi odadan geçilir" listesi tutmaya
+gerek kalmadı.
+
+## 6. Son durum
 
 `giris` kısıtı eklendikten sonra, 0.20 m ızgara, 30 sn bütçe:
 

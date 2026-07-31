@@ -311,14 +311,29 @@ def uret(girdi: dict, program: dict) -> dict:
     # cunku "erisim" hicbir yerde yazmiyordu. Bunu puanlamayla duzeltmeye
     # calismak yanlis katman — olu plani iyi siralamak degil, hic
     # uretmemek gerekir.
-    gecis = [i for i, t in enumerate(tipler) if t.get("sirkulasyon")]
-    gecis += [i for i, o in enumerate(odalar) if o["tip"] == "salon" and i not in gecis]
+    # Kapinin nereye acilabilecegi oda_programi.json'daki "erisim"
+    # tablosundan okunur — koda gomulmez. Banyo/wc koridora acilir;
+    # yatak odasindan yalnizca ebeveyn banyosuna girilir (Murat Turna,
+    # 31.07.2026). Tabloyu degistirmek kod degisikligi gerektirmez.
+    def erisim_kaynaklari(oda_tipi: str) -> list[int]:
+        izin = program["tipler"][oda_tipi].get("erisim", ["sirkulasyon"])
+        kaynak = set()
+        for j, o in enumerate(odalar):
+            if "sirkulasyon" in izin and tipler[j].get("sirkulasyon"):
+                kaynak.add(j)
+            if o["tip"] in izin:
+                kaynak.add(j)
+        return sorted(kaynak)
 
+    for i, o in enumerate(odalar):
+        if tipler[i].get("sirkulasyon"):
+            continue
+        kaynak = [j for j in erisim_kaynaklari(o["tip"]) if j != i]
+        if kaynak:
+            model.AddBoolOr([komsuluk(i, j) for j in kaynak])
+
+    gecis = [i for i, t in enumerate(tipler) if t.get("sirkulasyon")]
     if gecis:
-        for i in range(n):
-            if i in gecis:
-                continue
-            model.AddBoolOr([komsuluk(i, j) for j in gecis])
         # Gecis mekanlari kendi aralarinda kopuk kalmasin.
         # NOT: bu kosul 3 dugume kadar bagliligi garanti eder. Daha fazla
         # gecis mekaninda gercek baglilik kodlamasi (akis / AddCircuit)

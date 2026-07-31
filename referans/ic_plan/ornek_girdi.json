@@ -1,5 +1,5 @@
 {
-  "ad": "Ornek 3+1 — 12.00 x 10.00 m, dort cephe serbest",
+  "ad": "Ornek 3+1 — 12.00 x 10.00 m, ebeveyn banyolu",
   "kontur": {
     "en": 12.0,
     "boy": 10.0
@@ -41,6 +41,10 @@
     {
       "ad": "Banyo",
       "tip": "banyo"
+    },
+    {
+      "ad": "Ebeveyn Banyo",
+      "tip": "ebeveyn_banyo"
     },
     {
       "ad": "WC",
@@ -95,6 +99,10 @@
     [
       "Salon",
       "Balkon"
+    ],
+    [
+      "Ebeveyn",
+      "Ebeveyn Banyo"
     ]
   ]
 }

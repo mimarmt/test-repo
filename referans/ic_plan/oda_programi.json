@@ -18,15 +18,18 @@
     "islak_dagilmasi": 250
   },
 
+  "_erisim_notu": "ERISIM TABLOSU — kapinin nereye acilabilecegi. Mimarin alanidir, kodda degil burada durur. 'sirkulasyon' = sirkulasyon:true olan her mekan (antre, koridor, hol). Digerleri tip adidir. Murat Turna, 31.07.2026: banyo ve wc KORIDORA acilir; yatak odasindan yalnizca ebeveyn banyosu icin girilir.",
+
   "tipler": {
-    "salon":        { "alan_min": 22.0, "alan_hedef": 30.0, "alan_max": 38.0, "min_kenar": 3.20, "max_oran": 2.2, "gun_isigi": true,  "islak": false, "sirkulasyon": false },
-    "ebeveyn":      { "alan_min": 13.0, "alan_hedef": 16.0, "alan_max": 20.0, "min_kenar": 3.00, "max_oran": 2.0, "gun_isigi": true,  "islak": false, "sirkulasyon": false },
-    "yatak":        { "alan_min":  9.0, "alan_hedef": 12.0, "alan_max": 15.0, "min_kenar": 2.70, "max_oran": 2.0, "gun_isigi": true,  "islak": false, "sirkulasyon": false },
-    "mutfak":       { "alan_min":  8.0, "alan_hedef": 11.0, "alan_max": 15.0, "min_kenar": 2.40, "max_oran": 2.2, "gun_isigi": true,  "islak": true,  "sirkulasyon": false },
-    "banyo":        { "alan_min":  4.0, "alan_hedef":  5.0, "alan_max":  7.0, "min_kenar": 1.60, "max_oran": 2.2, "gun_isigi": false, "islak": true,  "sirkulasyon": false },
-    "wc":           { "alan_min":  2.4, "alan_hedef":  3.0, "alan_max":  4.2, "min_kenar": 1.20, "max_oran": 2.2, "gun_isigi": false, "islak": true,  "sirkulasyon": false },
-    "antre":        { "alan_min":  3.0, "alan_hedef":  4.5, "alan_max":  7.0, "min_kenar": 1.40, "max_oran": 3.0, "gun_isigi": false, "islak": false, "sirkulasyon": true  },
-    "koridor":      { "alan_min":  2.0, "alan_hedef":  3.5, "alan_max":  6.0, "min_kenar": 1.20, "max_oran": 6.0, "gun_isigi": false, "islak": false, "sirkulasyon": true  },
-    "balkon":       { "alan_min":  3.0, "alan_hedef":  4.5, "alan_max":  8.0, "min_kenar": 1.20, "max_oran": 4.0, "gun_isigi": true,  "islak": false, "sirkulasyon": false }
+    "salon":         { "alan_min": 22.0, "alan_hedef": 30.0, "alan_max": 38.0, "min_kenar": 3.20, "max_oran": 2.2, "gun_isigi": true,  "islak": false, "sirkulasyon": false, "erisim": ["sirkulasyon"] },
+    "ebeveyn":       { "alan_min": 13.0, "alan_hedef": 16.0, "alan_max": 20.0, "min_kenar": 3.00, "max_oran": 2.0, "gun_isigi": true,  "islak": false, "sirkulasyon": false, "erisim": ["sirkulasyon"] },
+    "yatak":         { "alan_min":  9.0, "alan_hedef": 12.0, "alan_max": 15.0, "min_kenar": 2.70, "max_oran": 2.0, "gun_isigi": true,  "islak": false, "sirkulasyon": false, "erisim": ["sirkulasyon"] },
+    "mutfak":        { "alan_min":  8.0, "alan_hedef": 11.0, "alan_max": 15.0, "min_kenar": 2.40, "max_oran": 2.2, "gun_isigi": true,  "islak": true,  "sirkulasyon": false, "erisim": ["sirkulasyon", "salon"] },
+    "banyo":         { "alan_min":  4.0, "alan_hedef":  5.0, "alan_max":  7.0, "min_kenar": 1.60, "max_oran": 2.2, "gun_isigi": false, "islak": true,  "sirkulasyon": false, "erisim": ["sirkulasyon"] },
+    "wc":            { "alan_min":  2.4, "alan_hedef":  3.0, "alan_max":  4.2, "min_kenar": 1.20, "max_oran": 2.2, "gun_isigi": false, "islak": true,  "sirkulasyon": false, "erisim": ["sirkulasyon"] },
+    "ebeveyn_banyo": { "alan_min":  3.0, "alan_hedef":  4.0, "alan_max":  5.5, "min_kenar": 1.40, "max_oran": 2.2, "gun_isigi": false, "islak": true,  "sirkulasyon": false, "erisim": ["ebeveyn"] },
+    "antre":         { "alan_min":  3.0, "alan_hedef":  4.5, "alan_max":  7.0, "min_kenar": 1.40, "max_oran": 3.0, "gun_isigi": false, "islak": false, "sirkulasyon": true,  "erisim": ["sirkulasyon"] },
+    "koridor":       { "alan_min":  2.0, "alan_hedef":  3.5, "alan_max":  6.0, "min_kenar": 1.20, "max_oran": 6.0, "gun_isigi": false, "islak": false, "sirkulasyon": true,  "erisim": ["sirkulasyon"] },
+    "balkon":        { "alan_min":  3.0, "alan_hedef":  4.5, "alan_max":  8.0, "min_kenar": 1.20, "max_oran": 4.0, "gun_isigi": true,  "islak": false, "sirkulasyon": false, "erisim": ["salon", "ebeveyn", "yatak", "mutfak"] }
   }
 }

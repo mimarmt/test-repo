@@ -15,8 +15,9 @@ ve mimari olarak eledim:
 
 | | Elenen | Sebep |
 |---|---|---|
-| Erişim kısıtı **yokken** | **6 / 8** | banyoya yatak odasından giriliyor |
-| Erişim kısıtı **sert** yapıldıktan sonra | **2 / 8** | banyo yalnızca salona açılıyor |
+| Erişim kısıtı **yokken** | **6 / 8 (%75)** | banyoya yatak odasından giriliyor |
+| Erişim **sert** kısıt (salon da geçerli) | **2 / 8 (%25)** | banyo yalnızca salona açılıyor |
+| `erisim` tablosu + `ebeveyn_banyo` tipi | **0 / 7 (%0)** | — |
 
 Elenen 6 planın hepsi CP-SAT'a göre **OPTIMAL**'di. Bütün ölçü kurallarınızı
 sağlıyorlardı. Puanlama onları doğru sıralayamıyordu çünkü **o planların
@@ -87,16 +88,20 @@ Erişimi modele taşıdım — her oda en az bir geçiş mekanına kapı genişl
 açılmak zorunda:
 
 ```
-eleme oranı  %75  →  %25
+eleme oranı   %75  →  %25  →  %0
 ```
 
 Bu döngünün güzelliği: **her tur eleme oranı düşer ve nerede olduğunuzu
 bir sayı söyler.** Projenin bittiği an bellidir.
 
-> Şu anda kalan %25, döngünün canlı hâli: eleyici "banyo yalnızca salona
-> açılıyor" diyor, model ise salonu geçerli erişim sayıyor. İkisinden biri
-> haklı — kararı siz verirsiniz (mimarlık alan bilgisi, benim itiraz alanım
-> değil). Verdiğiniz karar modele yazılır, eleme oranı tekrar düşer.
+> Bu döngü bir kez canlı olarak işledi: eleyici "banyo yalnızca salona
+> açılıyor" dedi, model salonu geçerli erişim sayıyordu. Kararı siz verdiniz
+> — *banyo koridora açılır; yatak odasından yalnızca ebeveyn banyosu için
+> girilir.* Karar `oda_programi.json`'daki `erisim` tablosuna yazıldı,
+> `ebeveyn_banyo` tipi eklendi, eleme oranı **%25 → %0**. Kod değişmedi.
+>
+> Kuralın kodda değil tabloda durması önemli: sonraki mimari kuralı da
+> siz yazarsınız, benim veya bir yazılımcının araya girmesi gerekmez.
 
 ### Adım 3 · Ağırlığı elle değil, **ikili tercihten** öğren
 
@@ -161,7 +166,7 @@ Tanımlı bitiş ölçütü olmadan bu proje bitmez. Dört sayı öneriyorum:
 
 | Ölçüt | Hedef | Şu an (bu depo, 12×10 m, 10 oda) |
 |---|---|---|
-| Eleme oranı | < %10 | %25 |
+| Eleme oranı | < %10 | **%0** (7 varyant, tek girdi) |
 | Referans planın yüzdelik sırası | ilk %5 | **ölçülmedi** — referans kümesi yok |
 | Kabul oranı (ilk 5'ten en az biri "üzerinde çalışırım") | ≥ %70 | ölçülmedi |
 | Süre / daire | < 60 sn | 10–30 sn |
@@ -185,9 +190,9 @@ Tanımlı bitiş ölçütü olmadan bu proje bitmez. Dört sayı öneriyorum:
 - **Kaynak:** `referans/ic_plan/puanlama.py` (yazıldı, çalışıyor).
 - **Maliyet:** 1 gün (devralınabilir).
 
-### Ö3 · Erişilebilirliği sert kısıt yap
-- **Ne:** Her oda en az bir geçiş mekanına kapı genişliğinde açılsın; geçiş mekanları kendi aralarında bağlı olsun.
-- **Neden:** Eleme oranı %75 → %25 (ölçüldü).
+### Ö3 · Erişimi `erisim` tablosuyla sert kısıt yap ✔ *(yapıldı)*
+- **Ne:** Her odanın kapısı, tipinin `erisim` listesindeki bir mekana açılsın. Tablo `oda_programi.json`'da, kodda değil.
+- **Neden:** Eleme oranı %75 → %25 → **%0** (ölçüldü).
 - **Kaynak:** `motor.py`, "ERISIM (SERT)" bölümü.
 - **Maliyet:** yarım gün. **Not:** 3'ten fazla geçiş mekanında gerçek bağlılık kodlaması (akış / `AddCircuit`) gerekir — Aşama B'de şart olacak.
 
@@ -245,7 +250,6 @@ O sayı varsa proje yönetilebilir; yoksa yönetilemez.
 ## 7. Açık kalemler — karar sizin
 
 - Alan bantları **net mi brüt mü**? (Ö8 ile bağlantılı)
-- Banyo doğrudan salona açılabilir mi? Model "evet", eleyici "hayır" diyor. Mimarlık alan bilgisi — itiraz etmiyorum, karar bekliyorum.
 - Balkon alanı oda programına dahil mi, ayrı mı sayılıyor?
 - Çekirdek ve daire giriş kapısı Aşama A'da girdi mi, Aşama B'de mi belirlenir? Şu an elle veriliyor (`girdi.giris`).
 - ParselPro Studio ile bu proje ayrı köke alınacak mı?

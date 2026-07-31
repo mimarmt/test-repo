@@ -66,32 +66,44 @@ def graf(plan: dict, kapi: float) -> dict[str, set[str]]:
     return g
 
 
-def erisilebilir(plan: dict, program: dict, baslangic: str, kapi: float) -> set[str]:
-    """Antreden yola cikip, YALNIZCA gecis mekanlarindan gecerek nereye varilir.
-
-    Yatak odasindan gecerek baska odaya ulasmak mimari olarak gecersizdir;
-    bu yuzden yatak odasi bir dugum olarak ziyaret edilir ama uzerinden
-    gecilmez. Bu kontrol olmadan cozucu, banyoya yatak odasindan girilen
-    planlari mutlulukla uretir — butun olcu kisitlarini saglayarak.
-    """
+def izinli_erisim(ad: str, plan: dict, program: dict) -> set[str]:
+    """Bu odanin kapisinin acilabilecegi odalar — 'erisim' tablosuna gore."""
     tip = {o["ad"]: o["tip"] for o in plan["odalar"]}
     tipler = program["tipler"]
+    izin = tipler[tip[ad]].get("erisim", ["sirkulasyon"])
+    return {
+        o["ad"] for o in plan["odalar"]
+        if o["ad"] != ad and (
+            ("sirkulasyon" in izin and tipler[o["tip"]].get("sirkulasyon"))
+            or o["tip"] in izin
+        )
+    }
+
+
+def erisilebilir(plan: dict, program: dict, baslangic: str, kapi: float) -> set[str]:
+    """Giristen baslayip erisim tablosuna uyarak nereye varilir.
+
+    Tanim ozyinelemeli: R odasina varilir <=> R'nin, ERISIM TABLOSUNUN
+    izin verdigi bir komsusu vardir ve o komsuya da varilir.
+
+    Bu, "hangi odadan gecilir" diye ayri bir liste tutmayi gereksiz kilar;
+    tek dogruluk kaynagi oda_programi.json'daki 'erisim' alanidir.
+    Ornegin balkona salondan veya yatak odasindan varilir (tablo oyle
+    diyor), banyoya yalnizca koridordan varilir.
+    """
     g = graf(plan, kapi)
-
-    def gecilir(ad: str) -> bool:
-        t = tipler[tip[ad]]
-        return bool(t.get("sirkulasyon")) or tip[ad] == "salon"
-
-    goruldu, kuyruk = {baslangic}, [baslangic]
-    while kuyruk:
-        su = kuyruk.pop()
-        if su != baslangic and not gecilir(su):
-            continue          # ziyaret edildi, ama uzerinden gecilmez
-        for kom in g[su]:
-            if kom not in goruldu:
-                goruldu.add(kom)
-                kuyruk.append(kom)
-    return goruldu
+    varilan = {baslangic}
+    degisti = True
+    while degisti:
+        degisti = False
+        for o in plan["odalar"]:
+            ad = o["ad"]
+            if ad in varilan:
+                continue
+            if g[ad] & izinli_erisim(ad, plan, program) & varilan:
+                varilan.add(ad)
+                degisti = True
+    return varilan
 
 
 # ─────────────────────────────────────────────────────────────
@@ -128,12 +140,15 @@ def ele(plan: dict, girdi: dict, program: dict) -> list[str]:
         if o["ad"] not in varilan:
             kusur.append(f"ERISILEMEZ: {o['ad']} (yalnizca baska bir oda icinden)")
 
-    # E3 — Islak hacim dogrudan salona/mutfaga acilmasin
-    for ad, komsular in g.items():
-        if not tipler[tip[ad]].get("islak") or tip[ad] == "mutfak":
+    # E3 — Kapi yeri: her odanin kapisi 'erisim' tablosunun izin verdigi
+    # bir mekana acilmali. Model de ayni tabloyu okur; ikisi arasinda
+    # felsefe farki kalmadi, tek dogruluk kaynagi oda_programi.json.
+    for ad in g:
+        if tipler[tip[ad]].get("sirkulasyon"):
             continue
-        if not any(tipler[tip[k]].get("sirkulasyon") for k in komsular):
-            kusur.append(f"KAPI YERI: {ad} hicbir gecis mekanina acilmiyor")
+        if not (g[ad] & izinli_erisim(ad, plan, program)):
+            izin = tipler[tip[ad]].get("erisim", ["sirkulasyon"])
+            kusur.append(f"KAPI YERI: {ad} kapisi {izin} disina aciliyor")
 
     # E4 — Kullanilamaz oda
     for o in plan["odalar"]:
