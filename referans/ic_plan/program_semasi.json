@@ -1,43 +1,262 @@
 {
-  "surum": "0.1 — TASLAK",
-  "_durum": "ESIKLER OLCULMEDI. Murat Turna'nin farkli m2'lerdeki 3+1 cozumlerini iceren Excel'i bekleniyor. Buradaki null'lar UYDURULMAZ; veri gelene kadar null kalir ve program_uretici acik hata verir.",
-
+  "surum": "0.2 — Murat Turna m2 tablosundan turetildi",
+  "_durum": "Alan dagilimi GERCEK VERIDEN cikarildi. Kosullu oda esikleri hala HIPOTEZ; operatif alanlar null birakildi.",
   "_neden": [
     "Oda programi SABIT BIR LISTE DEGIL, daire m2'sinin fonksiyonudur.",
     "Murat Turna, 31.07.2026 — '3+1'de bir tane duslu wc olur, geri kalan odalara dagilir, cunku alan anca yeter.'",
     "Murat Turna, 31.07.2026 — 'Alan biraz daha buyukse ebeveyn wc koymak ticari satista avantaj oluyor.'",
     "Yani hem ODA LISTESI hem ALAN BANTLARI m2'ye baglidir. Mevcut oda_programi.json'daki sabit bantlar bu yuzden eksik."
   ],
-
   "tipolojiler": {
+    "1+0": {
+      "cekirdek_odalar": [
+        "yatak",
+        "wc_dus"
+      ],
+      "net_m2_araligi": [
+        24,
+        52
+      ],
+      "veri_satiri": 4,
+      "guven": "yuksek"
+    },
+    "1+1": {
+      "cekirdek_odalar": [
+        "salon_mutfak",
+        "koridor",
+        "yatak",
+        "wc_dus"
+      ],
+      "net_m2_araligi": [
+        45,
+        55
+      ],
+      "veri_satiri": 2,
+      "guven": "orta"
+    },
+    "2+1": {
+      "cekirdek_odalar": [
+        "salon",
+        "koridor",
+        "mutfak",
+        "yatak_1",
+        "yatak_2",
+        "wc_dus"
+      ],
+      "net_m2_araligi": [
+        75,
+        75
+      ],
+      "veri_satiri": 1,
+      "guven": "dusuk"
+    },
     "3+1": {
       "cekirdek_odalar": [
-        "salon", "ebeveyn", "yatak", "yatak", "mutfak",
-        "duslu_wc", "antre", "koridor", "balkon"
+        "salon",
+        "koridor",
+        "mutfak",
+        "yatak_1",
+        "yatak_2",
+        "yatak_3",
+        "kucuk_wc",
+        "wc_dus"
       ],
+      "net_m2_araligi": [
+        75,
+        100
+      ],
+      "veri_satiri": 2,
+      "guven": "orta",
       "kosullu_odalar": [
         {
           "tip": "ebeveyn_banyo",
-          "kosul": { "brut_m2_min": null },
-          "gerekce": "Ticari satista avantaj. Alan yeterse konur.",
-          "esik_kaynagi": "OLCULMEDI — Excel bekleniyor"
-        },
-        {
-          "tip": "misafir_wc",
-          "kosul": { "brut_m2_min": null },
-          "gerekce": "Giris bolgesinde misafir wc'si. Buyuk dairelerde ayrilir.",
-          "esik_kaynagi": "OLCULMEDI — Excel bekleniyor"
+          "kosul": {
+            "net_m2_min": null
+          },
+          "hipotez": {
+            "net_m2_min": 100,
+            "dayanak": "3+1'de wc+dus 75 m2'de 6 m2, 100 m2'de 12 m2 — tam iki kati. Tek banyonun iki katina cikmasi yerine ikinci islak hacmin belirmesi daha olasi.",
+            "durum": "DOGRULANMADI — mimarin onayi bekleniyor"
+          },
+          "esik_kaynagi": "HIPOTEZ, olculmedi"
         }
       ]
+    },
+    "4+1": {
+      "cekirdek_odalar": [
+        "salon",
+        "antre",
+        "koridor",
+        "mutfak",
+        "eb_yatak_1",
+        "yatak_2",
+        "yatak_3",
+        "yatak_4",
+        "wc_dus",
+        "wc_camasir"
+      ],
+      "net_m2_araligi": [
+        140,
+        225
+      ],
+      "veri_satiri": 4,
+      "guven": "yuksek"
     }
   },
-
   "alan_dagilimi": {
-    "_yontem": "Her oda tipi icin alan = f(daire brut m2). Excel'deki cozumlerden dogrusal regresyonla cikarilacak; bant genisligi (min/max) veri sacilimindan alinacak, elle secilmeyecek.",
-    "_bicim": "tip -> { 'egim': a, 'sabit': b, 'bant': s }  ==>  hedef = a*brut + b, min = hedef - s, max = hedef + s",
-    "tipler": {}
+    "_yontem": "alan = oran x net_m2 (oransal) veya sabit deger. Murat Turna'nin m2 tablosundan cikarildi, 31.07.2026.",
+    "_uyari": "2+1 tabloda tek satir oldugu icin katsayi cikarilamadi. 1+1 ve 3+1 iki satira dayaniyor — guven dusuk.",
+    "tipler": {
+      "1+0": {
+        "yatak": {
+          "cins": "oransal",
+          "oran": 0.7975,
+          "oran_min": 0.75,
+          "oran_max": 0.8462
+        },
+        "wc_dus": {
+          "cins": "oransal",
+          "oran": 0.2025,
+          "oran_min": 0.1538,
+          "oran_max": 0.25
+        }
+      },
+      "1+1": {
+        "salon_mutfak": {
+          "cins": "oransal",
+          "oran": 0.4586,
+          "oran_min": 0.4444,
+          "oran_max": 0.4727
+        },
+        "koridor": {
+          "cins": "oransal",
+          "oran": 0.0788,
+          "oran_min": 0.0667,
+          "oran_max": 0.0909
+        },
+        "yatak": {
+          "cins": "sabit",
+          "deger_m2": 14.0
+        },
+        "wc_dus": {
+          "cins": "oransal",
+          "oran": 0.1798,
+          "oran_min": 0.1778,
+          "oran_max": 0.1818
+        }
+      },
+      "3+1": {
+        "salon": {
+          "cins": "oransal",
+          "oran": 0.2833,
+          "oran_min": 0.2667,
+          "oran_max": 0.3
+        },
+        "koridor": {
+          "cins": "oransal",
+          "oran": 0.089,
+          "oran_min": 0.088,
+          "oran_max": 0.09
+        },
+        "mutfak": {
+          "cins": "oransal",
+          "oran": 0.12,
+          "oran_min": 0.12,
+          "oran_max": 0.12
+        },
+        "yatak_1": {
+          "cins": "oransal",
+          "oran": 0.1333,
+          "oran_min": 0.12,
+          "oran_max": 0.1467
+        },
+        "yatak_2": {
+          "cins": "oransal",
+          "oran": 0.12,
+          "oran_min": 0.12,
+          "oran_max": 0.12
+        },
+        "yatak_3": {
+          "cins": "oransal",
+          "oran": 0.11,
+          "oran_min": 0.1,
+          "oran_max": 0.12
+        },
+        "kucuk_wc": {
+          "cins": "sabit",
+          "deger_m2": 4.0
+        },
+        "wc_dus": {
+          "cins": "oransal",
+          "oran": 0.1,
+          "oran_min": 0.08,
+          "oran_max": 0.12
+        }
+      },
+      "4+1": {
+        "salon": {
+          "cins": "oransal",
+          "oran": 0.2119,
+          "oran_min": 0.2,
+          "oran_max": 0.2222
+        },
+        "antre": {
+          "cins": "oransal",
+          "oran": 0.0672,
+          "oran_min": 0.0643,
+          "oran_max": 0.0711
+        },
+        "koridor": {
+          "cins": "oransal",
+          "oran": 0.0528,
+          "oran_min": 0.05,
+          "oran_max": 0.0556
+        },
+        "mutfak": {
+          "cins": "oransal",
+          "oran": 0.1138,
+          "oran_min": 0.1111,
+          "oran_max": 0.1156
+        },
+        "eb_yatak_1": {
+          "cins": "oransal",
+          "oran": 0.1315,
+          "oran_min": 0.1238,
+          "oran_max": 0.1357
+        },
+        "yatak_2": {
+          "cins": "oransal",
+          "oran": 0.1081,
+          "oran_min": 0.1022,
+          "oran_max": 0.1143
+        },
+        "yatak_3": {
+          "cins": "oransal",
+          "oran": 0.0983,
+          "oran_min": 0.0952,
+          "oran_max": 0.1
+        },
+        "yatak_4": {
+          "cins": "oransal",
+          "oran": 0.0937,
+          "oran_min": 0.0857,
+          "oran_max": 0.1
+        },
+        "wc_dus": {
+          "cins": "oransal",
+          "oran": 0.0684,
+          "oran_min": 0.0643,
+          "oran_max": 0.0714
+        },
+        "wc_camasir": {
+          "cins": "oransal",
+          "oran": 0.0448,
+          "oran_min": 0.0429,
+          "oran_max": 0.0476
+        }
+      }
+    }
   },
-
   "_esik_bulma_yontemi": [
     "Olculen ipucu (31.07.2026, 12.00 x 10.00 m = 120 m2 brut):",
     "  A senaryosu — tek duslu wc: odalarin cogu alan bandinin UST sinirina yapisti (Ebeveyn 20.0/max 20.0, Yatak 15.0/max 15.0). Farkli topoloji: 4.",

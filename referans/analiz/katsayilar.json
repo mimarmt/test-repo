@@ -1,0 +1,154 @@
+{
+  "1+0": {
+    "yatak": {
+      "egim": 0.9327,
+      "sabit": -4.88,
+      "pay_ort": 0.7975,
+      "cins": "TABANLI"
+    },
+    "wc_dus": {
+      "egim": 0.0673,
+      "sabit": 4.88,
+      "pay_ort": 0.2025,
+      "cins": "TABANLI"
+    }
+  },
+  "1+1": {
+    "salon_mutfak": {
+      "egim": 0.6,
+      "sabit": -7.0,
+      "pay_ort": 0.4586,
+      "cins": "TABANLI"
+    },
+    "koridor": {
+      "egim": 0.2,
+      "sabit": -6.0,
+      "pay_ort": 0.0788,
+      "cins": "TABANLI"
+    },
+    "yatak": {
+      "egim": -0.0,
+      "sabit": 14.0,
+      "pay_ort": 0.2828,
+      "cins": "SABIT"
+    },
+    "wc_dus": {
+      "egim": 0.2,
+      "sabit": -1.0,
+      "pay_ort": 0.1798,
+      "cins": "ORANSAL"
+    }
+  },
+  "3+1": {
+    "salon": {
+      "egim": 0.4,
+      "sabit": -10.0,
+      "pay_ort": 0.2833,
+      "cins": "TABANLI"
+    },
+    "koridor": {
+      "egim": 0.096,
+      "sabit": -0.6,
+      "pay_ort": 0.089,
+      "cins": "ORANSAL"
+    },
+    "mutfak": {
+      "egim": 0.12,
+      "sabit": -0.0,
+      "pay_ort": 0.12,
+      "cins": "ORANSAL"
+    },
+    "yatak_1": {
+      "egim": 0.04,
+      "sabit": 8.0,
+      "pay_ort": 0.1333,
+      "cins": "TABANLI"
+    },
+    "yatak_2": {
+      "egim": 0.12,
+      "sabit": -0.0,
+      "pay_ort": 0.12,
+      "cins": "ORANSAL"
+    },
+    "yatak_3": {
+      "egim": 0.04,
+      "sabit": 6.0,
+      "pay_ort": 0.11,
+      "cins": "TABANLI"
+    },
+    "kucuk_wc": {
+      "egim": -0.0,
+      "sabit": 4.0,
+      "pay_ort": 0.0467,
+      "cins": "SABIT"
+    },
+    "wc_dus": {
+      "egim": 0.24,
+      "sabit": -12.0,
+      "pay_ort": 0.1,
+      "cins": "TABANLI"
+    }
+  },
+  "4+1": {
+    "salon": {
+      "egim": 0.2157,
+      "sabit": -0.71,
+      "pay_ort": 0.2119,
+      "cins": "ORANSAL"
+    },
+    "antre": {
+      "egim": 0.0791,
+      "sabit": -2.18,
+      "pay_ort": 0.0672,
+      "cins": "TABANLI"
+    },
+    "koridor": {
+      "egim": 0.0569,
+      "sabit": -0.74,
+      "pay_ort": 0.0528,
+      "cins": "ORANSAL"
+    },
+    "mutfak": {
+      "egim": 0.1179,
+      "sabit": -0.76,
+      "pay_ort": 0.1138,
+      "cins": "ORANSAL"
+    },
+    "eb_yatak_1": {
+      "egim": 0.1194,
+      "sabit": 2.21,
+      "pay_ort": 0.1315,
+      "cins": "ORANSAL"
+    },
+    "yatak_2": {
+      "egim": 0.0821,
+      "sabit": 4.76,
+      "pay_ort": 0.1081,
+      "cins": "TABANLI"
+    },
+    "yatak_3": {
+      "egim": 0.0907,
+      "sabit": 1.39,
+      "pay_ort": 0.0983,
+      "cins": "ORANSAL"
+    },
+    "yatak_4": {
+      "egim": 0.0634,
+      "sabit": 5.53,
+      "pay_ort": 0.0937,
+      "cins": "TABANLI"
+    },
+    "wc_dus": {
+      "egim": 0.0841,
+      "sabit": -2.88,
+      "pay_ort": 0.0684,
+      "cins": "TABANLI"
+    },
+    "wc_camasir": {
+      "egim": 0.0504,
+      "sabit": -1.01,
+      "pay_ort": 0.0448,
+      "cins": "ORANSAL"
+    }
+  }
+}
