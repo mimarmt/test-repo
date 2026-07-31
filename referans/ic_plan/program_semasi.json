@@ -67,20 +67,8 @@
       ],
       "veri_satiri": 2,
       "guven": "orta",
-      "kosullu_odalar": [
-        {
-          "tip": "ebeveyn_banyo",
-          "kosul": {
-            "net_m2_min": null
-          },
-          "hipotez": {
-            "net_m2_min": 100,
-            "dayanak": "3+1'de wc+dus 75 m2'de 6 m2, 100 m2'de 12 m2 — tam iki kati. Tek banyonun iki katina cikmasi yerine ikinci islak hacmin belirmesi daha olasi.",
-            "durum": "DOGRULANMADI — mimarin onayi bekleniyor"
-          },
-          "esik_kaynagi": "HIPOTEZ, olculmedi"
-        }
-      ]
+      "kosullu_odalar": [],
+      "_ebeveyn_banyo_notu": "HIPOTEZ CURUDU. Murat Turna, 31.07.2026: 3+1/100 m2 satirindaki 12 m2 TEK bir duslu wc'dir, iki ayri islak hacim degil. Dolayisiyla 'ebeveyn banyosu esigi ~100 m2' cikarimi gecersizdir ve 3+1 cekirdek programina ebeveyn_banyo GIRMEZ. Tabloda hicbir tipolojide ebeveyn banyosu yok."
     },
     "4+1": {
       "cekirdek_odalar": [
@@ -190,7 +178,8 @@
           "cins": "oransal",
           "oran": 0.1,
           "oran_min": 0.08,
-          "oran_max": 0.12
+          "oran_max": 0.12,
+          "_not": "Mimar dogruladi: TEK oda. Pay %8 -> %12, egim +0.24. Marjinal m2'nin dortte biri banyoya gidiyor; bu bir bolunme degil, banyonun genislemesi."
         }
       },
       "4+1": {
