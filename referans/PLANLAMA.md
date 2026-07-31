@@ -226,7 +226,7 @@ Tanımlı bitiş ölçütü olmadan bu proje bitmez. Dört sayı öneriyorum:
 ## 5. Şimdi yapmayın
 
 - **Daha fazla kural yazmak.** Asıl uyarı bu. Ölçüt kurulmadan yazılan her kural, doğruluğu bilinmeyen bir düğme daha ekler.
-- **ML / Graph2Plan / House-GAN.** RPLAN veri seti Çin apartmanlarıdır; balkon zorunluluğu, ıslak şaft, kapalı mutfak gibi TR konut tipolojisine oturmaz. Dahası kısıt **garantisi** vermez — sizin kalite ölçütünüz "bir mimarın gözüyle savunulabilir olmalı"; CP-SAT bunu garanti eder, üretici model edemez. Referans kümeniz 500+ plana çıkarsa yeniden konuşulur.
+- **ML / Graph2Plan / House-GAN.** *(RPLAN veri setinin Çin konut stoğuna dayandığı ve TR tipolojisine — balkon zorunluluğu, ıslak şaft, kapalı mutfak — oturmadığı bilgisi **hafızadandır, doğrulanmadı.** Bu yolu ciddi olarak değerlendirecekseniz önce veri setine bakın.)* Doğrulanmış gerekçe şu: üretici model kısıt **garantisi** vermez — sizin kalite ölçütünüz "bir mimarın gözüyle savunulabilir olmalı"; CP-SAT bunu garanti eder, üretici model edemez. Referans kümeniz 500+ plana çıkarsa yeniden konuşulur.
 - **Aşama C retrieval.** Arşivi ölçüt olarak kullanın (Ö1), retrieval'i C'de bırakın.
 - **Ters çözüm / hedefleme.** `PARAMETRE_SEMASI.md` md.10c zaten "iskelet kurulmadan başlanmaz" diyor. Katılıyorum.
 
