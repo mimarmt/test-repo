@@ -73,7 +73,47 @@ grep -rn "sinav" araclar/test/ conftest.py 2>/dev/null | head
 
 ---
 
-## 1. TEŞHİS — doğrulanırsa
+## ⛔ GEÇERSİZ — 01.08.2026, ÖLÇÜMLE ÇÜRÜDÜ
+
+**D1–D5 koşuldu. Beşten ikisi tutmadı ve bu belgenin üç işini geçersiz kılıyor.**
+
+| İş | Durum | Ölçülen |
+|---|---|---|
+| **İŞ 1** (eşlemeyi doldur) | ❌ **YANLIŞ VARSAYIM** | Eşleme **dolu** — 12 satır, 30.07.2026. Mimar zaten yapmış. |
+| **İŞ 4** (10. planı ekle) | ❌ **ANLAMSIZ** | Kullanılabilir plan sayısı **0** — 10. plan eklemek çözmez |
+| **İŞ 5** (yeni tavan koy) | ❌ **YASAK** | Kural kitabı sabit yüzdeyi açıkça reddediyor: *"uydurma esiktir"* |
+| **İŞ 2** (regresyon bekçisi) | ✅ **DOĞRULANDI** | Sınavı koşan test yok; 3 kayıt birebir aynı |
+| **İŞ 3** (taban çizgisi) | ✅ **DOĞRULANDI** | — |
+
+### Asıl engel — bu belgenin göremediği
+
+Arşivde 203 mahal var, dört ayrı kusurla:
+
+1. **`ODA` — 39 kez**, eşleşmiyor. En sık mahal adı. Kural 1.6 gereği **mimarın kararı**, ajan uyduramaz.
+2. **Yazım varyantları** — `DUS`/`DUŞ`, `Y.ODASI`/`Y ODASI`, `BLK.`/`BALKON`. Normalleştirme yok. Makine işi.
+3. **Daire dışı mahaller** — `ASANSÖR` (9×), `KİLER` (2×). "Eşleşmiyor" değil, **kapsam dışı** sayılmalı.
+4. **Mahallerin %35'inde alan yok** — 203'ün 71'inde `m2: null`. `BANYO`'nun 27 kaydından 17'si alansız.
+
+**Sonuç: tam eşleşen ve alanı eksiksiz olan plan sayısı = 0.**
+Yani darboğaz `N ≥ 10` eşiği değil; hat **hiç kullanılabilir kayıt üretmiyor**.
+
+### Neden yanıldım
+
+Şemadaki `TIKANIK: mahal→rol eslemesi bos, N=0` etiketini **güncel durum**
+sandım. O bir **anlık görüntüydü**; dosya 30.07'de doldurulmuş, şema
+güncellenmemiş. Diyagram etiketini ölçüm yerine koydum.
+
+İŞ 5 daha kötü: bu belgenin kendi 10. bölümü *"%19.83 tek daireden, n=1'e
+dayanmaktır"* diye uyarıyor, ama aynı belge onu 5. iş olarak sıraya koyuyor.
+**Belge kendi içinde çelişiyordu.**
+
+### Geçerli olan
+
+`İŞ 2` ve `İŞ 3` (aşağıda, bölüm 3–4). Diğerleri için `DEVIR.md`'ye bak.
+
+---
+
+## 1. TEŞHİS — ⛔ AŞAĞIDAKİ BÖLÜM ÇÜRÜDÜ, KAYIT İÇİN DURUYOR
 
 Öğrenme hattı **eksiksiz kurulmuş** ve **çalışır durumda**. Sorun eksik parça
 değil, **ortada kapalı bir vana**.

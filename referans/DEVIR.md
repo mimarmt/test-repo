@@ -19,7 +19,10 @@ Buradaki `referans/ic_plan/` bağımsız bir referans motorudur — üretim kodu
 | Ölçüt | Değer | Kaynak |
 |---|---|---|
 | Sınav notu | **4.48** (n=1, `Daire2.dxf`, 2+1, net 73.37 m²) | mimarın sistemi |
-| Orana giren plan | **0 / 9** | şemadaki `TIKANIK` |
+| Orana giren plan | **0 / 9** | ölçüldü 01.08 |
+| **Kullanılabilir plan** (tam eşleşen + alanlı) | **0** | ölçüldü 01.08 |
+| Arşivdeki mahal | 203 · **%35'i alansız** (`m2: null`) | ölçüldü 01.08 |
+| Eşleşmeyen en sık ad | `ODA` — **39 kez** | ölçüldü 01.08 |
 | Arşivdeki plan | 9 (2+1: 7 · 3+1: 2) · eşik **N ≥ 10** | `plan_arsivi.jsonl` |
 | Eksik oda tipi | **1** — balkon | sınav |
 | Sirkülasyon | gerçek **%19.83** · üretilen %10.1 · kural **%8** | sınav |
@@ -54,8 +57,11 @@ Buradaki `referans/ic_plan/` bağımsız bir referans motorudur — üretim kodu
 
 | # | Soru | Kime | Neden önemli |
 |---|---|---|---|
-| **A1** | Şemada `ÖLÇÜM/SON SÖZ` → `KURAL VE PARAMETRE` **geri oku var mı**? | Murat | Varsa tek iş (vana), yoksa iki iş |
-| **A2** | `BRIFING_v2.md` D1–D5 doğrulama çıktıları | Mac oturumu | Teşhis çıkarım, ölçüm değil |
+| ~~A1~~ | ~~Şemada geri ok~~ | **CEVAPLANDI** | Ok fiilen yok — sınav hiçbir kural değişiminde koşmuyor |
+| ~~A2~~ | ~~D1–D5~~ | **CEVAPLANDI** | 5'ten 2'si tutmadı; BRIFING_v2 İŞ 1/4/5 geçersiz |
+| **A6** | **`ODA` (39×) ne demek** — `yatak` mı, onay kuyruğuna mı? | Murat | Tek başına en büyük kalem |
+| **A7** | 9 kayıt gerçekten 9 **daire** mi, bazıları **kat planı** mı? | ölçülecek | 38/29/27 mahalli kayıtlar var; `ASANSÖR` geçiyor. Doğruysa `N ≥ 10` yanlış şey sayıyor |
+| **A8** | Mahallerin %35'i neden **alansız**? OCR mi, pafta mı? | ölçülecek | Alan yoksa oran hesaplanamaz — asıl tavan bu olabilir |
 | **A3** | Net/brüt: oda dikdörtgeni **eksen mi net iç yüz mü**? Duvar kalınlığı? | Murat | Sınav notunun mutlak değeri buna bağlı |
 | **A4** | 2+1 için ikinci satır (**95 veya 55** — 87 değil) | Murat | 6 katsayı tanımsız → tanımlı |
 | **A5** | 4+1 / 210 m² satırındaki **8 m² açık** | Murat | Oran toplamı 0.9886, 1.0 olmalı |
