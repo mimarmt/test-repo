@@ -218,3 +218,39 @@ Onunla iki şey birden yapılır:
    (AJAN_MIMARISI §5'in ölçütü — eliyorsa kural yanlış, plan değil)
 2. **Hol biçiminin gerçek karşılığı:** kaç dikdörtgene bölünüyor, kaç oda
    hangi parçaya açılıyor. Modelin doğru formülasyonu buradan çıkar.
+
+---
+
+## 7. Son ölçüm — "tek oran tutuyor mu?" (01.08.2026)
+
+Mimarın kendi motorunda sorduğu soru: oda başına **tek oran** yeterli mi,
+yoksa net alana göre değişen sayı mı gerekiyor?
+
+Oranın satırdan satıra yayılımı (puan):
+
+| | 4+1 (tüm satırlar) | 4+1 (210 hariç) | 3+1 |
+|---|---|---|---|
+| en büyük yayılım | **salon 2.22** | **yatak_2 1.21** | **wc_dus 4.00** |
+| bağıl | %10.5 | — | **%40.0** |
+
+**4+1 → tek oran tutuyor.** Üst m²'de en kötü hata salon'da 5 m², diğer
+odalarda 1–3 m². Mimarın "en fazla 1.2 puan" ölçümü doğru, ama yalnızca
+**210 m² satırı dışarıda bırakıldığında**. Bu savunulabilir bir tercih
+(o satırda 8 m² aritmetik açık var) ama yazılmalı. Veri ajanının önerisi
+satırı atmak değil, net'i 202 kabul edip normalize etmekti — atmak
+4+1'i n=4'ten n=3'e düşürür ve güven aralığını %195 genişletir.
+
+**3+1 → tek oran TUTMUYOR.** En büyük yayılım `wc_dus`'ta 4.00 puan (%40),
+eşiğin 3.3 katı. Ve bu, mimarın "6 ile 12 m² arası" dediği odanın ta
+kendisi. Buradaki yayılım gürültü değil, **bilinçli tasarım bandı** —
+3+1'de iki satır olduğu için yayılım doğrudan bandın kendisidir.
+Tek oran, iki katına çıkan bir odayı temsil edemez.
+
+Diğer 3+1 sapmaları: `kucuk_wc` %28.6 · `yatak_1` %20.0 · `yatak_3` %18.2
+
+**Öneri:** şema `oran` + `[alt, üst]` taşısın. 4+1'de bant dar olur
+(oran zaten yeter), 3+1'de `wc_dus`'ta 6–12 olarak gerçek işini görür.
+
+Form tercihi bu arada doğru: LOOCV ile üç model karşılaştırıldığında
+oransal, hem sabiti hem kesişimli doğrusalı yeniyor
+(RMSE 1.15 vs 4.69 vs 1.39). Eksik olan tek şey bandın yanında durması.
