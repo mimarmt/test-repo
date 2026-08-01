@@ -1,0 +1,332 @@
+<style>
+:root{
+ --bg:#070A0F; --p1:#0D131C; --p2:#131B26; --p3:#18222F; --hair:#1E2A38;
+ --tx:#E6ECF3; --tx2:#8494A8; --tx3:#556577;
+ --cy:#2FD4DE; --am:#FFB03A; --mg:#FF5C8A; --bl:#5B92FF; --gr:#3EE08F; --vi:#A97BFF;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--tx);
+ font:400 15px/1.62 "Inter","Helvetica Neue",Arial,sans-serif;
+ -webkit-font-smoothing:antialiased;padding:26px 20px 70px}
+.kap{max-width:1080px;margin:0 auto}
+.m{font-family:"SF Mono",Menlo,Consolas,monospace;font-variant-numeric:tabular-nums}
+.et{font-size:9.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--tx3);font-weight:700}
+
+h1{font-size:21px;font-weight:600;letter-spacing:.01em;margin-bottom:5px}
+h2{font-size:15px;font-weight:600;letter-spacing:.02em;margin:38px 0 13px;
+   padding-bottom:8px;border-bottom:1px solid var(--hair)}
+h3{font-size:13.5px;font-weight:600;margin:0 0 7px}
+p{margin:0 0 11px;color:#C9D4E0}
+strong{color:var(--tx);font-weight:600}
+code{font-family:"SF Mono",Menlo,Consolas,monospace;font-size:12.5px;
+ background:var(--p3);padding:1.5px 6px;border-radius:4px;color:var(--cy)}
+
+.ust{padding-bottom:18px;border-bottom:1px solid var(--hair);margin-bottom:8px}
+.ust .alt{color:var(--tx2);font-size:13px;margin-top:3px}
+
+.vur{background:var(--p1);border:1px solid var(--hair);border-left:3px solid var(--am);
+ border-radius:9px;padding:16px 18px;margin:16px 0}
+.vur.kirmizi{border-left-color:var(--mg)}
+.vur.yesil{border-left-color:var(--gr)}
+.vur.mavi{border-left-color:var(--bl)}
+.vur h3{color:var(--am)}
+.vur.kirmizi h3{color:var(--mg)}
+.vur.yesil h3{color:var(--gr)}
+.vur.mavi h3{color:var(--bl)}
+.vur p:last-child{margin-bottom:0}
+
+.zincir{background:var(--p1);border:1px solid var(--hair);border-radius:9px;
+ padding:18px 16px;margin:18px 0;overflow-x:auto}
+.zincir pre{font-family:"SF Mono",Menlo,Consolas,monospace;font-size:12.5px;
+ line-height:1.85;color:#C9D4E0;white-space:pre}
+.zincir .kotu{color:var(--mg);font-weight:700}
+.zincir .iyi{color:var(--gr)}
+.zincir .not{color:var(--tx3)}
+
+.ist{background:var(--p1);border:1px solid var(--hair);border-radius:10px;
+ padding:0;margin:14px 0;overflow:hidden}
+.ist .bas{display:flex;align-items:center;gap:11px;padding:13px 17px;
+ background:var(--p2);border-bottom:1px solid var(--hair);flex-wrap:wrap}
+.ist .bas .no{font-family:"SF Mono",Menlo,Consolas,monospace;font-size:11px;
+ background:var(--p3);color:var(--tx2);padding:2.5px 8px;border-radius:5px;font-weight:700}
+.ist .bas .ad{font-size:14px;font-weight:600;letter-spacing:.02em}
+.ist .gvd{padding:15px 17px}
+.ist .sat{display:grid;grid-template-columns:118px 1fr;gap:13px;padding:9px 0;
+ border-bottom:1px dashed var(--hair)}
+.ist .sat:last-child{border-bottom:0;padding-bottom:0}
+.ist .sat .bsl{font-size:9.5px;letter-spacing:.16em;text-transform:uppercase;
+ color:var(--tx3);font-weight:700;padding-top:3px}
+.ist .sat .icr{font-size:13.5px;color:#C9D4E0}
+.ist .sat .icr b{color:var(--tx)}
+
+.rz{display:inline-block;font-size:10.5px;font-weight:700;padding:2.5px 9px;
+ border-radius:20px;letter-spacing:.05em;margin-left:4px}
+.rz.tik{background:rgba(255,92,138,.14);color:var(--mg);border:1px solid rgba(255,92,138,.3)}
+.rz.ok{background:rgba(62,224,143,.13);color:var(--gr);border:1px solid rgba(62,224,143,.28)}
+.rz.bek{background:rgba(255,176,58,.13);color:var(--am);border:1px solid rgba(255,176,58,.3)}
+
+table{width:100%;border-collapse:collapse;margin:14px 0;font-size:13.5px}
+th{text-align:left;font-size:9.5px;letter-spacing:.16em;text-transform:uppercase;
+ color:var(--tx3);font-weight:700;padding:8px 11px;border-bottom:1px solid var(--hair)}
+td{padding:9px 11px;border-bottom:1px solid rgba(30,42,56,.55);color:#C9D4E0;vertical-align:top}
+tr:last-child td{border-bottom:0}
+td b{color:var(--tx)}
+
+ul{margin:0 0 11px 19px;color:#C9D4E0}
+li{margin-bottom:6px}
+
+.dip{margin-top:44px;padding-top:16px;border-top:1px solid var(--hair);
+ color:var(--tx3);font-size:12.5px}
+</style>
+
+<div class="kap">
+
+<div class="ust">
+  <div class="et">Şema denetimi · Claude notları</div>
+  <h1>Mimari Şema — okundu, işaretlendi</h1>
+  <div class="alt">7 diyagram · 49 karar kartı · 01.08.2026</div>
+</div>
+
+<div class="vur kirmizi">
+  <h3>Önce: şemanız beni düzeltiyor</h3>
+  <p>Ben size <strong>"ölçüm → geri besleme oku yok"</strong> demiştim. Şema bunun
+  yanlış olduğunu gösteriyor. <strong>Ok var. Vana kapalı.</strong></p>
+  <p>Üstelik şema tıkanıklığın <em>tam yerini</em> zaten yazmış — üç ayrı yerde,
+  kendi elinizle:</p>
+  <ul>
+    <li><code>TIKANIK: mahal→rol eslemesi bos, N=0</code></li>
+    <li><code>TIKANIK: 9 plan var, 0 tanesi orana giriyor</code></li>
+    <li><code>bekliyor: N ≥ 10 (bugun 0)</code></li>
+  </ul>
+  <p>Yani sistem kendi tıkanıklığını biliyor ve yazmış. Benim iki gündür
+  aradığım cevap şemada duruyordu.</p>
+</div>
+
+<h2>Nedensel zincir — dokuz plan neden orana girmiyor</h2>
+
+<div class="zincir"><pre>  ScrapingBee <span class="kotu">TAKILI</span> (29.07)
+        │
+        ▼
+  toplama durdu  ──────────────►  arşiv <span class="kotu">9 planda kaldı</span>
+        │
+        ▼
+  mahal → rol eşlemesi <span class="kotu">BOŞ</span>
+        │                          <span class="not">← ASIL VANA BURASI</span>
+        ▼
+  9 planın <span class="kotu">0'ı</span> role çevrilebiliyor
+        │
+        ▼
+  orana giren plan = <span class="kotu">0</span>   ·   eşik: N ≥ 10
+        │
+        ▼
+  parametre <span class="kotu">güncellenmiyor</span>
+        │
+        ▼
+  sınav notu <span class="kotu">4.48'de sabit</span>  <span class="not">(3 kayıttan 2'si birebir aynı)</span></pre></div>
+
+<div class="vur">
+  <h3>Tek vana: <code>mahal_rol_eslemesi.json</code></h3>
+  <p>Zincirin her halkası çalışıyor — biri hariç. Toplanan planlardaki oda
+  adları ("oturma odası", "salon", "yaşam alanı", "L salon"...) sistemin
+  tiplerine (<code>salon</code>, <code>yatak</code>, <code>duslu_wc</code>…)
+  çevrilemiyor, çünkü sözlük boş.</p>
+  <p><strong>Bu bir mimari sorun değil, bir eşleme tablosu.</strong> Doldurulduğu
+  an 9 plan akmaya başlar. Ve eşik N ≥ 10 ise, <strong>tek bir plan daha</strong>
+  öğrenmeyi ilk kez tetikler.</p>
+</div>
+
+<h2>İstasyon istasyon notlar</h2>
+
+<div class="ist">
+  <div class="bas"><span class="no">1</span><span class="ad">TOPLAMA</span>
+    <span class="rz tik">TIKANIK</span></div>
+  <div class="gvd">
+    <div class="sat"><div class="bsl">Şemada</div><div class="icr">
+      <code>ScrapingBee TAKILI</code> · <code>E12 ile birlikte</code> ·
+      <code>bekliyor: önce veri aksın (F9)</code></div></div>
+    <div class="sat"><div class="bsl">Notum</div><div class="icr">
+      Tıkanık ama <b>kritik yolda değil</b>. Elinizde zaten 9 plan var ve
+      hiçbiri kullanılmıyor. Önce mevcut 9'u akıtın, sonra musluğu açın.
+      Tersini yaparsanız kullanılmayan planı 90'a çıkarmış olursunuz.</div></div>
+    <div class="sat"><div class="bsl">Sıra</div><div class="icr">
+      <b>Sonra.</b> ScrapingBee'yi şimdi düzeltmek erken.</div></div>
+  </div>
+</div>
+
+<div class="ist">
+  <div class="bas"><span class="no">2</span><span class="ad">MAHAL → ROL EŞLEMESİ</span>
+    <span class="rz tik">ASIL DARBOĞAZ</span></div>
+  <div class="gvd">
+    <div class="sat"><div class="bsl">Şemada</div><div class="icr">
+      <code>TIKANIK: mahal→rol eslemesi bos, N=0</code></div></div>
+    <div class="sat"><div class="bsl">Notum</div><div class="icr">
+      <b>Bütün zincir buradan kilitli.</b> Ve çözümü en ucuz olan yer de burası —
+      kod değil, veri. Elinizdeki 9 planın oda adlarını listeleyip karşılığını
+      yazmak birkaç saatlik iş.</div></div>
+    <div class="sat"><div class="bsl">Nasıl</div><div class="icr">
+      9 plandaki <b>benzersiz oda adlarını</b> dökün, sıklığa göre sıralayın,
+      en sık 20'sini eşleyin. Kuyruğu bırakın — <code>onay_kuyrugu</code>'na
+      düşsün, siz onaylayın. Eşleşmeyen adı <b>uydurmayın</b>; şemanızın kendi
+      kuralı: <code>kaynaksiz sayi giremez</code>.</div></div>
+    <div class="sat"><div class="bsl">Sıra</div><div class="icr">
+      <b>BİRİNCİ İŞ.</b> Bugün yapılabilir, tek dosya.</div></div>
+  </div>
+</div>
+
+<div class="ist">
+  <div class="bas"><span class="no">3</span><span class="ad">PARAMETRE / ORAN</span>
+    <span class="rz tik">TIKANIK</span></div>
+  <div class="gvd">
+    <div class="sat"><div class="bsl">Şemada</div><div class="icr">
+      <code>TIKANIK: 9 plan var, 0 tanesi orana giriyor</code> ·
+      <code>PARAMETRE — kural DEGIL</code> ·
+      <code>olcumle degisir, kural DEGIL</code></div></div>
+    <div class="sat"><div class="bsl">Notum</div><div class="icr">
+      <b>Bu ayrım doğru ve korunmalı.</b> Parametre ölçümle değişir, kural
+      mimarla değişir — iki farklı yetki. Şemada net durması, sistemin
+      olgunluk işareti.</div></div>
+    <div class="sat"><div class="bsl">Uyarı</div><div class="icr">
+      Eşleme dolunca oranlar akmaya başlayacak. O an <b>belirsizliği gizlemeyin</b>:
+      2 veri noktasından çıkan katsayının hata payı <b>hesaplanamaz</b>.
+      <code>"guven_araligi": null</code> yazın, sahte aralık uydurmayın.</div></div>
+    <div class="sat"><div class="bsl">Sıra</div><div class="icr">
+      2 numaranın hemen ardından, kendiliğinden.</div></div>
+  </div>
+</div>
+
+<div class="ist">
+  <div class="bas"><span class="no">4</span><span class="ad">ÖLÇÜM — sınav notu</span>
+    <span class="rz bek">DENETLEMİYOR</span></div>
+  <div class="gvd">
+    <div class="sat"><div class="bsl">Şemada</div><div class="icr">
+      <code>not 4.48</code> · <code>öğrenme eğrisi</code> ·
+      <code>hangisi daha iyi</code> · <code>otomatik yazma YOK</code></div></div>
+    <div class="sat"><div class="bsl">Notum</div><div class="icr">
+      <b>İkinci ve ayrı bir tıkanma bu — 2 numara çözülse bile kalır.</b>
+      Not var, yazılıyor, ama <b>hiçbir kural değişikliğini denetlemiyor</b>.
+      Kanıt: <code>sinav_notlari.jsonl</code>'daki 3 kaydın ikisi birebir aynı;
+      arada <code>max_m2</code> kaldırıldı, kural 1.10 eklendi — not kıpırdamadı.</div></div>
+    <div class="sat"><div class="bsl">Eksik</div><div class="icr">
+      <b>Regresyon bekçisi.</b> Sınavı koşan, notu taban çizgisiyle karşılaştıran,
+      <b>düşerse testi kıran</b> bir test. Tek dosya. Bu yazılmadan hiçbir kural
+      değişikliği iyi mi kötü mü bilinemez.</div></div>
+    <div class="sat"><div class="bsl">Sıra</div><div class="icr">
+      <b>İKİNCİ İŞ.</b> 2 numarayla aynı gün.</div></div>
+  </div>
+</div>
+
+<div class="ist">
+  <div class="bas"><span class="no">5</span><span class="ad">KARAR YÜKÜ</span>
+    <span class="rz bek">HIZ SINIRI</span></div>
+  <div class="gvd">
+    <div class="sat"><div class="bsl">Şemada</div><div class="icr">
+      <code>13 / 49 tamam · %27</code> ·
+      <code>MURAT'IN KARARINI BEKLIYOR</code> (A8 · A10 · B2 · D1)</div></div>
+    <div class="sat"><div class="bsl">Notum</div><div class="icr">
+      <b>49 karardan 36'sı sizde bekliyor.</b> Projenin gerçek hız sınırı
+      kod değil, bu kuyruk. Ve kuyruk uzadıkça her yeni karar öncekilerle
+      çelişme riski taşıyor.</div></div>
+    <div class="sat"><div class="bsl">Öneri</div><div class="icr">
+      Kuyruğu <b>etkiye göre</b> sıralayın, sıraya göre değil. Ölçütünüz şu
+      olsun: <b>"bu karar sınav notunu oynatır mı?"</b> Oynatmıyorsa bekleyebilir.
+      Bu ölçüt 4 numara kurulmadan uygulanamaz — bir sebep daha.</div></div>
+  </div>
+</div>
+
+<div class="ist">
+  <div class="bas"><span class="no">6</span><span class="ad">ÜRETİM / MOTOR</span>
+    <span class="rz ok">SAĞLAM</span></div>
+  <div class="gvd">
+    <div class="sat"><div class="bsl">Şemada</div><div class="icr">
+      <code>CP-SAT · 6 varyant · tur başına 20 sn</code> · <code>16 kural</code> ·
+      <code>hard ihlal = 0 olmalı</code> · <code>en fazla 18 tur</code></div></div>
+    <div class="sat"><div class="bsl">Notum</div><div class="icr">
+      Burada sorun yok. Aksine, bugün benim bulmaya çalıştığım <b>üç şey
+      sizde zaten çözülmüş</b> — aşağıya ayırdım.</div></div>
+  </div>
+</div>
+
+<h2>Şemanızda zaten çözülmüş — bugün ben bunları arıyordum</h2>
+
+<table>
+<tr><th>Şemada yazan</th><th>Benim bugün yaşadığım</th></tr>
+<tr><td><code>net alan &lt; 90 m² mi?</code> → <code>sirkulasyon tek hacim: antre</code> /
+  <code>giris_holu + koridor</code></td>
+  <td>Sirkülasyonun tipolojiye göre tek mi çift mi olduğunu bulamayıp saatlerce
+  tıkandım. <b>Siz dallanmayı zaten kurmuşsunuz.</b></td></tr>
+<tr><td><code>KOMSULUK ile ERISIM ayri seydir</code></td>
+  <td>Bunu bugün keşfettim ve size "modelde eksik kavram" diye yazdım.
+  <b>Sizde yazılıymış.</b></td></tr>
+<tr><td><code>hangi kisitin bagladigi soylenir</code> ·
+  <code>bu 'cozum yok' DEMEK DEGIL</code></td>
+  <td>Çelişki çekirdeği aracını önerdim. <b>Teşhis mantığı sizde zaten var.</b></td></tr>
+<tr><td><code>o sayi arsivden olculecek, uydurulmayacak</code> ·
+  <code>kaynaksiz sayi giremez</code></td>
+  <td>Uydurduğum alan bantları sizin 13 gerçek çözümünüzün 13'ünü birden
+  reddetmişti. <b>Kuralınız şemada, ben ihlal ettim.</b></td></tr>
+</table>
+
+<h2>İki uyarı</h2>
+
+<div class="vur kirmizi">
+  <h3>U1 · Mevzuat altı bir ölçü var</h3>
+  <p>Şemada <code>min 1.0 m² / dar kenar 0.8 m, alan artarsa acilir</code> yazıyor.
+  PAİY m.29'a göre <b>hela asgari 1.20 m², dar kenar 1.00 m</b>. Bu ölçü ruhsat
+  alamaz.</p>
+  <p class="m" style="color:var(--tx3);font-size:12px">
+  Kaynak uyarısı: madde numarası birden çok bağımsız aramada tutarlı çıktı,
+  ancak mevzuat.gov.tr'ye doğrudan erişilemedi — birincil metinden teyit edin.</p>
+</div>
+
+<div class="vur mavi">
+  <h3>U2 · Şemada göremediğim bir ok</h3>
+  <p>SVG'den <b>kutuları</b> okuyabildim ama <b>okların yönünü tam
+  çıkaramadım</b>. Şu tek soruyu cevaplarsanız teşhis kesinleşir:</p>
+  <p><strong>SON SÖZ / ÖLÇÜM kutusundan geriye, KURAL VE PARAMETRE kutusuna
+  giden bir ok var mı?</strong></p>
+  <p>Varsa: döngü kapalı, sadece vana tıkalı → tek iş 2 numara.<br>
+  Yoksa: döngü açık → 2 <em>ve</em> 4 numara birlikte gerekiyor.</p>
+</div>
+
+<h2>Sıra — şemadan çıkan hâli</h2>
+
+<table>
+<tr><th>#</th><th>İş</th><th>Süre</th><th>Neden bu sırada</th></tr>
+<tr><td><b>1</b></td><td><b>Mahal → rol eşlemesini doldur</b></td><td>birkaç saat</td>
+  <td>Tek vana. 9 plan buradan akar. Kod değil, veri.</td></tr>
+<tr><td><b>2</b></td><td><b>Regresyon bekçisi</b> — sınav notu düşerse test kırılsın</td><td>1 saat</td>
+  <td>Bundan sonra hiçbir değişiklik ölçülmeden geçemez.</td></tr>
+<tr><td><b>3</b></td><td>Taban çizgisini dondur (4.48) + notu üç bileşene ayır</td><td>1 saat</td>
+  <td>"İyileşti mi?" sorusunun sıfır noktası.</td></tr>
+<tr><td><b>4</b></td><td>Onuncu planı ekle → <code>N ≥ 10</code> eşiğini aş</td><td>yarım gün</td>
+  <td>Öğrenme ilk kez tetiklenir.</td></tr>
+<tr><td><b>5</b></td><td>Sirkülasyon tavanını gerçek veriyle ölç</td><td>5 dakika</td>
+  <td>Gerçek çizim %19.83, sistem %10.1, kural %8.</td></tr>
+<tr><td><b>6</b></td><td>Balkonu üretime sok</td><td>yarım gün</td>
+  <td>Gerçek planda var, sistemde yok. Eksik kavram, veriyle gelmez.</td></tr>
+<tr><td><b>7</b></td><td>U1'deki mevzuat ölçüsünü düzelt</td><td>10 dakika</td>
+  <td>Ruhsat engeli.</td></tr>
+<tr><td>—</td><td><s>ScrapingBee'yi düzelt</s></td><td>—</td>
+  <td><b>Bekletin.</b> Kullanılmayan 9 planı 90 yapmanın faydası yok.</td></tr>
+</table>
+
+<div class="vur yesil">
+  <h3>Dönüm noktası nerede</h3>
+  <p><b>4. adımda.</b> Onuncu plan eklendiğinde öğrenme ilk kez tetiklenecek,
+  parametre ilk kez veriden güncellenecek, ve <b>2. adımdaki bekçi</b> notun
+  yükselip yükselmediğini söyleyecek.</p>
+  <p>O an sistem ilk kez kendi kendini denetlemiş olur. Bugüne kadar olmayan
+  tek şey buydu.</p>
+</div>
+
+<div class="dip">
+  <p><b>Bu notların dayanağı:</b> yüklediğiniz <code>mimari_sema.html</code>
+  içindeki 7 SVG diyagramından çıkarılan düğüm metinleri; ayrıca daha önce
+  paylaştığınız dosya listesi, <code>sinav_notlari.jsonl</code>, <code>tercihler.json</code>
+  ve git günlüğü.</p>
+  <p><b>Yanılabileceğim yer:</b> SVG'den kutu metinlerini okudum, <b>ok yönlerini
+  okuyamadım</b>. Akış hakkındaki her hükmüm kutu içeriklerine dayanıyor.
+  U2'deki soruyu cevaplarsanız kesinleşir.</p>
+</div>
+
+</div>
