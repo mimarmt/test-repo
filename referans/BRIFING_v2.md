@@ -1,17 +1,37 @@
 # BRİFİNG v2 — Öğrenme vanasını aç
 
-**Tarih:** 01.08.2026 · **Yerine geçtiği belge:** `AKSIYON_PLANI.md` (sıralaması değişti)
-**Bu belge kendi kendine yeter.** Okuyan ajanın önceki konuşmaları bilmesi gerekmez.
+**Tarih:** 01.08.2026 · **Proje:** Parametrik Mimari Plan Geliştirme
+**Bu belge kendi kendine yeter.** Temiz bir oturuma yapıştırılabilir.
+
+---
+
+## BAŞLARKEN — bu ilk mesajsa oku
+
+Sen bu projede çalışan ajansın. Oturum temiz, önceki konuşma yok.
+
+**Önce şu üç belgeyi oku, sırayla:**
+1. `CLAUDE.md` — proje kapsamı, bağlam kuralı, kodlama kuralları
+2. `belgeler/MURAT_KURALLARI.md` ve `belgeler/KURAL_KITABI.md` — mimari kurallar
+3. `belgeler/KAPSAM_KILIDI.md` — neyin dışarıda olduğu
+
+**Uyulacak üç şey:**
+- **Python:** her zaman `.venv/bin/python` ve `.venv/bin/pytest`. Çıplak
+  `python3` / `pip` çağırma — sistem Python'una gider.
+- **Bağlam:** sana açıkça söylenmeyen dosyayı açma. Bu belgede adı geçenler
+  açıkça söylenmiştir, onları aç.
+- **Uydurma yasağı:** kaynağı olmayan sayı yazılmaz. Ölçülemeyen yere
+  "ölçülmedi" yazılır, boş bırakılmaz.
+
+**Bu belgenin durumu:** aşağıdaki teşhis, `belgeler/MIMARI_SEMA.md`'nin HTML
+çıktısındaki diyagramlardan çıkarılmış bir **çıkarımdır**, ölçüm değil.
+Bölüm 0 onu doğrular. Doğrulama tutmazsa **dur ve bildir** — planı zorlama.
 
 ---
 
 ## 0. ÖNCE DOĞRULA — hiçbir şeye dokunmadan
 
-Bu belgedeki teşhis, `belgeler/MIMARI_SEMA.md`'nin HTML çıktısındaki **7 SVG
-diyagramın kutu metinlerinden** çıkarıldı. **Okların yönü okunamadı** — sadece
-kutu içerikleri okundu. Dolayısıyla teşhis bir **çıkarım**, ölçüm değil.
-
-Şu beş komutu koş ve çıktıyı **kaydet**. Hepsi beklendiği gibi çıkarsa devam et;
+Teşhis, şemanın **kutu metinlerinden** çıkarıldı; **okların yönü okunamadı**.
+Yani bir **çıkarım**, ölçüm değil. Şu beş komutu koş ve çıktıyı **kaydet**. Hepsi beklendiği gibi çıkarsa devam et;
 biri çıkmazsa **dur** ve farkı bildir.
 
 ```bash
@@ -108,7 +128,7 @@ Elinizdeki 9 plandaki oda adlarını sistemin tiplerine eşleyin.
 
 ```bash
 cat veri/ogrenme/*/plan_arsivi.jsonl \
-  | python3 -c "
+  | .venv/bin/python -c "
 import sys, json, collections
 say = collections.Counter()
 for satir in sys.stdin:
