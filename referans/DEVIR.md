@@ -1,6 +1,6 @@
 # DEVİR — bu depoya yeni gelen oturum için
 
-**Son güncelleme:** 01.08.2026 · 24 commit
+**Son güncelleme:** 01.08.2026 (ölçüm sonrası) · 26 commit
 **Amaç:** Temiz bir oturumun 5 dakikada yetişmesi. Bu belge özet değil, **indeks + canlı durum**.
 
 ---
@@ -105,7 +105,7 @@ Bu oturumda kendi hükümlerimden dördü çürüdü. Kayda geçiyor:
 |---|---|---|
 | Rol | Teşhis, ölçüm tasarımı, brifing | Kod, kural, üretim |
 | Çıktı | Belge ve deney | Çalışan sistem |
-| Sonraki girdi | A1 + A2 cevapları | `BRIFING_v2.md` İŞ 1–7 |
+| Sonraki girdi | **A7 · A6 · "ODA eşlenirse kaç tam plan"** sonuçları | İŞ 2 + İŞ 3 (diğerleri geçersiz) |
 
 **Uyarı:** İki motoru paralel yürütmek maliyet. Bu depodaki referans motor
 görevini yaptı (kalibrasyon, iki katmanlı değerlendirme, mevzuat ihlalleri,
@@ -118,7 +118,30 @@ görevini yaptı (kalibrasyon, iki katmanlı değerlendirme, mevzuat ihlalleri,
 Tek satır yeter:
 
 ```
-referans/DEVIR.md oku, sonra referans/BRIFING_v2.md. Beklediğim cevap: A1 ve A2.
+referans/DEVIR.md oku. Kaldığımız yer: Mac oturumu D1-D5'i ölçtü,
+teşhisim iki yerde çürüdü, BRIFING_v2'nin İŞ 1/4/5'i geçersiz.
+Bekliyorum: A7 (kayıtlar daire mi kat planı mı), A6 (ODA kararı),
+ve "ODA eşlenirse kaç tam plan" sayısı.
 ```
 
 Daha derine inmek gerekirse indeksten ilgili belgeyi aç — **hepsini okuma.**
+`BRIFING_v2.md`'yi açarsan **başındaki ⛔ GEÇERSİZ bloğunu önce oku** —
+belgenin üç işi çürüdü, gövdesi kayıt için duruyor.
+
+---
+
+## Şu an ne bekleniyor
+
+Mac oturumu şu sırayla çalışıyor:
+
+| # | İş | Durum |
+|---|---|---|
+| A | Regresyon bekçisi + taban çizgisi | başlıyor |
+| A7 | 9 kayıt daire mi, kat planı mı | sırada — **C'den önce** |
+| — | "ODA eşlenirse kaç plan TAM olur?" | A7'den sonra |
+| C | `ODA` (39×) kararı — Murat verecek | yukarıdaki sayıya bağlı |
+| B | Normalleştirme (DUS/DUŞ, BLK., ASANSÖR kapsam dışı) | en son |
+
+**Kilit soru:** ad eşleşmemesi ve %35 alansızlık iki ayrı kusur.
+İkisi birlikte kapanmadan hat akmaz. *"ODA eşlenirse kaç tam plan"*
+sayısı 0 çıkarsa asıl iş okuyucudadır, eşlemede değil.
