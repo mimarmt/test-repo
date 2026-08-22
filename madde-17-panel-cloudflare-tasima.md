@@ -1,7 +1,7 @@
 # Madde 17 — Panel yalnız bende açılıyor: sayfa hâlâ Netlify'da (madde 12'nin eksik yarısı)
 
 **Öncelik:** YÜKSEK — panel paylaşılamıyor
-**Tarih:** 22.08.2026 · **Durum:** Kapı worker'ı hazırlandı ve yerelde doğrulandı; Cloudflare'a kurulum bekliyor (aşağıdaki güncelleme)
+**Tarih:** 22.08.2026 · **Durum:** TAMAMLANDI — kapı worker'ı 22.08.2026 15:15'te canlıya alındı ve doğrulandı: **https://panel.gs-fikstur.workers.dev** (ana sayfa Netlify ile bayt bayt aynı, 7/7 dosya aynı, fonksiyon vekili çalışıyor). Kurulum, kullanıcının tek seferlik API anahtarıyla wrangler üzerinden yapıldı; anahtarın silinmesi kullanıcıya hatırlatıldı. Kalan işler: arkadaş/baba cihazında Türkiye ölçümü, bildirim isteyenlerin yeni adreste yeniden abone olması, cihazlardaki kısayolların yeni adrese geçirilmesi, (tavsiye) özel alan adı.
 **İlişki:** Madde 12 vekili (API trafiğini) Cloudflare'a taşıdı; bu madde sayfanın kendisini ve fonksiyon çağrılarını kapsıyor.
 
 ---
