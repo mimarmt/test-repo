@@ -1,7 +1,7 @@
 # Madde 17 — Panel yalnız bende açılıyor: sayfa hâlâ Netlify'da (madde 12'nin eksik yarısı)
 
 **Öncelik:** YÜKSEK — panel paylaşılamıyor
-**Tarih:** 22.08.2026 · **Durum:** Ölçüldü, öneri hazır; uygulama bekliyor
+**Tarih:** 22.08.2026 · **Durum:** Kapı worker'ı hazırlandı ve yerelde doğrulandı; Cloudflare'a kurulum bekliyor (aşağıdaki güncelleme)
 **İlişki:** Madde 12 vekili (API trafiğini) Cloudflare'a taşıdı; bu madde sayfanın kendisini ve fonksiyon çağrılarını kapsıyor.
 
 ---
@@ -144,6 +144,44 @@ ile `netlify.app`, `pages.dev`, `workers.dev` güncel durumu görülebilir.
 7. Yeni linki paylaş; eski cihazlarda eski SW/site verisini temizle.
 8. (Tavsiye) Alan adı alıp Worker'a bağla — linki kalıcılaştır.
 9. Netlify'ı yedek olarak aynen bırak.
+
+## GÜNCELLEME — 22.08.2026: Paket hazırlandı ve doğrulandı
+
+Panel adresi öğrenildi: **https://gs-fikstur.netlify.app** (GS Fikstür — Galatasaray
+2026/27 fikstür, skorlar, puan durumu; PWA + gol bildirimleri). İncelemede plan
+sadeleşti: dosyaları kopyalamak yerine **tam geçirgen "kapı" worker'ı** seçildi
+(`cloudflare-kapi-worker.js`, bu depoda).
+
+**Neden kopyalama değil kapı:** Sayfadaki tüm yollar göreli
+(`/.netlify/functions/abone|rapor`, `sw.js`, ikonlar, `gol.mp3`); madde 12 vekili
+(`gs-afb.gs-fikstur.workers.dev`) koda mutlak adresle gömülü ve ayrı çalışıyor. Kapı
+worker'ı her isteği Cloudflare üzerinden Netlify'a geçirir → tek kaynak Netlify kalır,
+paneldeki her güncelleme yeni adrese kendiliğinden yansır, worker'a bir daha dokunmak
+gerekmez; kurulum tek kopyala-yapıştır.
+
+**Yerel doğrulama sonuçları (wrangler dev):**
+- 7 dosyanın 7'si (index, sw.js, manifest, gol.mp3, 3 ikon) kapıdan **bayt bayt aynı**
+  geçti (md5 karşılaştırmalı), content-type'lar doğru.
+- Gövdeli POST istekleri `/.netlify/functions/*` yoluna doğru iletiliyor.
+- Bulunan ve düzeltilen hata: kaynak yanıtın `content-encoding/content-length`
+  başlıkları aynen kopyalanınca çözülmüş gövde "brotli'li" diye sunuluyordu; başlıklar
+  temizlendi, doğrulandı.
+
+**Kurulum (kullanıcı yapacak — Cloudflare hesabına yalnız o girebiliyor):**
+dash.cloudflare.com → Workers & Pages → Create → Hello World şablonu → isim: `panel` →
+Deploy → Edit code → kodu sil, `cloudflare-kapi-worker.js` içeriğini yapıştır → Deploy.
+Yeni adres: **https://panel.gs-fikstur.workers.dev**
+
+**Kurulum sonrası kontrol listesi:**
+1. Yeni adresi arkadaşın telefonunda aç (önbelleksiz temiz cihaz) — açılıyorsa madde
+   kapanır.
+2. Skorların geldiğini, "abone ol"un çalıştığını gör; bildirim isteyen herkes yeni
+   adreste bir kez daha abone olmalı (abonelik adrese bağlı).
+3. Kendi cihazlarında ve babandakinde yeni adrese geç (eski kopya donuk kalıyor);
+   ana ekran kısayolunu yeni adresle yeniden ekle, eskisini sil.
+4. Eski Netlify adresi yedek olarak aynen kalıyor; hiçbir şey silinmedi.
+5. (Tavsiye, ayrı iş) Özel alan adı alıp worker'a bağla — workers.dev'in de günün
+   birinde engellenmesine karşı kalıcı sigorta.
 
 ## Kaynaklar
 
