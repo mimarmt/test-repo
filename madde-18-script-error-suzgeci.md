@@ -1,8 +1,13 @@
 # Madde 18 — "Hata: Script error." uyarısını sustur (kozmetik)
 
-**Öncelik:** Düşük — panele zararı yok, sadece çirkin görünüyor
-**Tarih:** 22.08.2026 · **Durum:** Teşhis kesin, yama hazır; panelin bir sonraki
-güncellemesinde uygulanacak
+**Öncelik:** Düşük — panele zararı yok, sadece çirkin görünüyordu
+**Tarih:** 22.08.2026 · **Durum:** ÇÖZÜLDÜ — süzgeç 22.08 ~17:00'de kapı worker'ına
+eklendi ve canlıya alındı (sürüm 4911b695). Kapı, HTML geçerken `<head>` içine tek
+satırlık koruma enjekte ediyor; davranış testi geçti: maskeli "Script error." kutu
+çıkarmıyor, gerçek hata (dosya adlı) aynen görünüyor. Sayfanın kalanı bire bir
+korunuyor (diff: tek satır), sw.js ve diğer dosyalar dokunulmamış. Aşağıdaki
+panel-içi yama artık zorunlu değil; panelin bir sonraki sürümünde eklenirse
+kapıdaki enjeksiyon kaldırılabilir (ya da ikisi birden zararsızca durabilir).
 
 ## Bulgu
 
