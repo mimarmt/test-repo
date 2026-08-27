@@ -89,11 +89,21 @@ klasörüne metadata ile dosyalanır.
      varsayılan bakış **her zaman sokak tarafından** — uçuş ve insan-gözü/cepheye-dik
      presetleri cephe yönünü (uzun eksen) sokak varsayar; yanılırsa orbit/preset ile düzeltilir.
      Gelecek iyileştirme: ParselPro'nun yol (overpass) verisinden gerçek sokak yönünü pakete koymak.
-   - 🟠 **ParselPro tarafı COMMIT BEKLİYOR:** `src/js/uc_boyut.js` (sahneStudioyaGonder)
-     ve `src/index.html` (🌍 düğme) ParselPro çalışma ağacında DEĞİŞTİRİLMİŞ ama
-     commit'lenmedi — deponun commit kapısı, dış belediye servisleri (Kadıköy 500,
-     Üsküdar 502, SSL) yüzünden kırmızı. Benim koduma bakan bekçi (nokta silme) yeşil.
-     Kapı yeşilince commit at; Murat "atla" derse `--no-verify`.
+   - 🟠 **ParselPro tarafı COMMIT BEKLİYOR** (`src/js/uc_boyut.js` + `src/index.html`,
+     çalışma ağacında duruyor; kapı dış belediye servisleri yüzünden kırmızı, Murat
+     "atla" derse `--no-verify`). Biriken işler — hepsi 27.08 canlı ölçümle doğrulandı:
+     ① `sahneStudioyaGonder` + 🌍 düğme (parsel+GLB köprüye) ② `_alanSayiya` Türkçe
+     sayı kuralı ③ saha grafikleri (parsel zemini/ışıklı çerçeve/çekme şeritleri)
+     `sahaGrafigi` işaretlenip GLB dışa aktarımından AYIKLANIYOR — gerçek çevrede dil
+     gibi taşıyordu; Murat 3 m çekme dilinin ParselPro GÖRÜNTÜLEYİCİSİNDE doğru
+     olduğunu teyit etti, o yüzden yalnız dışa aktarım ayıklar ④ çatı: form
+     duzdam/besik/kirma → motor eşlemesi (beşik sessizce teras oluyordu), yeni
+     `_cBesik` (iki şev + mahya), `_cKirma` ve ana çatı artık formdaki MAHYA
+     ölçüsünü kullanıyor (ölçüldü: kırma/beşik tepe 21,94 = bodrum 2,9 + 14,5 +
+     mahya 4,5; teras 19,76) ⑤ çatı dairesi beşikte de eğimli.
+     ⚠ Murat'ın gördüğü "çatıda olmaması gereken çerçeveler": güncel kodun temiz
+     ürettiği ölçüldü (GLB dökümünde havada parça yok, şev matrisleri eğik) —
+     büyük olasılıkla tarayıcıdaki ESKİ JS; sert yenileme (⌘⇧R) ile doğrulanacak.
    - ⚠ **Ortam notu:** Cesium yalnız **görünür** sekmede çizim yapar. Claude'un önizleme paneli
      ve arka plan Chrome sekmeleri sayfayı `hidden` tuttuğu için sahne donuk kalır (0 fps) —
      bu bir uygulama hatası değildir. Tarayıcıdan bakarken sekme **önde** olmalı; otomasyon
