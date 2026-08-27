@@ -160,9 +160,19 @@ foto + şablon + 3D → "hayaletin yerine piksel-doğru inşa et" ⑥ atıf şer
 - Sahne Studio sağ üstüne "← Parsel Pro" dönüş düğmesi eklendi (opener varsa
   pencereyi kapatır, yoksa localhost:3001'e gider; yakala modunda gizli).
 
-**Kalanlar (sokak hattı):** köprü GLB'sinde saha plakası hâlâ var (ParselPro'dan
-taze gönderimle yenilenmeli — filtre düzeltmesi sonrası export temiz); ParselPro
-arayüzüne tek tuş "Sokak render" bağlanması; stil/malzeme yönlendirme seçeneği.
+**Murat düzeltmeleri (28.08 canlı) — işlendi:**
+- Ölçek: v3 küçük kaldı → --geri 1.5'e kalibre edildi + bitişik nizam talimatı
+  prompt'a girdi (yan duvarlar komşuya BİTİŞİK, çekme yalnız önde) → v5 doğru.
+- 🚶 Street View artık uygulama İÇİNDE tam ekran katman (Maps Embed API —
+  anahtarın 3. API'si; ücretsiz). Sağ üstte "← Sahneye dön" + "↗ Yeni sekmede".
+  Google sekmesine düğme konamaz (cross-origin) — katman bu yüzden bizim sayfamız.
+- Kanıtlı komut artık: --fov 120 --pitch 18 --geri 1.5 --yukseklik 2.8 --taslak → v5.
+
+**Kalanlar (sokak hattı):** fotoğrafın altındaki Google aracı kaput bulanıklığı
+bazı üretimlerde kalıyor (v5'te kaldı, v3'te temizlendi — istikrar için fotoğrafın
+alt %12'sini Gemini'den önce kırpmayı dene); köprü GLB'sinde saha plakası hâlâ var
+(ParselPro'dan taze gönderimle yenilenmeli); ParselPro arayüzüne tek tuş
+"Sokak render" bağlanması; stil/malzeme yönlendirme seçeneği.
 
 ## Sıradaki adımlar (bu sırayla)
 
