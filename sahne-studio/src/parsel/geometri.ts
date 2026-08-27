@@ -163,3 +163,10 @@ export function parselSlug(kimlik: { il: string; ilce: string; ada: string; pars
     .filter(Boolean)
     .join("-");
 }
+
+/** Bir konumu metre cinsinden doğuya/kuzeye kaydırır (küçük mesafelerde düzlem yaklaşımı yeterli). */
+export function metreKaydir(lon: number, lat: number, doguM: number, kuzeyM: number): LonLat {
+  const metreBoylam = 111320 * Math.cos(lat * RAD);
+  const metreEnlem = 111132;
+  return [lon + doguM / metreBoylam, lat + kuzeyM / metreEnlem];
+}

@@ -72,6 +72,10 @@ export const ModelYerlesimiSemasi = z.object({
   headingDeg: z.number(),
   yukseklikOfsetM: z.number(),
   olcek: z.number().positive(),
+  // Modeli parsel merkezinden yana kaydırma (metre). Otomatik yerleştirme
+  // merkeze koyar; gerçek yapı merkezde olmayabilir — kullanıcı elle düzeltir.
+  // Eski proje.json'larda yok: opsiyonel, yokluğu (0,0) sayılır.
+  kaydirma: z.object({ doguM: z.number(), kuzeyM: z.number() }).optional(),
   zeminOrneklemesi: z
     .object({
       yontem: z.string(),

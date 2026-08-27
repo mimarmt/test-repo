@@ -13,6 +13,7 @@ export interface PanelOlaylari {
   glbVerildi(dosya: File): void;
   headingDegisti(deg: number): void;
   kotOfsetiDegisti(m: number): void;
+  kaydirmaDegisti(doguM: number, kuzeyM: number): void;
   olcekDegisti(olcek: number): void;
   gunesDegisti(iso: string): void;
   presetSecildi(ad: PresetAdi): void;
@@ -29,7 +30,12 @@ export interface PanelApi {
   parselOzetiGoster(p: ParselPaketi, slug: string): void;
   zeminTablosuGoster(satirlar: ZeminTablosuSatiri[], egimYuzde: number | null): void;
   modelDurumuGoster(metin: string): void;
-  yerlesimGoster(headingDeg: number, kotOfsetiM: number, olcek: number): void;
+  yerlesimGoster(
+    headingDeg: number,
+    kotOfsetiM: number,
+    olcek: number,
+    kaydirma?: { doguM: number; kuzeyM: number }
+  ): void;
   gunesGoster(iso: string): void;
   acilariGoster(acilar: AciKaydi[]): void;
   mesaj(metin: string, tur?: "bilgi" | "hata"): void;
@@ -96,6 +102,13 @@ export function paneliKur(kok: HTMLElement, olaylar: PanelOlaylari): PanelApi {
       <div class="satir"><label for="gi-olcek">Ölçek</label>
         <input type="number" id="gi-olcek" min="0.01" step="0.01" value="1">
         <span class="deger"></span></div>
+      <div class="satir"><label for="sr-dogu">Doğu ↔ Batı</label>
+        <input type="range" id="sr-dogu" min="-25" max="25" step="0.1" value="0">
+        <span class="deger" id="dg-dogu">0,0 m</span></div>
+      <div class="satir"><label for="sr-kuzey">Kuzey ↔ Güney</label>
+        <input type="range" id="sr-kuzey" min="-25" max="25" step="0.1" value="0">
+        <span class="deger" id="dg-kuzey">0,0 m</span></div>
+      <button type="button" id="db-kaydirma-sifirla" class="ikincil">Kaydırmayı sıfırla</button>
       <div id="zemin-kabi" hidden>
         <table class="zemin" id="zemin-tablo"></table>
         <p class="altbaslik" id="zemin-egim" style="margin:6px 0 0"></p>
@@ -198,6 +211,21 @@ export function paneliKur(kok: HTMLElement, olaylar: PanelOlaylari): PanelApi {
     $("dg-kot").textContent = `${Number(kot.value).toFixed(2).replace(".", ",")} m`;
     olaylar.kotOfsetiDegisti(Number(kot.value));
   });
+  const dogu = $<HTMLInputElement>("sr-dogu");
+  const kuzey = $<HTMLInputElement>("sr-kuzey");
+  function kaydirmaYayinla(): void {
+    $("dg-dogu").textContent = `${Number(dogu.value).toFixed(1).replace(".", ",")} m`;
+    $("dg-kuzey").textContent = `${Number(kuzey.value).toFixed(1).replace(".", ",")} m`;
+    olaylar.kaydirmaDegisti(Number(dogu.value), Number(kuzey.value));
+  }
+  dogu.addEventListener("input", kaydirmaYayinla);
+  kuzey.addEventListener("input", kaydirmaYayinla);
+  $<HTMLButtonElement>("db-kaydirma-sifirla").addEventListener("click", () => {
+    dogu.value = "0";
+    kuzey.value = "0";
+    kaydirmaYayinla();
+  });
+
   const olcek = $<HTMLInputElement>("gi-olcek");
   olcek.addEventListener("change", () => {
     const deger = Number(olcek.value);
@@ -270,12 +298,16 @@ export function paneliKur(kok: HTMLElement, olaylar: PanelOlaylari): PanelApi {
     modelDurumuGoster(metin) {
       $("model-durum").textContent = metin;
     },
-    yerlesimGoster(headingDeg, kotOfsetiM, olcekDegeri) {
+    yerlesimGoster(headingDeg, kotOfsetiM, olcekDegeri, kaydirma) {
       heading.value = String(headingDeg);
       $("dg-heading").textContent = `${headingDeg.toFixed(1)}°`;
       kot.value = String(kotOfsetiM);
       $("dg-kot").textContent = `${kotOfsetiM.toFixed(2).replace(".", ",")} m`;
       olcek.value = String(olcekDegeri);
+      dogu.value = String(kaydirma?.doguM ?? 0);
+      kuzey.value = String(kaydirma?.kuzeyM ?? 0);
+      $("dg-dogu").textContent = `${(kaydirma?.doguM ?? 0).toFixed(1).replace(".", ",")} m`;
+      $("dg-kuzey").textContent = `${(kaydirma?.kuzeyM ?? 0).toFixed(1).replace(".", ",")} m`;
     },
     gunesGoster(iso) {
       const { tarih: t, dakika } = isoParcala(iso);

@@ -56,7 +56,9 @@ export class ProjeDurumu {
     this.kaydet();
   }
 
-  modelGuncelle(kismi: Partial<Pick<ModelYerlesimi, "headingDeg" | "yukseklikOfsetM" | "olcek">>): void {
+  modelGuncelle(
+    kismi: Partial<Pick<ModelYerlesimi, "headingDeg" | "yukseklikOfsetM" | "olcek" | "kaydirma">>
+  ): void {
     if (!this.proje?.model) return;
     Object.assign(this.proje.model, kismi);
     this.kaydet();

@@ -9,7 +9,7 @@ import {
   metindenParselAl,
   urldenParselAl,
 } from "./parsel/al";
-import { enUzunKenarAcisi, merkezHesapla, type LonLat } from "./parsel/geometri";
+import { enUzunKenarAcisi, merkezHesapla, metreKaydir, type LonLat } from "./parsel/geometri";
 import { projeDogrula, type SahneProje } from "./semalar";
 import { ProjeDurumu } from "./durum/proje";
 import {
@@ -65,14 +65,59 @@ async function normalModuBaslat(anahtar: string, bayraklar: UrlBayraklari): Prom
   function aktifModelAyari(): ModelAyari | null {
     const m = durum.proje?.model;
     if (!m || !glbUri) return null;
+    const [lon, lat] = m.kaydirma
+      ? metreKaydir(m.konum.lon, m.konum.lat, m.kaydirma.doguM, m.kaydirma.kuzeyM)
+      : [m.konum.lon, m.konum.lat];
     return {
       uri: glbUri,
-      lon: m.konum.lon,
-      lat: m.konum.lat,
+      lon,
+      lat,
       yukseklikM: m.konum.zeminMedyanM + m.yukseklikOfsetM,
       headingDeg: m.headingDeg,
       olcek: m.olcek,
     };
+  }
+
+  /** GLB'yi sahneye koyar — hem sürükle-bırak hem köprüden otomatik gelen model bunu kullanır. */
+  function glbUygula(dosya: File): void {
+    if (!durum.proje || !halka || !merkez) {
+      panel.mesaj("Önce parsel yükleyin, sonra modeli bırakın.", "hata");
+      return;
+    }
+    if (!sahne) {
+      panel.mesaj("3D sahne hazır değil — model yerleştirilemiyor.", "hata");
+      return;
+    }
+      if (glbUri) URL.revokeObjectURL(glbUri);
+      glbUri = URL.createObjectURL(dosya);
+
+      const onceki = durum.proje.model;
+      const zeminMedyan = zemin?.medyan ?? onceki?.konum.zeminMedyanM ?? 0;
+      const model = {
+        dosyaAdi: dosya.name,
+        konum: onceki?.konum ?? { lon: merkez[0], lat: merkez[1], zeminMedyanM: zeminMedyan },
+        headingDeg: onceki?.headingDeg ?? cepheDeg,
+        yukseklikOfsetM: onceki?.yukseklikOfsetM ?? 0,
+        olcek: onceki?.olcek ?? 1,
+        kaydirma: onceki?.kaydirma ?? { doguM: 0, kuzeyM: 0 },
+        zeminOrneklemesi: zemin
+          ? {
+              yontem: "medyan",
+              noktalar: zemin.satirlar.map((s) => ({ ad: s.ad, lon: s.lon, lat: s.lat, yukseklikM: s.yukseklikM })),
+              egimYuzde: zemin.egimYuzde,
+            }
+          : onceki?.zeminOrneklemesi,
+      };
+      model.konum.zeminMedyanM = zeminMedyan;
+      durum.modelAyarla(model);
+
+      const ayar = aktifModelAyari();
+      if (ayar) modelEntity = modelYerlestirEntity(sahne.viewer, ayar);
+      panel.yerlesimGoster(model.headingDeg, model.yukseklikOfsetM, model.olcek, model.kaydirma);
+      panel.modelDurumuGoster(`${dosya.name} sahnede — yönü ve kotu kaydırıcılarla ayarlayın.`);
+      if (zeminMedyan === 0 && zemin?.medyan === null) {
+        panel.mesaj("Zemin kotu bilinmiyor: model 0 kotuna kondu, kot ofsetiyle elle ayarlayın.", "hata");
+      }
   }
 
   function modeliTazele(): void {
@@ -91,7 +136,7 @@ async function normalModuBaslat(anahtar: string, bayraklar: UrlBayraklari): Prom
     panel.gunesGoster(proje.gunesISO);
     panel.acilariGoster(proje.acilar);
     if (proje.model) {
-      panel.yerlesimGoster(proje.model.headingDeg, proje.model.yukseklikOfsetM, proje.model.olcek);
+      panel.yerlesimGoster(proje.model.headingDeg, proje.model.yukseklikOfsetM, proje.model.olcek, proje.model.kaydirma);
       panel.modelDurumuGoster(
         depodanGeldi
           ? `Kayıtlı yerleşim bulundu — "${proje.model.dosyaAdi}" dosyasını tekrar bırakın.`
@@ -125,6 +170,28 @@ async function normalModuBaslat(anahtar: string, bayraklar: UrlBayraklari): Prom
         durum.kaydet();
         modeliTazele();
       }
+
+      // Parsel Pro köprüsünden gelen model: kullanıcı GLB'yi elle sürüklemesin.
+      // Zemin örneklemesi bittikten sonra çekilir ki model doğru kota otursun.
+      if (bayraklar.glbUrl && !modelEntity) await koprudekiModeliYukle(bayraklar.glbUrl);
+    }
+  }
+
+  /** Köprüdeki (ya da verilen adresteki) GLB'yi indirip sahneye koyar. */
+  async function koprudekiModeliYukle(adres: string): Promise<void> {
+    try {
+      const yanit = await fetch(adres);
+      if (yanit.status === 204) {
+        panel.modelDurumuGoster("Köprüde bekleyen model yok — GLB'yi bırakabilirsiniz.");
+        return;
+      }
+      if (!yanit.ok) throw new Error(`sunucu ${yanit.status}`);
+      const veri = await yanit.blob();
+      const ad = yanit.headers.get("X-Dosya-Adi") ?? "parselpro_3d.glb";
+      glbUygula(new File([veri], ad, { type: "model/gltf-binary" }));
+      panel.mesaj("Model Parsel Pro'dan otomatik alındı.");
+    } catch (h) {
+      panel.mesaj(`Model köprüden alınamadı: ${hataMetni(h)}`, "hata");
     }
   }
 
@@ -152,45 +219,7 @@ async function normalModuBaslat(anahtar: string, bayraklar: UrlBayraklari): Prom
         return paket;
       }),
 
-    glbVerildi: (dosya) => {
-      if (!durum.proje || !halka || !merkez) {
-        panel.mesaj("Önce parsel yükleyin, sonra modeli bırakın.", "hata");
-        return;
-      }
-      if (!sahne) {
-        panel.mesaj("3D sahne hazır değil — model yerleştirilemiyor.", "hata");
-        return;
-      }
-      if (glbUri) URL.revokeObjectURL(glbUri);
-      glbUri = URL.createObjectURL(dosya);
-
-      const onceki = durum.proje.model;
-      const zeminMedyan = zemin?.medyan ?? onceki?.konum.zeminMedyanM ?? 0;
-      const model = {
-        dosyaAdi: dosya.name,
-        konum: onceki?.konum ?? { lon: merkez[0], lat: merkez[1], zeminMedyanM: zeminMedyan },
-        headingDeg: onceki?.headingDeg ?? cepheDeg,
-        yukseklikOfsetM: onceki?.yukseklikOfsetM ?? 0,
-        olcek: onceki?.olcek ?? 1,
-        zeminOrneklemesi: zemin
-          ? {
-              yontem: "medyan",
-              noktalar: zemin.satirlar.map((s) => ({ ad: s.ad, lon: s.lon, lat: s.lat, yukseklikM: s.yukseklikM })),
-              egimYuzde: zemin.egimYuzde,
-            }
-          : onceki?.zeminOrneklemesi,
-      };
-      model.konum.zeminMedyanM = zeminMedyan;
-      durum.modelAyarla(model);
-
-      const ayar = aktifModelAyari();
-      if (ayar) modelEntity = modelYerlestirEntity(sahne.viewer, ayar);
-      panel.yerlesimGoster(model.headingDeg, model.yukseklikOfsetM, model.olcek);
-      panel.modelDurumuGoster(`${dosya.name} sahnede — yönü ve kotu kaydırıcılarla ayarlayın.`);
-      if (zeminMedyan === 0 && zemin?.medyan === null) {
-        panel.mesaj("Zemin kotu bilinmiyor: model 0 kotuna kondu, kot ofsetiyle elle ayarlayın.", "hata");
-      }
-    },
+    glbVerildi: (dosya) => glbUygula(dosya),
 
     headingDegisti: (deg) => {
       durum.modelGuncelle({ headingDeg: deg });
@@ -198,6 +227,10 @@ async function normalModuBaslat(anahtar: string, bayraklar: UrlBayraklari): Prom
     },
     kotOfsetiDegisti: (m) => {
       durum.modelGuncelle({ yukseklikOfsetM: m });
+      modeliTazele();
+    },
+    kaydirmaDegisti: (doguM, kuzeyM) => {
+      durum.modelGuncelle({ kaydirma: { doguM, kuzeyM } });
       modeliTazele();
     },
     olcekDegisti: (olcek) => {
