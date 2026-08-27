@@ -14,6 +14,7 @@ export interface PanelOlaylari {
   headingDegisti(deg: number): void;
   kotOfsetiDegisti(m: number): void;
   kaydirmaDegisti(doguM: number, kuzeyM: number): void;
+  gercekSokakIstendi(): void;
   olcekDegisti(olcek: number): void;
   gunesDegisti(iso: string): void;
   presetSecildi(ad: PresetAdi): void;
@@ -127,6 +128,7 @@ export function paneliKur(kok: HTMLElement, olaylar: PanelOlaylari): PanelApi {
     <section class="bolum" id="b-kamera">
       <h2>Kamera</h2>
       <div class="izgara-3" id="presetler"></div>
+      <button type="button" id="db-gercek-sokak" class="ikincil" style="margin-top:8px" title="Google Street View: sokağın gerçek fotoğrafı, parselin önünden">🚶 Gerçek sokak (Street View)</button>
       <p class="altbaslik" style="margin:8px 0 0">Serbest dolaşım — Sol tık: kaydır ·
       Teker: yakınlaş/uzaklaş · Ctrl+Sol (veya orta tık): eğ/döndür.</p>
     </section>
@@ -220,6 +222,7 @@ export function paneliKur(kok: HTMLElement, olaylar: PanelOlaylari): PanelApi {
   }
   dogu.addEventListener("input", kaydirmaYayinla);
   kuzey.addEventListener("input", kaydirmaYayinla);
+  $<HTMLButtonElement>("db-gercek-sokak").addEventListener("click", () => olaylar.gercekSokakIstendi());
   $<HTMLButtonElement>("db-kaydirma-sifirla").addEventListener("click", () => {
     dogu.value = "0";
     kuzey.value = "0";

@@ -9,7 +9,7 @@ import {
   metindenParselAl,
   urldenParselAl,
 } from "./parsel/al";
-import { enUzunKenarAcisi, merkezHesapla, metreKaydir, type LonLat } from "./parsel/geometri";
+import { enUzunKenarAcisi, merkezHesapla, metreKaydir, metreOtele, type LonLat } from "./parsel/geometri";
 import { projeDogrula, type SahneProje } from "./semalar";
 import { ProjeDurumu } from "./durum/proje";
 import {
@@ -246,6 +246,25 @@ async function normalModuBaslat(anahtar: string, bayraklar: UrlBayraklari): Prom
     gunesDegisti: (iso) => {
       durum.gunesAyarla(iso);
       if (sahne) gunesAyarla(sahne.viewer, iso);
+    },
+
+    gercekSokakIstendi: () => {
+      if (!halka || !merkez) {
+        panel.mesaj("Önce parsel yükleyin — Street View parselin önünde açılır.", "hata");
+        return;
+      }
+      // ParselPro'daki 🚶 Sokak ile aynı fikir: panorama noktası parselin önüne
+      // (sokağa) ötelenir, kamera parsele döner; en yakın gerçek panoramayı
+      // Google kendisi seçer. Modeli fotoğrafın içine koymak ayrı iş (yol
+      // haritasında "Street View render hattı" olarak duruyor).
+      const kure = parselKuresi(halka);
+      const bakisYonu = cepheDeg % 360;
+      const pano = metreOtele(merkez, kure.radius + 8, bakisYonu);
+      const adres =
+        "https://www.google.com/maps/@?api=1&map_action=pano" +
+        `&viewpoint=${pano[1].toFixed(6)},${pano[0].toFixed(6)}` +
+        `&heading=${((bakisYonu + 180) % 360).toFixed(1)}&pitch=0&fov=80`;
+      window.open(adres, "_blank");
     },
 
     presetSecildi: (ad) => {
