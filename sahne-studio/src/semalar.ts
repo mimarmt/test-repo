@@ -29,7 +29,9 @@ export const ParselPaketiSemasi = z.object({
     type: z.literal("Polygon"),
     coordinates: z.array(Halka).length(1, "yalnız dış halka desteklenir (delikli parsel değil)"),
   }),
-  alanM2: z.number().positive().optional(),
+  // Belgede söz: "alanM2 opsiyoneldir". optional yalnız YOKLUĞU kabul eder;
+  // ParselPro alanı bilmediğinde null gönderir — onu da kabul et (27.08 canlı tıklama dersi).
+  alanM2: z.number().positive().nullable().optional(),
   kaynak: z
     .object({
       uygulama: z.string(),
