@@ -64,6 +64,9 @@ npm run dev        # http://localhost:5173
 ```bash
 npm run yakala -- --proje ./proje.json --glb ./binaniz.glb
 # tek açı: --aci 2   ·   çıkış kökü: --out D:\Renderlar
+
+# GLB'niz hazır değilken hattı gerçek dokuyla sınamak için (model yok, çevre gerçek):
+npm run yakala -- --proje ornekler/ornek-proje-modelsiz.json --aci 1
 ```
 
 Betik uygulamayı headless tarayıcıda açar, her onaylı açıyı birebir kadrajla 3840×2160
@@ -110,6 +113,7 @@ npm run build   # üretim derlemesi
 | Zemin kotu "—" | Parsel Google 3D kapsamı dışında olabilir — kot ofsetiyle elle ayarlayın |
 | render.mjs 403 | Anahtarda referrer kısıtı var — kaldırın veya ayrı `GEMINI_API_KEY` kullanın |
 | Yakalanan kare bulanık | Doku akışı bitmeden çekilmiş olamaz (betik bekler); yine de olduysa tekrar çalıştırın |
+| `.env`'i değiştirdim, yakalama eski davranıyor | Anahtar **derleme anında** pakete gömülür. `npm run yakala` bunu kendisi fark edip yeniden derler; elle derlemek isterseniz `npm run build` |
 | Model havada/gömülü | Kot ofseti kaydırıcısı; SketchUp'ta eksen orijinini bina tabanına alın |
 
 ## Maliyet özeti

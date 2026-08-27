@@ -9,7 +9,7 @@
  *
  * Diğer seçenekler: --url http://localhost:4173 (hazır sunucu), --out out (çıkış kökü)
  */
-import { existsSync, readFileSync } from "node:fs";
+import { existsSync, readFileSync, readdirSync } from "node:fs";
 import path from "node:path";
 import { spawn } from "node:child_process";
 import { chromium } from "playwright";
@@ -78,10 +78,31 @@ async function sunucuBekle(adres, denemeSuresiMs = 90_000) {
   throw new Error(`Sunucu ${adres} adresinde açılmadı`);
 }
 
+/**
+ * Anahtar derleme anında paketin içine gömülür (VITE_ öneki). `.env` sonradan
+ * değiştirilirse eldeki dist eski/boş anahtarla kalır; sayfa kilit ekranında
+ * takılır ve beklemek anlamsız bir zaman aşımıyla biter. Onun yerine paketin
+ * içinde güncel anahtar var mı diye bakıp gerekirse yeniden derliyoruz.
+ */
+function derlemeAnahtariGuncelMi() {
+  const anahtar = String(process.env.VITE_GOOGLE_API_KEY ?? "").trim();
+  if (!anahtar) return true; // sahte mod: anahtar aranmaz
+  const varliklar = path.join(KOK, "dist", "assets");
+  if (!existsSync(varliklar)) return false;
+  return readdirSync(varliklar)
+    .filter((ad) => ad.endsWith(".js"))
+    .some((ad) => readFileSync(path.join(varliklar, ad), "utf8").includes(anahtar));
+}
+
 async function sunucuKur() {
   if (temelUrl) return;
-  if (!existsSync(path.join(KOK, "dist", "index.html"))) {
-    console.log("• dist yok — önce derleniyor (npm run build)…");
+  const distYok = !existsSync(path.join(KOK, "dist", "index.html"));
+  if (distYok || !derlemeAnahtariGuncelMi()) {
+    console.log(
+      distYok
+        ? "• dist yok — önce derleniyor (npm run build)…"
+        : "• dist'teki anahtar .env ile uyuşmuyor — yeniden derleniyor (npm run build)…"
+    );
     await new Promise((coz, reddet) => {
       const derleme = spawn(npmKomutu, ["run", "build"], { cwd: KOK, stdio: "inherit" });
       derleme.on("exit", (kod) => (kod === 0 ? coz() : reddet(new Error(`build ${kod} koduyla bitti`))));
@@ -137,9 +158,20 @@ async function ana() {
           .catch(() => {});
         atif = "Google (sahte test — gerçek doku yok)";
       } else {
-        await sayfa.waitForFunction(() => window.__SAHNE_HAZIR || window.__SAHNE_HATA, undefined, {
-          timeout: 180_000,
-        });
+        try {
+          await sayfa.waitForFunction(() => window.__SAHNE_HAZIR || window.__SAHNE_HATA, undefined, {
+            timeout: 180_000,
+          });
+        } catch (h) {
+          // En sık sebep: sayfa anahtarsız açıldığı için kilit ekranında bekliyor.
+          // Çıplak "Timeout" mesajı bunu göstermiyor; sebebi ayırt edip söylüyoruz.
+          const kilitli = await sayfa.evaluate(() => Boolean(document.getElementById("kilit-ekrani")));
+          throw new Error(
+            kilitli
+              ? "sayfa kilit ekranında kaldı — VITE_GOOGLE_API_KEY .env'de yok ya da derlemeye girmemiş (npm run build)"
+              : `sahne 180 sn içinde hazır olmadı (${h instanceof Error ? h.message : String(h)})`
+          );
+        }
         const hata = await sayfa.evaluate(() => window.__SAHNE_HATA ?? null);
         if (hata) throw new Error(`sayfa hatası: ${hata}`);
         atif = await sayfa.evaluate(() => window.__SAHNE_ATIF ?? "Google");

@@ -46,8 +46,31 @@ klasörüne metadata ile dosyalanır.
    (headless 4K, `--sahte` kuru test) + `scripts/render.mjs` (Gemini tam-kare dönüşüm, 6 stil
    preseti `scripts/stiller.json`, atıf şeridini sharp ile geri basma, `--taslak`/`--kuru`).
 3. **Doğrulama:** build temiz · 25 birim test · 5 Playwright duman testi · sahte yakalama
-   3840×2160 üretti · render kuru modu maliyet planı bastı. (Gerçek anahtar/doku testi HENÜZ
-   yapılmadı — sıradaki iş bu.)
+   3840×2160 üretti · render kuru modu maliyet planı bastı.
+4. **✅ 27.08.2026 — Mac'te İLK GERÇEK UÇTAN UCA ÇALIŞTIRMA YAPILDI (ölçüldü):**
+   - Depo Mac'e indi: `/Users/muratturna/Projeler/sahne-studio` (GitHub: `mimarmt/test-repo`).
+   - Node v24.18 · `npm install` · Playwright Chromium kuruldu · **25/25 test yeşil** · build 4 sn.
+   - Google Cloud projesi **`mimari-arama`**: Map Tiles API ve Gemini API **zaten etkindi**.
+     Sahne Studio için yeni anahtar: **"Sahne Studio - Map Tiles"** (yalnız Map Tiles'a kısıtlı,
+     uygulama kısıtı yok) — canlı test **HTTP 200**. Mevcut "API key 2" ParselPro'nun olabilir,
+     ellenmedi.
+   - Gemini: AI Studio'da zaten duran **"Gemini API Key mt"** (Tier 1 · Prepay) kullanıldı →
+     `GEMINI_API_KEY`. Model listesi doğrulandı: **`gemini-3-pro-image`** ve
+     **`gemini-3.1-flash-image`** kararlı sürüm olarak mevcut (koddaki seçim güncel).
+   - **Gerçek 4K yakalama: 36 sn** — İzmir Karşıyaka örnek parseli, gerçek Google dokusu,
+     parseldeki mevcut bina clipping ile silindi, atıf şeridi karede.
+   - **Gerçek AI render: 17 sn** (taslak 2K, ~0,10 $) — tüm kare foto-gerçekçileşti, çevre
+     yerinde, atıf korundu.
+   - 🔴 **Ders:** modelsiz (boş) parselde AI, clipping boşluğunu **güneş paneli** sandı. Boş
+     parsel AI'ya boş gönderilmemeli — ya GLB oturmuş olmalı ya da boşluk ayrıca ele alınmalı.
+   - 🔴 **Ders (düzeltildi):** anahtar derleme anında pakete gömülüyor; `dist/` eski anahtarla
+     kalırsa sayfa kilit ekranında takılıyor ve yakalama 180 sn sonra anlamsız "Timeout" veriyordu.
+     `capture.mjs` artık paketteki anahtarı `.env` ile karşılaştırıp gerekirse yeniden derliyor;
+     kilit ekranı durumunda da sebebi yazıyor.
+   - ⚠ **Ortam notu:** Cesium yalnız **görünür** sekmede çizim yapar. Claude'un önizleme paneli
+     ve arka plan Chrome sekmeleri sayfayı `hidden` tuttuğu için sahne donuk kalır (0 fps) —
+     bu bir uygulama hatası değildir. Tarayıcıdan bakarken sekme **önde** olmalı; otomasyon
+     yolu (`npm run yakala`, headless Playwright) bundan etkilenmez.
 4. **Yol haritası artifact sayfası:** https://claude.ai/code/artifact/bd0beefa-d248-4065-a383-f0a45247d57b
 5. Önceki oturum: https://claude.ai/code/session_01M4jsPfDFNYT7CxMUSDSBYC
 
@@ -69,18 +92,20 @@ klasörüne metadata ile dosyalanır.
 
 ## Sıradaki adımlar (bu sırayla)
 
-1. **Mac kurulumu + ilk gerçek test** (kullanıcıyla birlikte):
+1. ~~**Mac kurulumu + ilk gerçek test**~~ ✅ **27.08.2026'da yapıldı** (yukarıda, madde 4).
+   Kurulu hali: `/Users/muratturna/Projeler/sahne-studio/sahne-studio`, `.env` dolu ve sınandı.
    ```bash
-   git clone https://github.com/mimarmt/test-repo && cd test-repo/sahne-studio
-   git checkout claude/architectural-render-real-context-w7f66k
-   npm install && npx playwright install chromium
-   cp .env.example .env   # VITE_GOOGLE_API_KEY=... yapıştırılacak
-   npm run dev            # http://localhost:5173 → ornekler/ornek-parsel.json sürükle
+   cd /Users/muratturna/Projeler/sahne-studio/sahne-studio
+   npm run dev     # tarayıcıda aç → sekme ÖNDE olmalı (gizli sekmede Cesium çizmez)
    ```
-   Beklenen: kamera İzmir örnek parsele uçar, doku gelir, sınır çizilir, mevcut doku silinir,
-   kot tablosu dolar. Hata çıkarsa aynen düzelt, dala push et.
-2. Kullanıcının **gerçek parseli + GLB'siyle** uçtan uca: açı onayı → `npm run yakala` →
-   `npm run render -- --taslak` → sonucu değerlendir, stil promptlarını ince ayarla.
+2. **SIRADAKİ İŞ — kullanıcının gerçek parseli + GLB'siyle uçtan uca.** Murat'tan gereken iki şey:
+   (a) SketchUp 2025'ten **GLB** dışa aktarımı (*File → Export → 3D Model → .glb*; eksen orijini
+   bina tabanında olsun), (b) ParselPro Studio'dan **gerçek ada/parsel** verisi.
+   Akış: parsel yükle → GLB bırak → kot/yön ayarla → açı onayla → `proje.json indir` →
+   `npm run yakala -- --proje ./proje.json --glb ./bina.glb` →
+   `npm run render -- --klasor <klasör> --stil gunduz --taslak` → değerlendir, promptu ince ayarla.
+   *(Murat'ın hedefi bu: ParselPro'da hangi ada/parseli seçtiyse onun bilgisiyle model oturacak
+   ve hepsi birlikte render edilecek.)*
 3. **Parsel Pro entegrasyonu:** kullanıcıdan Parsel Pro'nun parsel verisini hangi biçimde
    verebildiğini iste; gerekirse dönüştürücü yaz; "Sahne Studio'da Aç" düğmesi
    (`docs/parsel-pro-koprusu.md` hazır).
