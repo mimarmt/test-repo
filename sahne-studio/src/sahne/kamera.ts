@@ -18,7 +18,7 @@ export const PRESET_ETIKETLERI: Record<PresetAdi, string> = {
   "kus-45-gd": "Kuş bakışı 45° GD",
   "kus-45-gb": "Kuş bakışı 45° GB",
   "kus-45-kb": "Kuş bakışı 45° KB",
-  "insan-gozu": "İnsan gözü",
+  "insan-gozu": "Sokak — insan gözü",
   "cephe-dik": "Cepheye dik",
 };
 
@@ -91,29 +91,45 @@ export function presetUcus(viewer: Viewer, ad: PresetAdi, baglam: PresetBaglami)
       return void kusBakisi(315);
     case "insan-gozu": {
       // Sokak, uzun eksenin cephe yönünde varsayılır (dar-derin parsellerde ön
-      // cephe kısa kenardır) — kamera sokakta, göz hizasında durur.
+      // cephe kısa kenardır). Mimarın sokak karesi: kamera KARŞI kaldırımda ve
+      // sokak boyunca yana kaymış durur (3/4 kompozisyon) — cephe tam kadraj
+      // doldurmaz, komşu binalar ve sokak perspektifi karede kalır. setView
+      // yerine flyTo: tek tuşla "sokağa iniş" hissi (Murat kuralı, 27.08).
       const bakisYonu = cepheDeg % 360;
-      const konum = metreOtele(merkez, Math.max(kure.radius * 2.2, 28), bakisYonu);
-      viewer.camera.setView({
+      // Dar sokak gerçeği (27.08 ölçümü): parselden ~+12 m ötesi çoğu kez KARŞI
+      // binanın içidir; kamera oraya girerse yakın doku görünmez olur. Güvenli
+      // bölge sokak koridorudur: yol ortasına çık (yarıçap + ~5 m), sonra sokak
+      // BOYUNCA yana kay — aşağıdan yukarı bakan 3/4 mimar karesi.
+      const sokakUzakM = kure.radius + 5;
+      const yanKaymaM = Math.max(kure.radius * 1.8, 14);
+      const sokakOrta = metreOtele(merkez, sokakUzakM, bakisYonu);
+      const konum = metreOtele(sokakOrta, yanKaymaM, (bakisYonu + 90) % 360);
+      // Kameradan parsel merkezine bakış yönü (eşdikdörtgen yaklaşım yeterli):
+      const dDogu = (merkez[0] - konum[0]) * Math.cos(CMath.toRadians(merkez[1])) * 111320;
+      const dKuzey = (merkez[1] - konum[1]) * 111132;
+      const merkezeBakis = (CMath.toDegrees(Math.atan2(dDogu, dKuzey)) + 360) % 360;
+      viewer.camera.flyTo({
         destination: Cartesian3.fromDegrees(konum[0], konum[1], zeminM + 1.7),
         orientation: {
-          heading: CMath.toRadians((bakisYonu + 180) % 360),
-          pitch: CMath.toRadians(4),
+          heading: CMath.toRadians(merkezeBakis),
+          pitch: CMath.toRadians(10),
           roll: 0,
         },
+        duration: 2.2,
       });
       return;
     }
     case "cephe-dik": {
       const bakisYonu = cepheDeg % 360;
       const konum = metreOtele(merkez, Math.max(kure.radius * 3.5, 45), bakisYonu);
-      viewer.camera.setView({
+      viewer.camera.flyTo({
         destination: Cartesian3.fromDegrees(konum[0], konum[1], zeminM + Math.max(kure.radius * 0.9, 12)),
         orientation: {
           heading: CMath.toRadians((bakisYonu + 180) % 360),
           pitch: CMath.toRadians(-12),
           roll: 0,
         },
+        duration: 1.6,
       });
       return;
     }

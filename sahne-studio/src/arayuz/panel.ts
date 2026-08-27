@@ -46,7 +46,7 @@ const PRESETLER: { ad: PresetAdi; etiket: string }[] = [
   { ad: "kus-45-gd", etiket: "Kuş 45° GD" },
   { ad: "kus-45-gb", etiket: "Kuş 45° GB" },
   { ad: "kus-45-kb", etiket: "Kuş 45° KB" },
-  { ad: "insan-gozu", etiket: "İnsan gözü" },
+  { ad: "insan-gozu", etiket: "Sokağa in" },
   { ad: "cephe-dik", etiket: "Cepheye dik" },
 ];
 
