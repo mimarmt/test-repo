@@ -1,0 +1,70 @@
+{
+  "surum": 1,
+  "parselSlug": "izmir-karsiyaka-1234-ada-5-parsel",
+  "parsel": {
+    "surum": 1,
+    "kimlik": {
+      "il": "İzmir",
+      "ilce": "Karşıyaka",
+      "mahalle": "Bostanlı",
+      "ada": "1234",
+      "parsel": "5"
+    },
+    "geometri": {
+      "type": "Polygon",
+      "coordinates": [
+        [
+          [27.09190, 38.46130],
+          [27.09236, 38.46130],
+          [27.09236, 38.46152],
+          [27.09190, 38.46152]
+        ]
+      ]
+    },
+    "alanM2": 981.4
+  },
+  "model": {
+    "dosyaAdi": "ornek.glb",
+    "konum": { "lon": 27.09213, "lat": 38.46141, "zeminMedyanM": 42.0 },
+    "headingDeg": 90,
+    "yukseklikOfsetM": 0.2,
+    "olcek": 1
+  },
+  "gunesISO": "2026-08-27T15:30:00+03:00",
+  "acilar": [
+    {
+      "aciNo": 1,
+      "ad": "Kuş bakışı 45° GB",
+      "kamera": {
+        "lon": 27.09330,
+        "lat": 38.46050,
+        "yukseklikM": 190,
+        "headingDeg": 315,
+        "pitchDeg": -42,
+        "rollDeg": 0,
+        "fovDeg": 60
+      },
+      "gunesISO": "2026-08-27T15:30:00+03:00",
+      "enBoyOrani": "16:9",
+      "onayTarihi": "2026-08-27T16:02:11+03:00"
+    },
+    {
+      "aciNo": 2,
+      "ad": "İnsan gözü",
+      "kamera": {
+        "lon": 27.09248,
+        "lat": 38.46120,
+        "yukseklikM": 44.2,
+        "headingDeg": 300,
+        "pitchDeg": 3,
+        "rollDeg": 0,
+        "fovDeg": 60
+      },
+      "gunesISO": "2026-08-27T18:45:00+03:00",
+      "enBoyOrani": "16:9",
+      "onayTarihi": "2026-08-27T16:05:40+03:00"
+    }
+  ],
+  "olusturma": "2026-08-27T15:00:00+03:00",
+  "guncelleme": "2026-08-27T16:05:40+03:00"
+}

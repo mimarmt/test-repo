@@ -1,0 +1,28 @@
+{
+  "surum": 1,
+  "kimlik": {
+    "il": "İzmir",
+    "ilce": "Karşıyaka",
+    "mahalle": "Bostanlı",
+    "ada": "1234",
+    "parsel": "5"
+  },
+  "geometri": {
+    "type": "Polygon",
+    "coordinates": [
+      [
+        [27.09190, 38.46130],
+        [27.09236, 38.46130],
+        [27.09236, 38.46152],
+        [27.09190, 38.46152],
+        [27.09190, 38.46130]
+      ]
+    ]
+  },
+  "alanM2": 981.4,
+  "kaynak": {
+    "uygulama": "Parsel Pro Studio",
+    "surum": "ornek",
+    "alinmaTarihi": "2026-08-27T10:00:00+03:00"
+  }
+}

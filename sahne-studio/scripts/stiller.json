@@ -1,0 +1,38 @@
+{
+  "surum": 1,
+  "stiller": [
+    {
+      "ad": "Gündüz Fotoğrafik",
+      "slug": "gunduz",
+      "onerilenSaat": "11:00",
+      "prompt": "Bright clear midday. Crisp shadows consistent with the scene's existing sun direction. Photorealistic materials, natural color grading, 35mm architectural photography, subtle street life."
+    },
+    {
+      "ad": "Akşam (Mavi Saat)",
+      "slug": "aksam",
+      "onerilenSaat": "19:30",
+      "prompt": "Blue hour dusk. Warm interior lights glowing in the building's windows, cinematic gradient sky, gentle long-exposure feel, street lamps beginning to glow."
+    },
+    {
+      "ad": "Gece",
+      "slug": "gece",
+      "onerilenSaat": "21:30",
+      "prompt": "Night scene. Elegant facade lighting on the main building, warm window lights, dark blue sky, realistic pools of street lighting, no added structures."
+    },
+    {
+      "ad": "Yağmurlu",
+      "slug": "yagmur",
+      "prompt": "Overcast rainy day. Wet reflective asphalt and pavements, soft diffuse light, light rain streaks, muted natural colors."
+    },
+    {
+      "ad": "Karlı Kış",
+      "slug": "kis",
+      "prompt": "Winter day. Light snow cover on roofs, ground and trees, cold clear light, realistic winter atmosphere."
+    },
+    {
+      "ad": "Eskiz",
+      "slug": "eskiz",
+      "prompt": "Hand-drawn architectural sketch style: confident ink linework with a light watercolor wash, paper texture, keeping the exact scene composition."
+    }
+  ]
+}
