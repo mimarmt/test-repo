@@ -151,7 +151,9 @@ async function normalModuBaslat(anahtar: string, bayraklar: UrlBayraklari): Prom
       const { viewer, tileset } = sahne;
       gunesAyarla(viewer, proje.gunesISO);
       parselCiz(viewer, halka);
-      parseleUc(viewer, halka);
+      // Sokak kuralı: cephe uzun eksenin yönüne bakar varsayılır; kamera sokak
+      // tarafından binaya bakar (yanılırsa kullanıcı orbit/preset ile düzeltir).
+      parseleUc(viewer, halka, false, 0, (cepheDeg + 180) % 360);
       if (kirpmaDesteklenir(viewer.scene)) {
         kirpmaUygula(tileset, halka, kirpAcik);
       } else {
@@ -163,6 +165,9 @@ async function normalModuBaslat(anahtar: string, bayraklar: UrlBayraklari): Prom
         zemin.satirlar.map((s) => ({ ad: s.ad, yukseklikM: s.yukseklikM })),
         zemin.egimYuzde
       );
+      // Kamera ilk uçuşu deniz seviyesindeki küreye yapar; gerçek zemin kotu
+      // öğrenilince aynı açıyla DOĞRU yüksekliğe kısa bir düzeltme uçuşu yapılır.
+      if (zemin.medyan !== null) parseleUc(viewer, halka, false, zemin.medyan, (cepheDeg + 180) % 360);
       if (zemin.medyan === null) {
         panel.mesaj("Zemin kotu örneklenemedi — parsel Google 3D kapsamı dışında olabilir.", "hata");
       } else if (durum.proje?.model && Math.abs(durum.proje.model.konum.zeminMedyanM) < 0.001) {
@@ -247,7 +252,7 @@ async function normalModuBaslat(anahtar: string, bayraklar: UrlBayraklari): Prom
       if (!sahne || !halka || !merkez) return;
       sonPresetEtiketi = PRESET_ETIKETLERI[ad];
       presetUcus(sahne.viewer, ad, {
-        kure: parselKuresi(halka),
+        kure: parselKuresi(halka, zemin?.medyan ?? durum.proje?.model?.konum.zeminMedyanM ?? 0),
         merkez,
         zeminM: zemin?.medyan ?? 0,
         cepheDeg: durum.proje?.model?.headingDeg ?? cepheDeg,

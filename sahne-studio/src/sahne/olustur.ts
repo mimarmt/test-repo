@@ -17,8 +17,8 @@ export interface SahneNesneleri {
   tileset: Cesium3DTileset;
 }
 
-export function kartesyenHalka(halka: LonLat[]): Cartesian3[] {
-  return Cartesian3.fromDegreesArray(halka.flat());
+export function kartesyenHalka(halka: LonLat[], yukseklikM = 0): Cartesian3[] {
+  return halka.map(([lon, lat]) => Cartesian3.fromDegrees(lon, lat, yukseklikM));
 }
 
 /** Viewer + Google Photorealistic 3D Tiles kurulumu. Hata TR mesajla fırlatılır. */
@@ -77,15 +77,32 @@ export function parselCiz(viewer: Viewer, halka: LonLat[]): void {
   });
 }
 
-export function parselKuresi(halka: LonLat[]): BoundingSphere {
-  return BoundingSphere.fromPoints(kartesyenHalka(halka));
+/**
+ * Parseli saran küre. yukseklikM verilmeden kurulan küre DENİZ SEVİYESİNDEDİR;
+ * yüksek şehirlerde (Yenibosna ≈ 88 m) buna uçan kamera yerin altında kalır —
+ * 27.08.2026'da ilk gerçek tıklamada yaşandı. Zemin ölçülür ölçülmez gerçek
+ * kotla yeniden uçulmalı (uygulama.ts bunu yapar).
+ */
+export function parselKuresi(halka: LonLat[], yukseklikM = 0): BoundingSphere {
+  return BoundingSphere.fromPoints(kartesyenHalka(halka, yukseklikM));
 }
 
-/** Kamerayı parsele uçurur: 45° kuş bakışı, parsel çapının ~4 katı mesafe. */
-export function parseleUc(viewer: Viewer, halka: LonLat[], aniden = false): void {
-  const kure = parselKuresi(halka);
+/**
+ * Kamerayı parsele uçurur: 45° kuş bakışı, parsel çapının ~4 katı mesafe.
+ * bakisDeg: kameranın BAKTIĞI yön (derece). Sokak cephesi kuralı: kamera sokak
+ * tarafında durur, binaya bakar — uygulama bunu cephe yönünden türetip geçirir.
+ * Verilmezse kuzeyden bakılır (eski davranış).
+ */
+export function parseleUc(
+  viewer: Viewer,
+  halka: LonLat[],
+  aniden = false,
+  yukseklikM = 0,
+  bakisDeg = 0
+): void {
+  const kure = parselKuresi(halka, yukseklikM);
   viewer.camera.flyToBoundingSphere(kure, {
-    offset: new HeadingPitchRange(0, CMath.toRadians(-45), Math.max(kure.radius * 4, 120)),
+    offset: new HeadingPitchRange(CMath.toRadians(bakisDeg), CMath.toRadians(-45), Math.max(kure.radius * 4, 120)),
     duration: aniden ? 0 : 2.5,
   });
 }

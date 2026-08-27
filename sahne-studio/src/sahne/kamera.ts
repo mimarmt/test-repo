@@ -90,8 +90,9 @@ export function presetUcus(viewer: Viewer, ad: PresetAdi, baglam: PresetBaglami)
     case "kus-45-kb":
       return void kusBakisi(315);
     case "insan-gozu": {
-      // cepheye bakan sokak tarafında, göz hizasında
-      const bakisYonu = (cepheDeg + 90) % 360;
+      // Sokak, uzun eksenin cephe yönünde varsayılır (dar-derin parsellerde ön
+      // cephe kısa kenardır) — kamera sokakta, göz hizasında durur.
+      const bakisYonu = cepheDeg % 360;
       const konum = metreOtele(merkez, Math.max(kure.radius * 2.2, 28), bakisYonu);
       viewer.camera.setView({
         destination: Cartesian3.fromDegrees(konum[0], konum[1], zeminM + 1.7),
@@ -104,7 +105,7 @@ export function presetUcus(viewer: Viewer, ad: PresetAdi, baglam: PresetBaglami)
       return;
     }
     case "cephe-dik": {
-      const bakisYonu = (cepheDeg + 90) % 360;
+      const bakisYonu = cepheDeg % 360;
       const konum = metreOtele(merkez, Math.max(kure.radius * 3.5, 45), bakisYonu);
       viewer.camera.setView({
         destination: Cartesian3.fromDegrees(konum[0], konum[1], zeminM + Math.max(kure.radius * 0.9, 12)),

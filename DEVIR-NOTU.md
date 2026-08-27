@@ -81,6 +81,14 @@ klasörüne metadata ile dosyalanır.
        ParselPro=:3001 + Sahne=:5173 birlikte başlatır, sonra ParselPro'yu açar).
      - Yenibosna 411/2882 gerçek verisi hazır: `yenibosna-2882-proje.json`
        (zemin kotu Google dokusundan ölçüldü: **87,88 m**, eğim %4) + kütle GLB.
+   - 🔴 **Ders (düzeltildi, ikinci gerçek tıklama):** ① `alanM2: null` şemadan dönüyordu —
+     `optional` yalnız yokluğu kabul eder, `nullable` da eklendi. ② Uçuş küresi parseli
+     **deniz seviyesinde** sanıyordu; Yenibosna 88 m'de olduğundan kamera yerin altında
+     kalıp bulanık gri leke gösteriyordu (İzmir 42 m'de şans eseri iyiydi). Küre artık
+     gerçek kota kurulur, zemin ölçülünce kamera düzeltme uçuşu yapar. ③ Murat kuralı:
+     varsayılan bakış **her zaman sokak tarafından** — uçuş ve insan-gözü/cepheye-dik
+     presetleri cephe yönünü (uzun eksen) sokak varsayar; yanılırsa orbit/preset ile düzeltilir.
+     Gelecek iyileştirme: ParselPro'nun yol (overpass) verisinden gerçek sokak yönünü pakete koymak.
    - 🟠 **ParselPro tarafı COMMIT BEKLİYOR:** `src/js/uc_boyut.js` (sahneStudioyaGonder)
      ve `src/index.html` (🌍 düğme) ParselPro çalışma ağacında DEĞİŞTİRİLMİŞ ama
      commit'lenmedi — deponun commit kapısı, dış belediye servisleri (Kadıköy 500,
