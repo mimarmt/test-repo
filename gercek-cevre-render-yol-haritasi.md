@@ -50,6 +50,7 @@ AI'ya çevre "uydurtmak" yerine **gerçek çevreyi zemin olarak kullanmak** doğ
 
 - **SketchUp 2025, GLB/glTF'yi PBR malzeme desteğiyle doğal olarak dışa aktarıyor** (File → Export → 3D Model → `.glb`). Eski sürüm kullanılıyorsa: DAE/OBJ dışa aktar → Blender headless (`blender -b -P convert.py`) ile GLB'ye çevir — bu adım da otomatikleştirilebilir.
 - Yerleştirme için gerekenler: parsel merkez koordinatı (Parsel Pro'dan hazır), zemin kotu (Cesium'da doku üzerinden `clampToHeightMostDetailed` ile örneklenir) ve bina yönü (heading — parsel cephesinden otomatik önerilir, kullanıcı ince ayar yapar).
+- **Zemin uyumu — hiper-gerçekçiliğin ön şartı:** kot tek noktadan değil, bina oturumunun köşelerinden örneklenir; eğimli arazide model subasman kotuna göre oturtulur, gerekirse kullanıcı kot ofsetini ve yönü elle düzeltir. Modelin araziye doğru oturması JPG alınmadan **3D sahnede** çözülür — AI adımına giren karede perspektif, ölçek, ufuk çizgisi ve zemin teması zaten doğrudur; AI'ya kalan tek iş gerçekçilik cilasıdır. (Yanlış oturmuş bir modeli AI kurtaramaz; doğru oturmuş modeli hiper-gerçekçi yapmak ise AI'nın en iyi yaptığı iş.)
 - Google Earth Pro hattı için: SketchUp'ta **Add Location** ile coğrafi referans + KMZ dışa aktarım yeterli.
 
 ### 2.4 Sahne motorları — üç seviye
