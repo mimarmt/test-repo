@@ -23,7 +23,7 @@ AI'ya çevre "uydurtmak" yerine **gerçek çevreyi zemin olarak kullanmak** doğ
 | AI foto-gerçekçi render | Gemini 2.5 Flash Image (Nano Banana) API / ComfyUI + Flux/SDXL + ControlNet | ✅ API ile tam otomasyon |
 | Dosyalama | Proje klasör yapısı + metadata.json (+ istenirse Google Drive) | ✅ Basit |
 
-**Kritik içgörü:** AI render adımında en iyi sonucu almak için sahneden **iki kare** alınır: (1) tam sahne, (2) sadece binanın siluet maskesi (çevre dokusu gizlenmiş halde). AI'ya "arka plana dokunma, sadece binayı foto-gerçekçi hale getir ve ışığı uyumla" derken maske verilir. Böylece gerçek çevre **piksel piksel korunur**, uydurma ortadan kalkar; AI sadece sizin binanızı ve genel ışık uyumunu işler.
+**Kritik içgörü:** Google dokusundan alınan kare — özellikle yakın planda — yumuşak/bulanıktır; bu kare **son görsel değil, referans altlıktır**. AI'ya kare bütün olarak verilir: *"Bu sahneyi gerçek bir fotoğrafa çevir; tüm binaları, yolları, yeşili konumlarında ve oranlarında koruyarak netleştir, benim binamı malzemeleriyle işle."* Sahnenin geometrisini kilitleyen şey, kareden türetilen **derinlik/kenar haritalarıdır** (ControlNet): çevre uydurulmaz — gerçek görüntü AI'yı zapteden şablon olur — ama bulanık Google dokusu da **binayla birlikte** fotoğraf netliğine yükselir. Bina siluet maskesi akıştan çıkmaz; rolü değişir: binanın SketchUp malzemelerine daha sıkı sadakat istendiğinde opsiyonel bölgesel kontrol olarak kullanılır.
 
 ---
 
@@ -62,8 +62,8 @@ AI'ya çevre "uydurtmak" yerine **gerçek çevreyi zemin olarak kullanmak** doğ
 
 | Araç | Tür | Otomasyon | Güçlü yanı |
 |---|---|---|---|
-| **Gemini 2.5 Flash Image ("Nano Banana")** | Bulut API | ✅ Tam (REST API) | Doğal dille yerel düzenleme; geometriyi ve arka planı koruyarak foto-gerçekçilik; ~0,04 $/görsel. Üst modeli **Nano Banana Pro (Gemini 3 Pro Image)** 2K/4K çıktı verir |
-| **ComfyUI + Flux / SDXL + ControlNet (depth/canny) + inpaint** | Yerel GPU (veya kiralık) | ✅ Tam (HTTP/WebSocket API) | Tam kontrol, sabit stil presetleri, maskeyle sadece binayı işleme, sınırsız/ücretsiz üretim; tekrarlanabilir sonuç |
+| **Gemini 2.5 Flash Image ("Nano Banana")** | Bulut API | ✅ Tam (REST API) | Doğal dille düzenleme; sahne düzenini koruyarak tüm kareyi foto-gerçekçi dönüştürme; ~0,04 $/görsel. Üst modeli **Nano Banana Pro (Gemini 3 Pro Image)** 2K/4K çıktı verir |
+| **ComfyUI + Flux / SDXL + ControlNet (depth/canny) + img2img** | Yerel GPU (veya kiralık) | ✅ Tam (HTTP/WebSocket API) | Tam kontrol; derinlik/kenar kilidiyle gerçek geometriye sadık tam-kare dönüşüm, ayarlanabilir dönüşüm şiddeti, sabit stil presetleri, sınırsız/ücretsiz üretim; tekrarlanabilir sonuç |
 | **Veras (EvolveLAB)** | SketchUp eklentisi | Kısmî | ControlNet tabanlı, geometriye sadık; SketchUp içinden pratik |
 | **SketchUp Diffusion** | SketchUp yerleşik | Kısmî | Hızlı konsept |
 | **D5 Render AI (enhancer/atmosphere)** | D5 içinde | Kısmî | D5 hattında entegre |
@@ -75,7 +75,7 @@ AI'ya çevre "uydurtmak" yerine **gerçek çevreyi zemin olarak kullanmak** doğ
 
 - Onay ekranındaki kamera durumu (konum, heading, pitch, FOV, güneş saati) JSON olarak kaydedilir.
 - Sunucuda **Playwright (headless Chromium)** aynı sahneyi aynı kamera JSON'u ile açar, doku yüklenmesinin bitmesini bekler (`tileLoadProgressEvent == 0`), **3840×2160+ çözünürlükte** kare alır → onay ekranında görülenle piksel-piksel aynı kadraj.
-- Çift geçiş: (1) tam sahne JPG, (2) doku gizlenip yalnız model — alfa kanalından **bina maskesi** PNG. Maske, AI adımında arka planı kilitler.
+- Çift geçiş: (1) tam sahne JPG — AI dönüşümünün altlığı, (2) doku gizlenip yalnız model — alfa kanalından **bina maskesi** PNG (opsiyonel: bina malzemelerine sıkı sadakat için bölgesel kontrol). Asıl geometri kilidi, tam kareden türetilen **derinlik/kenar haritasıdır**.
 
 ---
 
@@ -87,8 +87,8 @@ flowchart LR
     S["SketchUp 2025<br/>GLB dışa aktarım"] --> C
     B --> C["Sahne Studio (CesiumJS)<br/>Google 3D Tiles + GLB<br/>clipping: mevcut bina silinir<br/>güneş: tarih/saat"]
     C --> D{"Kullanıcı orbit +<br/>AÇI ONAYI"}
-    D -->|kamera JSON| E["Headless yakalama<br/>Playwright 4K<br/>sahne + bina maskesi"]
-    E --> F["AI render kuyruğu<br/>stil preseti + maske<br/>Gemini API / ComfyUI"]
+    D -->|kamera JSON| E["Headless yakalama<br/>Playwright 4K<br/>sahne + kontrol haritaları"]
+    E --> F["AI render kuyruğu<br/>tüm kare dönüşür, geometri kilitli<br/>Gemini API / ComfyUI"]
     F --> G["Upscale + dosyalama<br/>proje/parsel/tarih/aci-01/<br/>raw · mask · render-vN · metadata"]
 ```
 
@@ -100,7 +100,7 @@ projeler/
     └── 2026-08-27/
         ├── aci-01/
         │   ├── raw.jpg            # Cesium'dan çıkan gerçek-çevre karesi
-        │   ├── mask.png           # bina siluet maskesi
+        │   ├── mask.png           # bina maskesi (opsiyonel kontrol)
         │   ├── render-gunduz-v1.jpg
         │   ├── render-aksam-v1.jpg
         │   └── metadata.json      # kamera, güneş saati, stil, model sürümü
@@ -133,7 +133,7 @@ projeler/
 
 ### Faz 3 — Tam otomasyon: onay → render → klasör (3–4 hafta)
 1. **Headless yakalama servisi:** Playwright ile onaylı her açının 4K sahne + maske karesi.
-2. **AI render kuyruğu:** stil presetleri (gündüz fotoğrafik / akşam / gece / yağmur / kış / eskiz...), maske ile arka plan koruma; sağlayıcı: Gemini API (başlangıç) → ComfyUI + Flux ControlNet (ölçek). Her stil için 2–3 varyant.
+2. **AI render kuyruğu:** stil presetleri (gündüz fotoğrafik / akşam / gece / yağmur / kış / eskiz...); **tüm kare** foto-gerçekçi dönüştürülür — derinlik/kenar kontrolü gerçek geometriyi kilitler, dönüşüm şiddeti (sadakat ↔ netlik) preset başına ayarlanır; sağlayıcı: Gemini API (başlangıç) → ComfyUI + Flux ControlNet (ölçek). Her stil için 2–3 varyant.
 3. **Upscale** (4K+) ve otomatik **dosyalama + metadata**; istenirse Google Drive'a yükleme.
 4. Onay panelinde ham kare ↔ render karşılaştırma, "yeniden üret / stili değiştir" düğmeleri.
 - **Çıktı / kabul:** *Parsel seç → açıları onayla → kahveni al → klasörde stillere göre adlandırılmış renderlar.* Hedef süre: onaydan sonra açı başına < 2 dakika.
@@ -162,8 +162,8 @@ projeler/
 ## 6. Riskler ve dikkat edilecekler
 
 1. **Kapsama:** Parsel, Google 3D dokusu dışında kalabilir (küçük ilçeler). Yedek plan: Cesium World Terrain + yüksek çözünürlük uydu drape (çevre binalar hariç gerçek zemin) veya drone fotogrametri. Faz 0'daki kapsama testi bu riski erkenden netleştirir.
-2. **Lisans/atıf:** Google 3D Tiles kullanımında **Google logosu + veri sağlayıcı atıfları görüntüde görünür kalmalı** (Cesium bunu otomatik basar; kareyi kırpma/silme yok). İçerik önbelleklenip saklanamaz (oturum içi kullanım serbest). Görüntülerin AI ile türev işlenmesi ToS açısından gri alan — maske yaklaşımı (arka plan piksellerinin aynen korunması, yalnız kendi binanızın işlenmesi) hem kaliteyi hem uyumu güçlendirir; müşteri teslimlerinde atıf satırını koruyun. Tam hukuki rahatlık istenirse çevre verisi kendi drone çekiminizden üretilir (Faz 4).
-3. **Doku kalitesi:** Fotogerçekçi doku "drone mesafesinde" (50–300 m) mükemmel, sokak seviyesinde yumuşar. En etkili açılar 30–45° kuş bakışı ve orta mesafe cephe açılarıdır; sokak-gözü kareler için AI uyumlama daha fazla iş yapar (ya da Faz 4 drone verisi).
+2. **Lisans/atıf:** Google 3D Tiles kullanımında **Google logosu + veri sağlayıcı atıfları görüntüde görünür kalmalı** (Cesium bunu otomatik basar; kareyi kırpma/silme yok). İçerik önbelleklenip saklanamaz (oturum içi kullanım serbest). Tüm karenin AI ile foto-gerçekçi dönüştürülmesi Google görüntüsünden türev içerik üretmektir ve ToS açısından gri alandır — atıf satırını dönüştürülmüş son görselde de koruyun, müşteri teslimlerinde kaynak belirtin. Tam hukuki rahatlık istenirse çevre verisi kendi drone çekiminizden üretilir (Faz 4).
+3. **Doku kalitesi:** Fotogerçekçi doku "drone mesafesinde" (50–300 m) mükemmel, sokak seviyesinde yumuşar. Tam-kare AI dönüşümü tam da bu yumuşaklığı fotoğraf netliğine çekmek için var; ancak dönüşüm şiddeti arttıkça çevredeki küçük detaylar (tabela, araç, ağaç formu) kayabilir — sadakat/netlik dengesi preset'te ayarlanır. En etkili açılar yine 30–45° kuş bakışı ve orta mesafe cephelerdir (en zorlu sokak-gözü kareler için Faz 4 drone verisi).
 4. **Işık uyumu:** Google dokusunun gölgeleri çekim günündeki güneşle "pişmiş" durumda; modelin gölgesi Cesium güneşinden gelir. Küçük uyumsuzlukları AI harmonizasyon adımı kapatır; büyük sahnelerde güneş saatini dokunun gölge yönüne yakın seçmek en temiz sonucu verir.
 5. **Google Earth Pro otomasyonu beklentisi:** GE Pro'nun API'si yok; oradaki akış her zaman yarı-manuel kalır. Otomasyonun tamamı Cesium hattında kurulur — GE Pro yalnız Faz 0/hızlı kontrol aracıdır.
 
