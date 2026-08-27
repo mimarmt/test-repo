@@ -400,6 +400,11 @@ async function ana() {
     "Task: produce ONE photorealistic photograph — Image 1 with the new building constructed on the empty plot. " +
     "The building's silhouette in your output must match the overlay in Image 2 PIXEL-ACCURATELY: same footprint, " +
     "same edges, same roof ridge height, same width. Do not shrink it, do not push it back, do not re-centre it. " +
+    "This is Turkish attached urban fabric (bitişik nizam): the new building's side walls are PARTY WALLS touching " +
+    "the neighbouring buildings on both sides — absolutely NO gap, alley or sky visible between the new building " +
+    "and either neighbour at any floor. Its setback is only at the FRONT (a few metres of forecourt behind the " +
+    "pavement). Where the overlay meets a neighbour's front edge, the neighbour stays in front (it is closer to " +
+    "the camera). " +
     "Keep everything else from Image 1 exactly as it is: neighbouring buildings, street, pavement, vehicles, poles, " +
     "bins, vegetation, sky, lighting and framing. Street objects that overlap the ghost (pole, wires, bins, cars) " +
     "stay IN FRONT of the new building. Render realistic facade materials using Image 3's colours, with grounding " +

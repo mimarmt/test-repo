@@ -1,6 +1,6 @@
 import { Color, type Entity } from "cesium";
 import { b64UrlCoz } from "./yardimci/b64";
-import type { UrlBayraklari } from "./yardimci/ortam";
+import { googleAnahtari, type UrlBayraklari } from "./yardimci/ortam";
 import { paneliKur, type PanelApi } from "./arayuz/panel";
 import {
   ParselAlmaHatasi,
@@ -262,16 +262,22 @@ async function normalModuBaslat(anahtar: string, bayraklar: UrlBayraklari): Prom
       }
       // ParselPro'daki 🚶 Sokak ile aynı fikir: panorama noktası parselin önüne
       // (sokağa) ötelenir, kamera parsele döner; en yakın gerçek panoramayı
-      // Google kendisi seçer. Modeli fotoğrafın içine koymak ayrı iş (yol
-      // haritasında "Street View render hattı" olarak duruyor).
+      // Google kendisi seçer. Google'ın sekmesine düğme koyamayız (cross-origin);
+      // bu yüzden panorama UYGULAMANIN İÇİNDE bir katmanda açılır — sağ üstteki
+      // "Sahneye dön" bizimdir (Murat 28.08). Yeni sekme yedek olarak duruyor.
       const kure = parselKuresi(halka);
       const bakisYonu = cepheDeg % 360;
       const pano = metreOtele(merkez, kure.radius + 8, bakisYonu);
-      const adres =
+      const bakis = ((bakisYonu + 180) % 360).toFixed(1);
+      const gomulu =
+        "https://www.google.com/maps/embed/v1/streetview" +
+        `?key=${googleAnahtari()}&location=${pano[1].toFixed(6)},${pano[0].toFixed(6)}` +
+        `&heading=${bakis}&pitch=0&fov=90`;
+      const yedek =
         "https://www.google.com/maps/@?api=1&map_action=pano" +
         `&viewpoint=${pano[1].toFixed(6)},${pano[0].toFixed(6)}` +
-        `&heading=${((bakisYonu + 180) % 360).toFixed(1)}&pitch=0&fov=80`;
-      window.open(adres, "_blank");
+        `&heading=${bakis}&pitch=0&fov=80`;
+      sokakKatmaniAc(gomulu, yedek);
     },
 
     presetSecildi: (ad) => {
@@ -366,6 +372,25 @@ async function normalModuBaslat(anahtar: string, bayraklar: UrlBayraklari): Prom
   // URL ile gelen parsel (Parsel Pro köprüsünün "Sahne Studio'da Aç" yolu)
   await parselYukle(() => urldenParselAl(bayraklar));
   await sahneSozu;
+}
+
+/**
+ * Street View'i uygulamanın içinde tam ekran katmanda açar. Google'ın kendi
+ * sekmesine düğme eklenemediği için katman bizim: sağ üstte "Sahneye dön".
+ */
+function sokakKatmaniAc(gomuluAdres: string, yedekAdres: string): void {
+  document.getElementById("sokak-katmani")?.remove();
+  const katman = document.createElement("div");
+  katman.id = "sokak-katmani";
+  katman.innerHTML = `
+    <div class="sokak-ust">
+      <button type="button" id="sk-yeni-sekme" title="Google Maps'te yeni sekmede aç">↗ Yeni sekmede</button>
+      <button type="button" id="sk-don" title="Street View'ü kapat, 3D sahneye dön">← Sahneye dön</button>
+    </div>
+    <iframe src="${gomuluAdres}" allow="fullscreen" referrerpolicy="no-referrer-when-downgrade"></iframe>`;
+  document.body.append(katman);
+  katman.querySelector("#sk-don")!.addEventListener("click", () => katman.remove());
+  katman.querySelector("#sk-yeni-sekme")!.addEventListener("click", () => window.open(yedekAdres, "_blank"));
 }
 
 /** ?yakala=1 modu: capture.mjs'nin açtığı sayfa — sahneyi kurar, açıyı uygular, hazır bayrağı diker. */
