@@ -67,6 +67,25 @@ klasörüne metadata ile dosyalanır.
      kalırsa sayfa kilit ekranında takılıyor ve yakalama 180 sn sonra anlamsız "Timeout" veriyordu.
      `capture.mjs` artık paketteki anahtarı `.env` ile karşılaştırıp gerekirse yeniden derliyor;
      kilit ekranı durumunda da sebebi yazıyor.
+   - **✅ 27.08.2026 ikinci tur — TEK TIK OTOMASYONU (Murat kararı: Yöntem A):**
+     Akış: masaüstü "Sahne Studio" kısa yolu → iki sunucu birden açılır (ölçüldü: soğuk
+     başlangıç 2,6 sn) → ParselPro açılır → ilçe+ada/parsel sorgula → 3D üret →
+     **🌍 Sahne Studio** düğmesi → parsel+GLB köprüye POST edilir → Sahne Studio'da model
+     gerçek kota OTOMATİK oturur (ölçüldü: 10 sn) → kaydırıcılarla düzelt → onayla → render.
+     - Köprüye `/api/model` uçları eklendi (GLB bellekte; glTF imza denetimi).
+     - Model, zemin örneklemesi bittikten sonra `glbUrl`'den kendiliğinden yüklenir.
+     - **Yana kaydırma** eklendi: Doğu↔Batı / Kuzey↔Güney kaydırıcıları + sıfırla
+       (şemada opsiyonel `kaydirma` alanı; eski proje.json'lar etkilenmez).
+     - `scripts/kutle-uret.mjs`: imar zarfından bağımlılıksız GLB kütle üretici.
+     - Masaüstü kısa yolu: `/Users/muratturna/Desktop/Sahne Studio.app` (logo dahil;
+       ParselPro=:3001 + Sahne=:5173 birlikte başlatır, sonra ParselPro'yu açar).
+     - Yenibosna 411/2882 gerçek verisi hazır: `yenibosna-2882-proje.json`
+       (zemin kotu Google dokusundan ölçüldü: **87,88 m**, eğim %4) + kütle GLB.
+   - 🟠 **ParselPro tarafı COMMIT BEKLİYOR:** `src/js/uc_boyut.js` (sahneStudioyaGonder)
+     ve `src/index.html` (🌍 düğme) ParselPro çalışma ağacında DEĞİŞTİRİLMİŞ ama
+     commit'lenmedi — deponun commit kapısı, dış belediye servisleri (Kadıköy 500,
+     Üsküdar 502, SSL) yüzünden kırmızı. Benim koduma bakan bekçi (nokta silme) yeşil.
+     Kapı yeşilince commit at; Murat "atla" derse `--no-verify`.
    - ⚠ **Ortam notu:** Cesium yalnız **görünür** sekmede çizim yapar. Claude'un önizleme paneli
      ve arka plan Chrome sekmeleri sayfayı `hidden` tuttuğu için sahne donuk kalır (0 fps) —
      bu bir uygulama hatası değildir. Tarayıcıdan bakarken sekme **önde** olmalı; otomasyon
@@ -98,7 +117,10 @@ klasörüne metadata ile dosyalanır.
    cd /Users/muratturna/Projeler/sahne-studio/sahne-studio
    npm run dev     # tarayıcıda aç → sekme ÖNDE olmalı (gizli sekmede Cesium çizmez)
    ```
-2. **SIRADAKİ İŞ — kullanıcının gerçek parseli + GLB'siyle uçtan uca.** Murat'tan gereken iki şey:
+2. **SIRADAKİ İŞ — Murat'ın İLK GERÇEK TIKLAMA TESTİ:** masaüstü kısa yolu → ParselPro'da
+   parsel sorgula → 3D üret → 🌍 Sahne Studio → model gerçek çevrede; kaydırıcılarla düzelt →
+   açı onayla → `proje.json indir` → yakala + render. Takılırsa hatayı Claude'a söyle.
+3. Kendi SketchUp tasarımıyla (zarf kütlesi değil gerçek bina) aynı akış. Murat'tan gereken:
    (a) SketchUp 2025'ten **GLB** dışa aktarımı (*File → Export → 3D Model → .glb*; eksen orijini
    bina tabanında olsun), (b) ParselPro Studio'dan **gerçek ada/parsel** verisi.
    Akış: parsel yükle → GLB bırak → kot/yön ayarla → açı onayla → `proje.json indir` →
