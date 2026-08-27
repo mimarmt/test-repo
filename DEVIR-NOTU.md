@@ -124,25 +124,45 @@ klasörüne metadata ile dosyalanır.
   AI-türev içerik ToS gri alanı → teslimlerde kaynak belirt; doku sokak seviyesinde yumuşak →
   en iyi açılar 30–45° kuş bakışı; dönüşüm şiddeti arttıkça çevre detayı kayabilir.
 
-## 🟡 DEVAM EDEN İŞ — Street View render hattı (27.08 akşam)
+## ✅ BİTTİ (27.08 gece) — Street View render hattı ÇALIŞIYOR
 
-Murat'ın hedefi: 🚶 düğmesinin açtığı GERÇEK sokak fotoğrafının içine modeli
-yerleştirip komşularıyla bitmiş hâli foto-gerçekçi görmek. Durum:
-- ✅ Street View Static API etkin + "Sahne Studio - Map Tiles" anahtarına eklendi
-  (artık 2 API: Map Tiles + Street View Static; Console'da kayıtlı).
-- ✅ Metadata canlı doğrulandı: Yenibosna 2882 önü pano `r_ZAJt5xyOPYeg446rZ7Jw`,
-  tarih 2025-08, gerçek kamera konumu 41.008285, 28.840405.
-- ⬜ SIRADAKİ: `sahne-studio/scripts/sokak-render.mjs` yaz —
-  ① metadata konumuyla statik fotoğrafı çek (size 640x640, fov 80,
-  heading = (cepheDeg+180), pitch 0, source=outdoor)
-  ② aynı pano kamerasından (lat/lng gerçek, yükseklik zemin+2,5 m) capture.mjs
-  düzeniyle modelli 3D kare al (proje.json'a sentetik açı enjekte et —
-  aciGeriYukle hazır)
-  ③ İKİ görseli Gemini'ye ver: "fotoğraftaki boş parsele 2. görseldeki binayı
-  yerleştir; fotoğrafın çevresini, ışığını, kadrajını aynen koru" → sokak-render.jpg
-  ④ Yenibosna ile uçtan uca test, Murat'a kanıt.
-- Not: statik API standartta en çok 640 px verir — fotoğraf REFERANS,
-  çözünürlüğü Gemini çıktısı belirler (tam-kare ilkesi aynen geçerli).
+Gerçek sokak fotoğrafının içine model yerleştirme uçtan uca doğrulandı.
+Betik: `sahne-studio/scripts/sokak-render.mjs` · npm kısayolu: `npm run sokak`.
+
+**Yenibosna 2882 ile kanıtlanan komut (v3 = en iyi çıktı):**
+```bash
+cd /Users/muratturna/Projeler/sahne-studio/sahne-studio
+node scripts/sokak-render.mjs --proje ./yenibosna-2882-proje.json \
+  --glb /tmp/kopru-model2.glb --fov 120 --pitch 18 --geri 5 --yukseklik 2.8 --taslak
+```
+Çıktılar: `out/istanbul-bahcelievler-411-ada-2882-parsel/2026-08-27/sokak/`
+(sokak-foto.jpg · sahne-3d.jpg · model-yalniz.png · sablon.jpg · sokak-render-vN.jpg)
+
+**Nasıl çalışıyor:** ① parsel merkezine en yakın dış-mekân panosu (metadata, ücretsiz)
+② o panodan ÇIPLAK fotoğraf (Static API — arayüz yazısı yok) ③ aynı kameradan modelli
+3D kare + YALNIZ-model karesi (mor fon, `__SAHNE_MODELYALNIZ`) ④ **ölçek şablonu**:
+model hayaleti fotoğrafın üstüne %69 saydam bindirilir ⑤ Gemini'ye 3 görsel:
+foto + şablon + 3D → "hayaletin yerine piksel-doğru inşa et" ⑥ atıf şeridi geri basılır.
+
+**Ölçülen dersler (tekrarlama):**
+- Şablonsuz (yalnız foto+3D) Gemini modeli KÜÇÜLTÜP geri itiyor — ölçek ancak
+  hayalet şablonla tutuyor (v1-v2 şablonsuz, v3-v4 şablonlu; v3 en iyi).
+- `--taslak` (flash) temizlik komutlarına pro'dan İYİ uyuyor: pro (v2, v4) kaput
+  bulanıklığını ve köşe filigranını bırakıyor. Şimdilik sokak için taslak öner.
+- Pano GPS'i birkaç metre şaşıyor → `--geri` (m) kamerayı bakış hattında geri çeker;
+  `sablon.jpg`'de hayalet boşluğa oturana kadar kuru modda (`--kuru`, ücretsiz) ayarla.
+- Sokak seviyesinde Google dokusu dar aralıklarda ERİMİŞ (uçak fotogrametrisi) —
+  çare değil, gerek de yok: çevre fotoğraftan gelir, 3D yalnız yer/kütle söyler.
+- Cesium `dynamicScreenSpaceError` sokak kamerasında çevreyi bilerek kaba bırakır →
+  yakalamada kapatıldı; `sokakGorunumuAc()` = kamera feneri + gri küre tabanı.
+- Shoelace merkez formülü ham koordinatla ÇÖKÜYOR (kayan nokta sadeleşmesi) —
+  eski "hatalı merkez 28.840492"nin kökü buydu; yerelleştirilmiş shoelace şart.
+- Sahne Studio sağ üstüne "← Parsel Pro" dönüş düğmesi eklendi (opener varsa
+  pencereyi kapatır, yoksa localhost:3001'e gider; yakala modunda gizli).
+
+**Kalanlar (sokak hattı):** köprü GLB'sinde saha plakası hâlâ var (ParselPro'dan
+taze gönderimle yenilenmeli — filtre düzeltmesi sonrası export temiz); ParselPro
+arayüzüne tek tuş "Sokak render" bağlanması; stil/malzeme yönlendirme seçeneği.
 
 ## Sıradaki adımlar (bu sırayla)
 

@@ -60,6 +60,23 @@ html, body {
 /* Yakalama modunda panel gizlenir, sahne tüm görüntüyü kaplar (viewport zaten 16:9) */
 body.yakala-modu #panel { display: none; }
 body.yakala-modu #sahne { width: 100vw; height: 100vh; aspect-ratio: auto; }
+body.yakala-modu #db-parselpro-don { display: none; }
+
+/* Sağ üstte Parsel Pro'ya dönüş — pencere kapatma düğmesinin hemen altında dursun */
+#db-parselpro-don {
+  position: fixed;
+  top: 10px;
+  right: 12px;
+  z-index: 40;
+  padding: 7px 14px;
+  border: 1px solid var(--cizgi, #444);
+  border-radius: 8px;
+  background: rgba(20, 22, 26, 0.82);
+  color: #fff;
+  font: inherit;
+  cursor: pointer;
+}
+#db-parselpro-don:hover { background: rgba(40, 44, 52, 0.95); }
 
 /* ---------- panel ---------- */
 #panel {

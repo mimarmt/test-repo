@@ -11,7 +11,8 @@
     "test": "vitest run",
     "smoke": "playwright test",
     "yakala": "node scripts/capture.mjs",
-    "render": "node scripts/render.mjs"
+    "render": "node scripts/render.mjs",
+    "sokak": "node scripts/sokak-render.mjs"
   },
   "dependencies": {
     "cesium": "^1.139.0",

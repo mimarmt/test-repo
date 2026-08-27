@@ -1,4 +1,4 @@
-import type { Entity } from "cesium";
+import { Color, type Entity } from "cesium";
 import { b64UrlCoz } from "./yardimci/b64";
 import type { UrlBayraklari } from "./yardimci/ortam";
 import { paneliKur, type PanelApi } from "./arayuz/panel";
@@ -29,7 +29,7 @@ import {
   type ModelAyari,
   type ZeminOrnekleme,
 } from "./sahne/model";
-import { gunesAyarla } from "./sahne/gunes";
+import { gunesAyarla, sokakGorunumuAc } from "./sahne/gunes";
 import {
   PRESET_ETIKETLERI,
   aciGeriYukle,
@@ -212,6 +212,13 @@ async function normalModuBaslat(anahtar: string, bayraklar: UrlBayraklari): Prom
     }
   }
 
+  // Sağ üst: Parsel Pro'ya dönüş. Pencereyi Parsel Pro açtıysa kapatmak yeterli
+  // (alttaki sekme zaten Parsel Pro); doğrudan açıldıysa adresine gidilir.
+  document.getElementById("db-parselpro-don")?.addEventListener("click", () => {
+    if (window.opener && !window.opener.closed) window.close();
+    else window.location.href = "http://localhost:3001";
+  });
+
   const panel: PanelApi = paneliKur(document.getElementById("panel")!, {
     parselDosyasiVerildi: (dosya) => void parselYukle(() => dosyadanParselAl(dosya)),
     parselMetniVerildi: (metin) => void parselYukle(async () => metindenParselAl(metin)),
@@ -378,6 +385,33 @@ async function yakalaModunuBaslat(anahtar: string, bayraklar: UrlBayraklari): Pr
 
     const { viewer, tileset } = await sahneKur(document.getElementById("sahne")!, anahtar);
     tileset.maximumScreenSpaceError = 8; // yakalamada daha keskin doku
+    if (bayraklar.isikKamera) {
+      // Sokak yakalaması: kamera yere yakınken Cesium çevre dokuyu bilerek kaba
+      // bırakır (dynamicScreenSpaceError). Komşu binalar referansın özüdür — kapat.
+      tileset.dynamicScreenSpaceError = false;
+    }
+    // Betiğin ölçek şablonu için: yalnız modeli göster (doku/küre/gök kapalı, mor fon —
+    // mor pikseller Node tarafında kolayca şeffaflaştırılıp fotoğrafın üstüne bindirilir)
+    (window as unknown as Record<string, unknown>).__SAHNE_MODELYALNIZ = (ac: boolean) => {
+      tileset.show = !ac;
+      viewer.scene.globe.show = !ac;
+      if (viewer.scene.skyAtmosphere) viewer.scene.skyAtmosphere.show = !ac;
+      if (viewer.scene.skyBox) viewer.scene.skyBox.show = !ac;
+      if (viewer.scene.sun) viewer.scene.sun.show = !ac;
+      viewer.scene.backgroundColor = ac ? Color.MAGENTA : Color.BLACK;
+    };
+
+    // Betiğin teşhis için okuyabileceği canlı sayaçlar (statistics resmi tipte yok — iç alan)
+    (window as unknown as Record<string, unknown>).__SAHNE_SAYAC = () => {
+      const ist = (tileset as unknown as { statistics?: Record<string, number> }).statistics ?? {};
+      return {
+        seciliDoku: ist.selected ?? -1,
+        bekleyenIstek: ist.numberOfPendingRequests ?? -1,
+        islenen: ist.numberOfTilesProcessing ?? -1,
+        bellekMB: Math.round(tileset.totalMemoryUsageInBytes / 1048576),
+        dinamikSSE: tileset.dynamicScreenSpaceError,
+      };
+    };
 
     const halka = proje.parsel.geometri.coordinates[0].map((k) => [k[0], k[1]] as LonLat);
     if (kirpmaDesteklenir(viewer.scene)) kirpmaUygula(tileset, halka, true);
@@ -395,6 +429,7 @@ async function yakalaModunuBaslat(anahtar: string, bayraklar: UrlBayraklari): Pr
 
     gunesAyarla(viewer, aci.gunesISO);
     aciGeriYukle(viewer, aci.kamera);
+    if (bayraklar.isikKamera) sokakGorunumuAc(viewer);
 
     await stabilBekle(viewer, tileset);
     window.__SAHNE_ATIF = atifMetni(viewer);

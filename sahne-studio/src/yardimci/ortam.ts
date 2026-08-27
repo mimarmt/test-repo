@@ -9,6 +9,8 @@ export interface UrlBayraklari {
   parselB64: string | null;
   parselUrl: string | null;
   glbUrl: string | null;
+  /** Sokak yakalamasında güneş yerine kameradan bakan ışık: gölgede kalan cephe okunur olsun. */
+  isikKamera: boolean;
 }
 
 export function urlBayraklari(arama: string = window.location.search): UrlBayraklari {
@@ -26,5 +28,6 @@ export function urlBayraklari(arama: string = window.location.search): UrlBayrak
     parselB64: b64Al("parsel"),
     parselUrl: p.get("parselUrl"),
     glbUrl: p.get("glbUrl"),
+    isikKamera: p.get("isik") === "kamera",
   };
 }
