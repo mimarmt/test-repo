@@ -89,21 +89,18 @@ klasörüne metadata ile dosyalanır.
      varsayılan bakış **her zaman sokak tarafından** — uçuş ve insan-gözü/cepheye-dik
      presetleri cephe yönünü (uzun eksen) sokak varsayar; yanılırsa orbit/preset ile düzeltilir.
      Gelecek iyileştirme: ParselPro'nun yol (overpass) verisinden gerçek sokak yönünü pakete koymak.
-   - 🟠 **ParselPro tarafı COMMIT BEKLİYOR** (`src/js/uc_boyut.js` + `src/index.html`,
-     çalışma ağacında duruyor; kapı dış belediye servisleri yüzünden kırmızı, Murat
-     "atla" derse `--no-verify`). Biriken işler — hepsi 27.08 canlı ölçümle doğrulandı:
-     ① `sahneStudioyaGonder` + 🌍 düğme (parsel+GLB köprüye) ② `_alanSayiya` Türkçe
-     sayı kuralı ③ saha grafikleri (parsel zemini/ışıklı çerçeve/çekme şeritleri)
-     `sahaGrafigi` işaretlenip GLB dışa aktarımından AYIKLANIYOR — gerçek çevrede dil
-     gibi taşıyordu; Murat 3 m çekme dilinin ParselPro GÖRÜNTÜLEYİCİSİNDE doğru
-     olduğunu teyit etti, o yüzden yalnız dışa aktarım ayıklar ④ çatı: form
-     duzdam/besik/kirma → motor eşlemesi (beşik sessizce teras oluyordu), yeni
-     `_cBesik` (iki şev + mahya), `_cKirma` ve ana çatı artık formdaki MAHYA
-     ölçüsünü kullanıyor (ölçüldü: kırma/beşik tepe 21,94 = bodrum 2,9 + 14,5 +
-     mahya 4,5; teras 19,76) ⑤ çatı dairesi beşikte de eğimli.
-     ⚠ Murat'ın gördüğü "çatıda olmaması gereken çerçeveler": güncel kodun temiz
-     ürettiği ölçüldü (GLB dökümünde havada parça yok, şev matrisleri eğik) —
-     büyük olasılıkla tarayıcıdaki ESKİ JS; sert yenileme (⌘⇧R) ile doğrulanacak.
+   - ✅ **ParselPro tarafı COMMIT ATILDI — `7efb28a`** (dal `denetim/c-duzeni`, 27.08.2026,
+     YAZAR: Claude, Murat onayı; kapı dış belediye servisleri yüzünden kırmızıydı,
+     `--no-verify` gerekçesi commit mesajında). İçerik: ① 🌍 sahneStudioyaGonder köprüsü
+     ② `_alanSayiya` Türkçe sayı kuralı ③ saha grafikleri GLB'ye girmez (görüntüleyicide
+     durur; 3 m çekme dili doğru — Murat teyidi) ④ çatı sözlüğü motorda: duzdam→teras,
+     yeni beşik çatı, MAHYA ölçüsü uygulanır (tepe=14,50+4,50 ölçüldü) ⑤ blueprint kenar
+     ikizi kutunun ÇOCUĞU (şevlerde havada kalan çerçeveler bitti — Murat'ın yakaladığı
+     "çatıda olmaması gereken çerçeveler"in gerçek kökü buydu) ⑥ kesit: pano "Ön Çıkma"
+     artık ön tipi okur (`onCumbaTipi` alanı eklendi), arka şerit zemin katta çizilmez,
+     mahya etiketi pano altında kalmaz. Doğrulama: 17/17 davranış testi + headless
+     ekran kanıtları. Kesitteki son kat "Açık balkon" etiketi HATA DEĞİL: plan notu
+     IV-D-1-1, Murat onayı 09.07.2026.
    - ⚠ **Ortam notu:** Cesium yalnız **görünür** sekmede çizim yapar. Claude'un önizleme paneli
      ve arka plan Chrome sekmeleri sayfayı `hidden` tuttuğu için sahne donuk kalır (0 fps) —
      bu bir uygulama hatası değildir. Tarayıcıdan bakarken sekme **önde** olmalı; otomasyon
