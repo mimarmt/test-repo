@@ -124,6 +124,26 @@ klasörüne metadata ile dosyalanır.
   AI-türev içerik ToS gri alanı → teslimlerde kaynak belirt; doku sokak seviyesinde yumuşak →
   en iyi açılar 30–45° kuş bakışı; dönüşüm şiddeti arttıkça çevre detayı kayabilir.
 
+## 🟡 DEVAM EDEN İŞ — Street View render hattı (27.08 akşam)
+
+Murat'ın hedefi: 🚶 düğmesinin açtığı GERÇEK sokak fotoğrafının içine modeli
+yerleştirip komşularıyla bitmiş hâli foto-gerçekçi görmek. Durum:
+- ✅ Street View Static API etkin + "Sahne Studio - Map Tiles" anahtarına eklendi
+  (artık 2 API: Map Tiles + Street View Static; Console'da kayıtlı).
+- ✅ Metadata canlı doğrulandı: Yenibosna 2882 önü pano `r_ZAJt5xyOPYeg446rZ7Jw`,
+  tarih 2025-08, gerçek kamera konumu 41.008285, 28.840405.
+- ⬜ SIRADAKİ: `sahne-studio/scripts/sokak-render.mjs` yaz —
+  ① metadata konumuyla statik fotoğrafı çek (size 640x640, fov 80,
+  heading = (cepheDeg+180), pitch 0, source=outdoor)
+  ② aynı pano kamerasından (lat/lng gerçek, yükseklik zemin+2,5 m) capture.mjs
+  düzeniyle modelli 3D kare al (proje.json'a sentetik açı enjekte et —
+  aciGeriYukle hazır)
+  ③ İKİ görseli Gemini'ye ver: "fotoğraftaki boş parsele 2. görseldeki binayı
+  yerleştir; fotoğrafın çevresini, ışığını, kadrajını aynen koru" → sokak-render.jpg
+  ④ Yenibosna ile uçtan uca test, Murat'a kanıt.
+- Not: statik API standartta en çok 640 px verir — fotoğraf REFERANS,
+  çözünürlüğü Gemini çıktısı belirler (tam-kare ilkesi aynen geçerli).
+
 ## Sıradaki adımlar (bu sırayla)
 
 1. ~~**Mac kurulumu + ilk gerçek test**~~ ✅ **27.08.2026'da yapıldı** (yukarıda, madde 4).
