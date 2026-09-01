@@ -1,0 +1,111 @@
+{
+  "surum": 1,
+  "parselSlug": "istanbul-bahcelievler-411-ada-2882-parsel",
+  "parsel": {
+    "surum": 1,
+    "kimlik": {
+      "il": "İstanbul",
+      "ilce": "Bahçelievler",
+      "mahalle": "Yenibosna",
+      "ada": "411",
+      "parsel": "2882"
+    },
+    "geometri": {
+      "type": "Polygon",
+      "coordinates": [
+        [
+          [
+            28.84034,
+            41.00814
+          ],
+          [
+            28.84042,
+            41.00813
+          ],
+          [
+            28.84043,
+            41.00813
+          ],
+          [
+            28.84044,
+            41.00826
+          ],
+          [
+            28.84035,
+            41.00827
+          ],
+          [
+            28.84035,
+            41.00825
+          ],
+          [
+            28.84034,
+            41.00814
+          ]
+        ]
+      ]
+    },
+    "alanM2": 102.0,
+    "kaynak": {
+      "uygulama": "Parsel Pro Studio",
+      "surum": "1.0",
+      "alinmaTarihi": "2026-08-27T16:00:00+03:00"
+    }
+  },
+  "model": {
+    "dosyaAdi": "parselpro_3d.glb",
+    "konum": {
+      "lon": 28.840492,
+      "lat": 41.008344,
+      "zeminMedyanM": 87.88
+    },
+    "headingDeg": 3.3,
+    "yukseklikOfsetM": 0.0,
+    "olcek": 1
+  },
+  "gunesISO": "2026-08-27T16:00:00+03:00",
+  "acilar": [
+    {
+      "aciNo": 1,
+      "ad": "Kuş bakışı 40° GB",
+      "kamera": {
+        "lon": 28.839944,
+        "lat": 41.00793,
+        "yukseklikM": 150.5,
+        "headingDeg": 45,
+        "pitchDeg": -40,
+        "rollDeg": 0,
+        "fovDeg": 60
+      },
+      "gunesISO": "2026-08-27T16:00:00+03:00"
+    },
+    {
+      "aciNo": 2,
+      "ad": "Kuş bakışı 40° GD",
+      "kamera": {
+        "lon": 28.84104,
+        "lat": 41.00793,
+        "yukseklikM": 150.5,
+        "headingDeg": 315,
+        "pitchDeg": -40,
+        "rollDeg": 0,
+        "fovDeg": 60
+      },
+      "gunesISO": "2026-08-27T16:00:00+03:00"
+    },
+    {
+      "aciNo": 3,
+      "ad": "Sokak gözü (ön cephe)",
+      "kamera": {
+        "lon": 28.840492,
+        "lat": 41.007948,
+        "yukseklikM": 105.2,
+        "headingDeg": 0,
+        "pitchDeg": -12,
+        "rollDeg": 0,
+        "fovDeg": 60
+      },
+      "gunesISO": "2026-08-27T16:00:00+03:00"
+    }
+  ]
+}
